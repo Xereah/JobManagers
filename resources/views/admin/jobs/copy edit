@@ -1,0 +1,199 @@
+@extends('layouts.admin')
+@section('content')
+
+<div class="card">
+    <div class="card-header">
+        {{ trans('global.edit') }} {{ trans('cruds.job.title_singular') }}
+    </div>
+
+    <div class="card-body">
+        <form action="{{ route("admin.jobs.update", [$job->id]) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+
+            <!-- ABOUT -->
+            <div class="card">
+                <h5 class="card-header">{{ trans('cruds.job.fields.about') }}</h5>
+
+                <div class="form-row" style="margin-left:1%;margin-right:1%;">
+                    <div class="form-group col-md-6">
+                        <label for="fk_company" style="margin-top:1%;">{{ trans('cruds.job.fields.company') }} </label>
+                        <select name="fk_company" id="fk_company" class="form-control select2" required>
+                            <option value="{{$job->fk_company}}" selected="selected">{{$job->company->shortcode}}
+                            </option>
+                            @foreach($companies as  $company)
+                            <option value="{{ $company->id }}">{{ $company -> shortcode }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="rns" style="margin-top:1%;">Miejsce wykonania</label>
+                        <select name="location" id="myText" class="form-control" required>
+                            <option value="{{$job->location}}">
+
+                            {{$job->new_location->name}}
+
+                            </option>
+                            @foreach($companies as $company)
+                            <option value="{{ $company->id }}">{{ $company -> name }}
+                               </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="form-row" style="margin-left:1%;margin-right:1%;">
+                    <div class="form-group col-md-6">
+                        <label for="fk_tasktype" style="margin-top:1%;">{{ trans('cruds.job.fields.task') }}
+                            Type</label>
+                        <select name="fk_tasktype" id="fk_tasktype" class="form-control select2" required>
+                            <option value="{{$job->fk_tasktype}}">{{$job->task_type->name}}</option>
+                            @foreach($TaskType as $id => $TaskTypes)
+                            <option value="{{ $id }}">{{ $TaskTypes }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="fk_category" style="margin-top:1%;">
+                            {{ trans('cruds.job.fields.category') }}</label>
+                        <select name="fk_category" id="fk_category" class="form-control select2" required>
+                            <option value="{{$job->fk_category}}">{{$job->categories->name}}</option>
+                            @foreach($categories as $id => $category)
+                            <option value="{{ $id }}">{{ $category }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row" style="margin-left:1%;margin-right:1%;">
+                    <div class="form-group col-md-6">
+                        <label for="fk_project" style="margin-top:1%;">{{ trans('cruds.job.fields.project') }}</label>
+                        <select name="fk_project" id="fk_project" class="form-control select2" required>
+                            <option value="{{$job->fk_project}}">{{$job->project->name}}</option>
+                            @foreach($Project as $id => $Projects)
+                            <option value="{{ $id }}">{{ $Projects }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="paid" style="margin-top:1%;">{{ trans('cruds.job.fields.paid') }}</label>
+                        <select id="paid" name="paid" class="form-control select2">
+                        <option value="{{$job->paid}}">{{$job->paid}}</option>
+                            <option value="Free">{{ trans('global.free') }}</option>
+                            <option value="Paid">{{ trans('global.paid') }}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row" style="margin-left:1%;margin-right:1%;">
+                    <div class="form-group col-md-6">
+                        <label for="paid" style="margin-top:1%;">Odpowiedzialny</label>
+                        <select id="user" name="fk_user" class="form-control ">
+                            <option value="{{ $job ->fk_user }}">{{ $job->user->name }}
+                                {{ $job->user->surname }}
+                            </option>
+                            @foreach($user_all as  $users)
+                            <option value="{{ $users ->id }}">{{ $users->name }} {{ $users->surname }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="rns" style="margin-top:1%;">RNS</label>
+                        <input type="number" id="rns" name="rns" class="form-control"
+                            value="{{ old('rns', isset($job) ? $job->rns : '') }}" required>
+                    </div>
+                </div>
+
+            </div>
+            <!--DETAILS  -->
+            <div class="card">
+                <h5 class="card-header">{{ trans('cruds.job.fields.detail') }}</h5>
+
+                <div class="form-row" style="margin-left:1%;margin-right:1%;">
+                    <div class="form-group col-md-6">
+                        <label for="start_date" style="margin-top:1%;">{{ trans('cruds.job.fields.startdate') }}</label>
+                        <div class='input-group form-group date' id='datetimepicker4'>
+                            <input type='text' id="start_date" name="start_date"
+                                value="{{ old('start_date', isset($job) ? $job->start_date : '') }}"
+                                class="form-control input-group-addon" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="end_date" style="margin-top:1%;">{{ trans('cruds.job.fields.enddate') }}</label>
+                        <div class='input-group form-group  date' id='datetimepicker5'>
+                            <input type='text' id="end_date" name="end_date"
+                                value="{{ old('end_date', isset($job) ? $job->end_date : '') }}"
+                                class="form-control input-group-addon" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="default-picker">{{ trans('cruds.job.fields.start') }}</label>
+                        <input type="time" id="start" name="start" class="form-control"
+                            value="{{ old('start', isset($job) ? $job->start : '') }}" placeholder="Select time">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="default-picker">{{ trans('cruds.job.fields.end') }}</label>
+                        <input type="time" id="end" name="end" class="form-control"
+                            value="{{ old('end', isset($job) ? $job->end : '') }}" placeholder="Select time">
+                    </div>
+                </div>
+            </div>
+            <!-- Description -->
+            <div class="card ">
+                <h5 class="card-header">{{ trans('cruds.job.fields.description') }}</h5>
+           
+                <div class="form-row" style="margin-left:1%;margin-right:1%;">
+                <div class="form-group col-md-6">
+                    <label for="fk_typetask"> 
+                        {{ trans('cruds.job.fields.task_name') }}</label>
+                    <select name="fk_typetask" id="fk_typetask" class="form-control " required>
+                    <option value="{{ $job ->fk_typetask }}">
+                                {{ $job->type_task->name }}
+                            </option>
+                        @foreach($TypeTask as $id => $TypeTasks)
+                        <option value="{{ $id }}">{{ $TypeTasks }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                    <div class="form-group col-md-6">
+                        <label for="comments">{{ trans('cruds.job.fields.value') }}</label>
+                        <input type="number" class="form-control" name="value"  id="value"  value="{{ old('value', isset($job) ? $job->value : '') }}">
+                    </div>
+
+                </div>
+
+                <div class="form-row" style="margin-left:1%;margin-right:1%;">
+                    <div class="form-group col-md-6">
+                        <label for="description">{{ trans('cruds.job.fields.description') }}</label>
+                        <textarea class="form-control" name="description" id="comments"
+                            rows="3">{{$job->description}}</textarea>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="comments">Comments</label>
+                        <textarea class="form-control" name="comments" id="comments"
+                            rows="3">{{$job->comments}}</textarea>
+                    </div>
+
+                </div>
+
+            </div>
+            <div>
+        <input class="btn btn-danger" type="submit" value="{{ trans('global.save') }}">
+    </div>
+    </div>
+
+   
+    </form>
+
+
+</div>
+</div>
+</div>
+@endsection
