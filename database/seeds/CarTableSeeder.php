@@ -13,7 +13,7 @@ class CarTableSeeder extends Seeder
     {
         $car = [
             [
-                'car_mark'             => 'Fiat dasdsd',
+                'car_mark'             => 'Fiat',
                 'car_model'           => 'Doblo',
                 'car_plates'           => 'PK66147',
             ],
