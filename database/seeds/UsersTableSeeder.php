@@ -12,7 +12,7 @@ class UsersTableSeeder extends Seeder
                 'name'           => 'Admin',
                 'surname'           => 'Admin',
                 'email'          => 'dok@kasper.pl',
-                'password'       => '$2y$10$p2lAE/PWMuS6r/5BWo/uDOE/6ju0WeKff9J7AqHmzSLnd4yRSTljy',
+                'password'       => bcrypt('1kalisz.'),
                 'remember_token' => null,
             ],
             [
