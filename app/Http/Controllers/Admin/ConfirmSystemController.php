@@ -479,9 +479,9 @@ class ConfirmSystemController extends Controller
         Mail::send('admin.confirmsystem.sendMail', compact('job', 'jobs', 'minsandsecs', 'jobs_towary', 'jobs_sprzetzast'), function ($message) use ($company_mail, $fileName, $output)  {
             $message->to($company_mail);
             $message->subject('Kasper Komputer, potwierdzenie wykonania usług');
-            $message->attachData($output, $fileName, [
-                'mime' => 'application/pdf',
-            ]);
+            // $message->attachData($output, $fileName, [
+            //     'mime' => 'application/pdf',
+            // ]);
         });
         return redirect()->back();
     }
