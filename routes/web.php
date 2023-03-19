@@ -8,7 +8,7 @@ Route::get('/live_search/action', [App\Http\Controllers\Admin\JobsController::cl
 Route::post('/job/store/add/new', [App\Http\Controllers\Admin\JobsController::class, 'store'])->name('store');
 Route::post('/job/update/{id}', [App\Http\Controllers\Admin\JobsController::class, 'update'])->name('update');
 Route::get('/job/editone/{id}', [App\Http\Controllers\Admin\JobsController::class, 'editone'])->name('editone');
-
+Route::get('/job/search', [App\Http\Controllers\Admin\JobsController::class, 'search_index'])->name('search_index');
 
 //USER SETTINGS
 Route::get('/user/settings' , [App\Http\Controllers\Admin\UsersController::class, 'settings'])->name('settings')->middleware(['auth']);

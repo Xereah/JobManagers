@@ -98,6 +98,9 @@ class JobsController extends Controller
             ->editColumn('fk_company', function ($job) {
                 return  $job->company->shortcode;
             })
+            ->editColumn('comments', function ($job) {
+                return  $job->comments;
+            })
             ->editColumn('fk_contract', function ($job) {
                 return  $job->contract->contract_name;
             })
@@ -129,7 +132,18 @@ class JobsController extends Controller
         $filter_contract = Contracts::all()->pluck('contract_name')->unique();
         $filter_user = User::all();     
         $user_all = User::all();
-        return view('admin.jobs.index', compact('filter_user','filter_typetask','filter_tasktype','filter_company','user_all','filter_contract'));
+
+
+        $filter_company = Company::all()->unique();
+        $filter_task_name = TypeTask::all()->unique();
+        $filter_contracts = Contracts::all()->unique();
+        $filter_task = TaskType::all()->unique();
+        $filter_user = user::all()->unique();
+        $filter_tasktype = TaskType::all()->pluck('name')->unique();
+
+
+        return view('admin.jobs.index', compact('filter_user','filter_typetask','filter_tasktype','filter_company','user_all','filter_contract',
+        'filter_task_name','filter_task','filter_contracts'));
         
     }
 
@@ -386,7 +400,7 @@ class JobsController extends Controller
         return response(null, Response::HTTP_NO_CONTENT);
     }
 
-    public function test(Request $request)
+    public function search_index(Request $request)
 
     {
       
@@ -460,7 +474,7 @@ class JobsController extends Controller
             }
             })->orderBy('id', 'DESC')->paginate(500);  
             
-        return view('admin.jobs.test', compact('jobs','filter_tasktype','filter_company','filter_task_name','filter_task',
+        return view('admin.jobs.search', compact('jobs','filter_tasktype','filter_company','filter_task_name','filter_task',
         'filter_user','order','rns','descriptions','start_date','end_date','users','task_name','TypeTaskValue','task','TaskTypeValue','company','CompanyValue','UserValue','paid','filter_contracts','contract','ContractValue'));
         
     }
