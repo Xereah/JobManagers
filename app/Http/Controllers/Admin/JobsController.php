@@ -27,77 +27,109 @@ class JobsController extends Controller
 {
     public function index(Request $request)
     {
-        abort_if(Gate::denies('job_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $last = Job::count(); 
-        $order = $request->order_filter;
-        $rns = $request->rns_filter;
-        $company = $request->company;
-        $descriptions = $request->descriptions_filter;
-        $start_date = $request->start_date_filter;
-        $end_date = $request->end_date_filter;
-        $task_name = $request->task_name;
-        $task = $request->task;
-        $users = $request->users;
-        $paid = $request->paid_filter; 
-        $contract = $request->contract_filter;   
-        $comments = $request->comments_filter;   
+        $startDate = Carbon::now()->subMonth(12);
+        $endDate = date('Y-m-d');
+        if ($request->ajax()) {
+            $data = DB::table('jobs')
+            ->orderBy('jobs.id', 'desc')
+            ->join('companies', 'companies.id', '=', 'jobs.fk_company')
+            ->join('task_type', 'task_type.id', '=', 'jobs.fk_tasktype')
+            ->join('users', 'users.id', '=', 'jobs.fk_user')
+            ->select('jobs.*', 'companies.shortcode','users.name','users.surname','task_type.name')
+            ->orderBy('jobs.id', 'DESC')
+            ->whereBetween('jobs.start_date', [$startDate, $endDate])
+            ->get();
 
-        $filter_company = Company::all()->unique();
-        $filter_task_name = TypeTask::all()->unique();
-        $filter_contracts = Contracts::all()->unique();
-        $filter_task = TaskType::all()->unique();
-        $filter_user = user::all()->unique();
-        $filter_tasktype = TaskType::all()->pluck('name')->unique();
-        $user = Auth::user();
-        
-        $TypeTaskValue = TypeTask::where('id',$task_name)->first(); 
-        $TaskTypeValue = TaskType::where('id',$task)->first(); 
-        $CompanyValue = Company::where('id',$company)->first(); 
-        $UserValue = User::where('id',$users)->first(); 
-        $ContractValue = Contracts::where('id',$contract)->first(); 
-
-        $jobs = Job::query();  
-        $jobs = $jobs->where(function($query) use($descriptions, $order, $start_date,  $end_date, $paid, $rns, $company, $task_name, $task, $users, $contract, $comments){
-            if (!empty($descriptions)) {
-                $query->where('description', 'like', '%'.$descriptions.'%');
-            }
-            if (!empty($order)) {
-                $query->where('order', 'like', '%'.$order.'%');
-            }
-            if (!empty($paid)) {
-                $query->where('paid', 'like', '%'.$paid.'%');
-            }
-            if (!empty($rns)) {
-                $query->where('rns', 'like', '%'.$rns.'%');
-            }
-            if (!empty($company)) {
-                $query->where('fk_company', 'like', '%'.$company.'%');
-            }
-            if (!empty($task_name)) {
-                $query->where('fk_typetask', 'like', '%'.$task_name.'%');
-            }
-            if (!empty($task)) {
-                $query->where('fk_tasktype', 'like', '%'.$task.'%');
-            }
-            if (!empty($users)) {
-                $query->where('fk_user', 'like', '%'.$users.'%');
-            }
-            if (!empty($contract)) {
-                $query->where('fk_contract', 'like', '%'.$contract.'%');
-            }
-            if (!empty($comments)) {
-                $query->where('comments', 'like', '%'.$comments.'%');
-            }
-            if (empty($start_date) && empty($end_date)) {
-                $query->where('start_date', '>', Carbon::now()->subWeek());
-            }
-            elseif (!empty($start_date) && !empty($end_date)) {
-                $query->whereBetween('start_date', [$start_date, $end_date]);
-            }
-            })->orderBy('id', 'DESC')->paginate(500);  
+            $jobs = Job::orderBy('id', 'desc')->get();
             
-        return view('admin.jobs.index', compact('jobs','filter_tasktype','filter_company','filter_task_name','filter_task',
-        'filter_user','order','rns','descriptions','start_date','end_date','users','task_name','TypeTaskValue','task','TaskTypeValue','company','CompanyValue','UserValue','paid','filter_contracts','contract','ContractValue'));
+            return Datatables::of(Job::query()->orderBy('id', 'desc')->whereBetween('jobs.start_date', [$startDate, $endDate]))
+            ->editColumn('fk_typetask', function ($job) {
+                $order_querry="SRW/";
+                $pos = strpos($job->order, $order_querry);
+
+                if($pos === false)
+                return '<a class="text-success" data-toggle="modal" id="mediumButton" data-target="#mediumModal"
+                data-attr="'.url('/job/editone', $job->id).'">'.$job->type_task->name .'</a>';
+                else
+                return '<a class="text-info" href="'.route('admin.ConfirmSystem.edit', $job->id) . '">' . $job->type_task->name . '</a>';
+            })
+            ->editColumn('order', function ($job) {
+                $order_querry="SRW/";
+                $pos = strpos($job->order, $order_querry);
+
+                if($pos === false)
+                return '<a class="text-success" data-toggle="modal" id="mediumButton" data-target="#mediumModal"
+                data-attr="'.url('/job/editone', $job->id).'">'.$job->order .'</a>';
+                else
+                return '<a class="text-info" href="'.route('admin.ConfirmSystem.edit', $job->id) . '">' . $job->order . '</a>';
+            })
+            ->editColumn('fk_user', function ($job) {
+                $zmienna1=$job->user->name;
+                $zmienna2=$job->user->surname;
+                $firstLetter1 = substr($zmienna1, 0, 1);
+                $firstLetter2 = substr($zmienna2, 0, 1);
+                return  $firstLetter1.''. $firstLetter2;  
+            })
+            ->editColumn('start_date', function ($job) {
+                $poczatek = $job->start_date.' ' .$job->start;
+                if(!(is_null($job->time)))
+                return   date('Y-m-d G:i', strtotime($poczatek)) ;
+                else
+                return $job->start_date;              
+            })
+            ->editColumn('end_date', function ($job) {
+                $koniec = $job->end_date.' ' .$job->end;
+                if(!(is_null($job->time)))
+                return  date('Y-m-d G:i', strtotime($koniec)) ;
+                else
+                return  $job->end_date ;
+            })
+            ->editColumn('fk_tasktype', function ($job) {
+                return  $job->task_type->name;
+            })
+            ->editColumn('time', function ($job) {
+               
+               if(!(is_null($job->time)))
+               return    date('G:i', strtotime($job->time));                     
+            })
+            ->editColumn('id', function ($job) {
+                return  '';
+            })
+            ->editColumn('fk_company', function ($job) {
+                return  $job->company->shortcode;
+            })
+            ->editColumn('fk_contract', function ($job) {
+                return  $job->contract->contract_name;
+            })
+
+            ->editColumn('paid', function ($job) {
+                if($job->paid==1)
+                return  "Bezpłatne";
+                else
+                return "Płatne";
+            })
+
+            ->editColumn('description', function ($job) {
+               if(!(is_null($job->description)))
+               return  $job->description;
+                elseif(!(is_null($job->description_goods)))
+                return $job->description_goods;
+                else
+                return $job->repeq->eq_number . ' ' . $job->repeq->eq_name;
+               
+            })            
+                ->addIndexColumn()
+                ->rawColumns(['fk_typetask','order','fk_user','start_date','end_date','fk_tasktype','id','description'])
+                ->make(true);
+        }            
+        
+        $filter_typetask = TypeTask::all()->pluck('name')->unique();
+        $filter_tasktype = TaskType::all()->pluck('name')->unique();
+        $filter_company = Company::all()->pluck('shortcode')->unique();
+        $filter_contract = Contracts::all()->pluck('contract_name')->unique();
+        $filter_user = User::all();     
+        $user_all = User::all();
+        return view('admin.jobs.index', compact('filter_user','filter_typetask','filter_tasktype','filter_company','user_all','filter_contract'));
         
     }
 
@@ -357,56 +389,79 @@ class JobsController extends Controller
     public function test(Request $request)
 
     {
-        $startDate = Carbon::now()->subMonth(2);
-        $endDate = date('Y-m-d');
-        if ($request->ajax()) {
-            $data = DB::table('jobs')
-            ->join('companies', 'companies.id', '=', 'jobs.fk_company')
-            ->join('task_type', 'task_type.id', '=', 'jobs.fk_tasktype')
-            ->join('users', 'users.id', '=', 'jobs.fk_user')
-            ->select('jobs.*', 'companies.shortcode','users.name','users.surname','task_type.name')
-            ->whereBetween('jobs.start_date', [$startDate, $endDate]);
-            return Datatables::of(Job::query())
-            ->editColumn('fk_typetask', function ($job) {
-                return '<a class="text-success" data-toggle="modal" id="mediumButton" data-target="#mediumModal"
-                data-attr="'.url('/job/editone', $job->id).'">'.$job->fk_typetask.'</a>';
-            })
-            ->editColumn('order', function ($job) {
-                return '<a class="text-success" data-toggle="modal" id="mediumButton" data-target="#mediumModal"
-                data-attr="'.route('admin.jobs.edit', $job->id).'">'.$job->order.'</a>';
-            })
-            ->editColumn('fk_user', function ($job) {
-                return  $job->user->surname.' '. $job->user->name;
-            })
-            ->editColumn('start_date', function ($job) {
-                return  $job->start_date;
-            })
-            ->editColumn('end_date', function ($job) {
-                return  $job->end_date;
-            })
-            ->editColumn('fk_tasktype', function ($job) {
-                return  $job->task_type->name;
-            })
-            ->editColumn('fk_company', function ($job) {
-                return  $job->company->shortcode;
-            })
-            
-                ->addIndexColumn()
-                ->rawColumns(['fk_typetask','order','fk_user','start_date','end_date','fk_tasktype'])
-                ->order(function ($query) {
-                    if (request()->has('order')) {
-                        $query->orderBy('order', 'desc');
-                    }
-                })
-                ->make(true);
-        }            
-        
-        $filter_typetask = TypeTask::all()->pluck('name')->unique();
+      
+
+        abort_if(Gate::denies('job_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $last = Job::count(); 
+        $order = $request->order_filter;
+        $rns = $request->rns_filter;
+        $company = $request->company;
+        $descriptions = $request->descriptions_filter;
+        $start_date = $request->start_date_filter;
+        $end_date = $request->end_date_filter;
+        $task_name = $request->task_name;
+        $task = $request->task;
+        $users = $request->users;
+        $paid = $request->paid_filter; 
+        $contract = $request->contract_filter;   
+        $comments = $request->comments_filter;   
+
+        $filter_company = Company::all()->unique();
+        $filter_task_name = TypeTask::all()->unique();
+        $filter_contracts = Contracts::all()->unique();
+        $filter_task = TaskType::all()->unique();
+        $filter_user = user::all()->unique();
         $filter_tasktype = TaskType::all()->pluck('name')->unique();
-        $filter_company = Company::all()->pluck('shortcode')->unique();
-        $filter_user = User::all();     
-        $user_all = User::all();
-        return view('admin.jobs.test', compact('filter_user','filter_typetask','filter_tasktype','filter_company','user_all'));
+        $user = Auth::user();
+        
+        $TypeTaskValue = TypeTask::where('id',$task_name)->first(); 
+        $TaskTypeValue = TaskType::where('id',$task)->first(); 
+        $CompanyValue = Company::where('id',$company)->first(); 
+        $UserValue = User::where('id',$users)->first(); 
+        $ContractValue = Contracts::where('id',$contract)->first(); 
+
+        $jobs = Job::query();  
+        $jobs = $jobs->where(function($query) use($descriptions, $order, $start_date,  $end_date, $paid, $rns, $company, $task_name, $task, $users, $contract, $comments){
+            if (!empty($descriptions)) {
+                $query->where('description', 'like', '%'.$descriptions.'%');
+            }
+            if (!empty($order)) {
+                $query->where('order', 'like', '%'.$order.'%');
+            }
+            if (!empty($paid)) {
+                $query->where('paid', 'like', '%'.$paid.'%');
+            }
+            if (!empty($rns)) {
+                $query->where('rns', 'like', '%'.$rns.'%');
+            }
+            if (!empty($company)) {
+                $query->where('fk_company', 'like', '%'.$company.'%');
+            }
+            if (!empty($task_name)) {
+                $query->where('fk_typetask', 'like', '%'.$task_name.'%');
+            }
+            if (!empty($task)) {
+                $query->where('fk_tasktype', 'like', '%'.$task.'%');
+            }
+            if (!empty($users)) {
+                $query->where('fk_user', 'like', '%'.$users.'%');
+            }
+            if (!empty($contract)) {
+                $query->where('fk_contract', 'like', '%'.$contract.'%');
+            }
+            if (!empty($comments)) {
+                $query->where('comments', 'like', '%'.$comments.'%');
+            }
+            if (empty($start_date) && empty($end_date)) {
+                $query->where('start_date', '>', Carbon::now()->subWeek());
+            }
+            elseif (!empty($start_date) && !empty($end_date)) {
+                $query->whereBetween('start_date', [$start_date, $end_date]);
+            }
+            })->orderBy('id', 'DESC')->paginate(500);  
+            
+        return view('admin.jobs.test', compact('jobs','filter_tasktype','filter_company','filter_task_name','filter_task',
+        'filter_user','order','rns','descriptions','start_date','end_date','users','task_name','TypeTaskValue','task','TaskTypeValue','company','CompanyValue','UserValue','paid','filter_contracts','contract','ContractValue'));
         
     }
 

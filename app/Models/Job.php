@@ -24,6 +24,7 @@ class Job extends Model
         'fk_user',
         'rns',
         'fk_tasktype',
+        'fk_contract',
         'paid',
         'start_date',
         'end_date',
@@ -56,7 +57,7 @@ class Job extends Model
 
     public function contract()
     {
-        return $this->belongsTo('App\Models\Contracts','fk_company')->withTrashed();
+        return $this->belongsTo('App\Models\Contracts','fk_contract')->withTrashed();
     }
 
     public function user()

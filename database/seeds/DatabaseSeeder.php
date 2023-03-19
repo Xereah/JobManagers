@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             EquipmentCategorys::class,
             CarTableSeeder::class,
             RepEQSeeder::class,                    
-           // JobSeeder::class,
+            JobSeeder::class,
         ]);
     }
 }
