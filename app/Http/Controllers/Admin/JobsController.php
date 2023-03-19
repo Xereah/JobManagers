@@ -73,16 +73,18 @@ class JobsController extends Controller
             ->editColumn('start_date', function ($job) {
                 $poczatek = $job->start_date.' ' .$job->start;
                 if(!(is_null($job->time)))
-                return   date('Y-m-d G:i', strtotime($poczatek)) ;
+             //   return   date('Y-m-d G:i', strtotime($poczatek)) ;
+             return  $job->start_date.'<br> ' .date('G:i', strtotime($job->start));
                 else
                 return $job->start_date;              
             })
             ->editColumn('end_date', function ($job) {
                 $koniec = $job->end_date.' ' .$job->end;
                 if(!(is_null($job->time)))
-                return  date('Y-m-d G:i', strtotime($koniec)) ;
+               // return  date('Y-m-d G:i', strtotime($koniec)) ;
+                return  $job->end_date.'<br> ' .date('G:i', strtotime($job->end));
                 else
-                return  $job->end_date ;
+                return  $job->end_date;
             })
             ->editColumn('fk_tasktype', function ($job) {
                 return  $job->task_type->name;
@@ -113,14 +115,13 @@ class JobsController extends Controller
             })
 
             ->editColumn('description', function ($job) {
-               if(!(is_null($job->description)))
-               return  $job->description;
+                if(!(is_null($job->description)))
+                    return  '<div style="text-align:left; max-height: 75px; overflow: auto;">' . $job->description . '</div>';
                 elseif(!(is_null($job->description_goods)))
-                return $job->description_goods;
+                    return '<div style="text-align:left; max-height: 75px; overflow: auto;">' . $job->description_goods . '</div>';
                 else
-                return $job->repeq->eq_number . ' ' . $job->repeq->eq_name;
-               
-            })            
+                    return '<div style="text-align:left; max-height: 75px; overflow: auto;">' . $job->repeq->eq_number . ' ' . $job->repeq->eq_name . '</div>';
+            })        
                 ->addIndexColumn()
                 ->rawColumns(['fk_typetask','order','fk_user','start_date','end_date','fk_tasktype','id','description'])
                 ->make(true);
