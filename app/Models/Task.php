@@ -9,7 +9,7 @@ class Task extends Model
 {
     use SoftDeletes;
 
-    public $table = 'task';
+    public $table = 'tasks';
 
     protected $dates = [
         'created_at',
@@ -18,18 +18,11 @@ class Task extends Model
     ];
 
     protected $fillable = [
-        'company',
-        'fk_job',
-        'user',
-        'tasktype',
-        'project',
-        'category',
-        'location',
-        'start_task_date',
-        'end_task_date',
-        'task_start',
-        'task_end',
+        'task_title',
         'task_description',
+        'fk_company',
+        'fk_user',
+        'completed',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -37,6 +30,11 @@ class Task extends Model
 
     public function company()
     {
-        return $this->belongsTo('App\Models\Company','company')->withTrashed();
+        return $this->belongsTo('App\Models\Company','fk_company')->withTrashed();
+    }
+
+    public function users()
+    {
+        return $this->belongsTo('App\Models\User','fk_user')->withTrashed();
     }
 }

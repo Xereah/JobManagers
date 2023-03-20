@@ -141,8 +141,20 @@
                                 </a>
                             </li>
             @endcan
+            <!-- Zadania -->
+            @can('job_access')
+                <li class="nav-item">
+                    <a href="{{ route("admin.tasks.index") }}" class="nav-link {{ request()->is('admin/tasks') || request()->is('admin/tasks/*') ? 'active' : '' }}">
+                        <i class="fa-fw fas fa-briefcase nav-icon">
+
+                        </i>
+                        {{ trans('cruds.job.title') }}
+                    </a>
+                </li>
+            @endcan  
+
                    <!-- Configuration -->
-                   @can('user_management_access')
+             @can('user_management_access')
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle" href="#">
                         <i class="fa-fw fas fa-cog nav-icon">
@@ -163,7 +175,7 @@
                         @endcan                       
                     </ul>
                 </li>
-            @endcan  
+            @endcan
             <!-- @can('user_access')
                             <li class="nav-item">
                                 <a href="{{ url('test') }}">

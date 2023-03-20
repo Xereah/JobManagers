@@ -30,6 +30,9 @@ Route::get('/is_loan/{id}', [App\Http\Controllers\Admin\RepEquipmentController::
 Route::get('/is_loan_delete/{id}', [App\Http\Controllers\Admin\RepEquipmentController::class, 'is_loan_delete'])->name('is_loan_delete');
 Route::get('/eq_delete/{id}', [App\Http\Controllers\Admin\RepEquipmentController::class, 'delete'])->name('delete');
 
+Route::get('/is_done/{id}', [App\Http\Controllers\Admin\TaskController::class, 'is_done'])->name('is_done');
+
+
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
     Route::get('/', [App\Http\Controllers\Admin\JobsController::class, 'index'])->name('index')->middleware(['auth']);
     // Permissions
@@ -83,6 +86,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('ConfirmSystem', 'ConfirmSystemController');
     Route::get('/getEmployees/{id}', [App\Http\Controllers\Admin\ConfirmSystemController::class, 'getEmployees'])->name('getEmployees');
     Route::get('/getTask/{id}', [App\Http\Controllers\Admin\JobsController::class, 'getTask'])->name('getTask');
+
+     //tasks
+     Route::resource('tasks', 'TaskController');
 });
 
 

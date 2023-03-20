@@ -11,6 +11,7 @@ use App\Models\Car;
 use App\Models\TypeTask;
 use App\Models\TaskType;
 use App\Models\Job;
+use App\Models\Task;
 use App\Models\RepEquipment;
 use App\Models\Notification;
 use DB;
@@ -184,10 +185,16 @@ class ConfirmSystemController extends Controller
                     'company_place' =>$request->fk_company,
                     'is_loan' =>1,
                  );
-                 $created = RepEquipment::where('id',$fk_rep_eq[$key])->update($data3);
-                 
+                 $created = RepEquipment::where('id',$fk_rep_eq[$key])->update($data3);                 
             }      
-        }               
+        }    
+            $data4 =array(
+                'fk_user' =>  $użytkownik,
+                'fk_company' => $request->fk_company,
+                'task_title' =>  $request->comments[$key],
+                'completed' => 0,
+            );
+                $created = Task::insert($data4);            
                 $created = Job::insert($data);                      
              }  
              
