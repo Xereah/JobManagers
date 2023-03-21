@@ -19,9 +19,10 @@ class Task extends Model
 
     protected $fillable = [
         'task_title',
-        'task_description',
         'fk_company',
         'fk_user',
+        'execution_date',
+        'execution_user',
         'completed',
         'created_at',
         'updated_at',
@@ -36,5 +37,10 @@ class Task extends Model
     public function users()
     {
         return $this->belongsTo('App\Models\User','fk_user')->withTrashed();
+    }
+
+    public function users_exec()
+    {
+        return $this->belongsTo('App\Models\User','execution_user')->withTrashed();
     }
 }

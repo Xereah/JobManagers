@@ -198,7 +198,15 @@
         </div>
         <!-- /.tab-pane -->
         <div class="tab-pane" id="Historia">
-           Dawno dawno temu....
+           @if(!empty($Notification))
+        @foreach($Notification as $Notifications)
+        <td>Użytkownik {{$Notifications->NotificationUser->name}} {{$Notifications->NotificationUser->surname}}
+            modyfikował rekord {{$Notifications->date}}
+        </td><hr>
+        @endforeach
+        @else
+        <td> Dawno dawno temu....</td>
+       @endif  
         </div>
         <!-- /.tab-pane -->
     </div>

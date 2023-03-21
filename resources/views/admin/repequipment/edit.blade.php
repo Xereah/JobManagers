@@ -57,7 +57,7 @@
             </div>
 
             <div>
-                <input class="btn btn-danger" type="submit" value="{{ trans('global.save') }}">
+                <input class="btn btn-success float-right" type="submit" value="{{ trans('global.save') }}">
             </div>
         </form>
 

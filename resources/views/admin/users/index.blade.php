@@ -1,17 +1,13 @@
 @extends('layouts.admin')
 @section('content')
-@can('user_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.users.create") }}">
-                {{ trans('global.add') }} {{ trans('cruds.user.title_singular') }}
-            </a>
-        </div>
-    </div>
-@endcan
 <div class="card">
-    <div class="card-header">
+    <div class="card-header bg-dark">
         {{ trans('cruds.user.title_singular') }} {{ trans('global.list') }}
+        @can('user_create')
+        <a class="btn btn-dark float-right" href="{{ route("admin.users.create") }}">
+        <i class="fa fa-plus"></i>  {{ trans('global.add') }} {{ trans('cruds.user.title_singular') }}
+            </a>
+        @endcan
     </div>
 
     <div class="card-body">
@@ -20,11 +16,11 @@
                 <thead>
                     <tr>
                         <th width="10">
-
+                        LP.
                         </th>
-                        <th>
+                        <!-- <th>
                             {{ trans('cruds.user.fields.id') }}
-                        </th>
+                        </th> -->
                         <th>
                             {{ trans('cruds.user.fields.name') }}
                         </th>
@@ -48,9 +44,9 @@
                             <td>
 
                             </td>
-                            <td>
+                            <!-- <td>
                                 {{ $user->id ?? '' }}
-                            </td>
+                            </td> -->
                             <td>
                                 {{ $user->name ?? '' }}
                             </td>
@@ -62,29 +58,32 @@
                             </td>
                             <td>
                                 @foreach($user->roles as $key => $item)
-                                    <span class="badge badge-info">{{ $item->title }}</span>
+                                {{ $item->title }}
                                 @endforeach
                             </td>
-                            <td>
-                                @can('user_show')
+                            <td width="10">
+                                <!-- @can('user_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.users.show', $user->id) }}">
                                         {{ trans('global.view') }}
                                     </a>
-                                @endcan
-
+                                @endcan -->                             
+                            
+                                <div class="btn-group" role="group">
                                 @can('user_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.users.edit', $user->id) }}">
-                                        {{ trans('global.edit') }}
+                                    <a class="btn btn-info" title="{{ trans('global.edit') }}" href="{{ route('admin.users.edit', $user->id) }}">
+                                    <i class="fas fa-edit"></i>
                                     </a>
                                 @endcan
-
                                 @can('user_delete')
-                                    <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
+                                <form action="{{  route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="btn  btn-danger" title="{{ trans('global.delete') }}">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
                                 @endcan
+                                </div>
 
                             </td>
 

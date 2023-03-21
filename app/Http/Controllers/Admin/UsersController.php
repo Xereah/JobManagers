@@ -45,8 +45,7 @@ class UsersController extends Controller
     {
         $user = User::create($request->all());
         $user->roles()->sync($request->input('roles', []));
-        toastr()->success( trans('global.store_success') );
-        return redirect()->route('admin.users.index');
+        return redirect()->route('admin.users.index') ->with('success', 'Pomyślnie dodano użytkownika.');
     }
 
     public function edit(User $user)
@@ -64,8 +63,7 @@ class UsersController extends Controller
     {
         $user->update($request->all());
         $user->roles()->sync($request->input('roles', []));
-        toastr()->success( trans('global.store_edit') );
-        return redirect()->route('admin.users.index');
+        return redirect()->route('admin.users.index')->with('success', 'Pomyślnie edytowano użytkownika.');
     }
 
     public function updatesettings(Request $request)
@@ -89,7 +87,7 @@ class UsersController extends Controller
     {
         abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $user->delete();
+        $user->delete()->with('success', 'Pomyślnie usunięto użytkownika.');
 
         return back();
     }

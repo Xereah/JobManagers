@@ -21,7 +21,7 @@
             </div>
             <div class="form-group {{ $errors->has('task_title') ? 'has-error' : '' }}">
                 <label for="shortcode">Treść zadania*</label>
-                <input type="text" id="task_title" name="task_title" class="form-control" >
+                <input type="text" id="task_title" name="task_title" class="form-control" required >
                 @if($errors->has('task_title'))
                     <em class="invalid-feedback">
                         {{ $errors->first('task_title') }}
@@ -31,8 +31,20 @@
                     {{ trans('cruds.company.fields.name_helper') }}
                 </p>
             </div>
+            <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="execution_user" style="margin-top:1%;">Osoba wykonująca</label>
+                        <select id="execution_user" name="execution_user" class="form-control " required>
+                            <option value="">-- wybierz --</option>
+                            @foreach($user_all as $userall)
+                            
+                            <option value="{{ $userall->id}}">{{ $userall->name }} {{ $userall->surname }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+            </div>
 
-            <div class="form-group {{ $errors->has('task_description') ? 'has-error' : '' }}">
+            <!-- <div class="form-group {{ $errors->has('task_description') ? 'has-error' : '' }}">
                 <label for="shortcode">Dodatkowe informacje</label>
                 <textarea class="form-control" name="task_description" id="task_description" rows="2"></textarea>
                 @if($errors->has('task_description'))
@@ -43,7 +55,7 @@
                 <p class="helper-block">
                     {{ trans('cruds.company.fields.name_helper') }}
                 </p>
-            </div>
+            </div> -->
 
             <div class="form-row" hidden>
                     <div class="form-group col-md-12">
@@ -55,7 +67,7 @@
             </div>
 
             <div>
-                <input class="btn btn-danger" type="submit" value="{{ trans('global.save') }}">
+                <input class="btn btn-success float-right" type="submit" value="{{ trans('global.save') }}">
             </div>
             
         </form>

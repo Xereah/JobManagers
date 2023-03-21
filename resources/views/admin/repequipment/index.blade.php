@@ -1,17 +1,13 @@
 @extends('layouts.admin')
 @section('content')
-@can('equipment_create')
-<div style="margin-bottom: 10px;" class="row">
-    <div class="col-lg-12">
-        <a class="btn btn-success" href="{{ route("admin.repequipment.create") }}">
-            {{ trans('global.add') }} Sprzęt
-        </a>
-    </div>
-</div>
-@endcan
 <div class="card">
     <div class="card-header bg-dark">
         {{ trans('cruds.company.title_singular') }} {{ trans('global.list') }}
+        @can('equipment_create')
+        <a class="btn btn-dark float-right" href="{{ route("admin.repequipment.create") }}">
+        <i class="fa fa-plus"></i>  {{ trans('global.add') }} Sprzęt
+        </a>
+        @endcan
     </div>
 
     <div class="card-body">
@@ -100,33 +96,29 @@
                                         {{ trans('global.view') }}
                                     </a>
                                 @endcan -->
-
-                            @can('equipment_edit')
-                            <a class="btn btn-xs col-md-12  btn-info" title="edycja"
-                                href="{{ route('admin.repequipment.edit', $RepEquipments->id) }}">
-                                {{ trans('global.edit') }}
-                            </a>
-                            @endcan
-                        
-                            @can('equipment_edit')
-                            <a class="btn btn-xs col-md-12  btn-success" title="zwrot towaru"
-                                href="{{ url('/is_loan', $RepEquipments->id) }}">
-                                Zwrot
-                            </a>
-                            @endcan
-
-                            @can('equipment_delete')
-                            <form action="{{ route('admin.repequipment.destroy', $RepEquipments->id) }}" class="col-md-12 " method="POST"
-                                onsubmit="return confirm('{{ trans('global.areYouSure') }}');">
-                                <input type="hidden" class="btn btn-xs col-md-12 btn-danger" name="_method"
-                                    value="DELETE">
-                                <input type="hidden" class="btn btn-xs col-md-12 btn-danger" name="_token"
-                                    value="{{ csrf_token() }}">
-                                <input type="submit" class="btn btn-xs col-md-12 btn-danger" title="usuń"
-                                    value="{{ trans('global.delete') }}">
-                            </form>
-                            @endcan
-
+                         
+                            <div class="btn-group" role="group">
+                                @can('equipment_edit')
+                                    <a class="btn  btn-info" href="{{ route('admin.repequipment.edit', $RepEquipments->id) }}" title="{{ trans('global.edit') }}">
+                                    <i class="fas fa-edit"></i>
+                                    </a>
+                                @endcan
+                                @can('equipment_edit')
+                                <a class="btn  btn-success" title="zwrot towaru"
+                                    href="{{ url('/is_loan', $RepEquipments->id) }}">
+                                    <i class="fa fa-undo" aria-hidden="true"></i>
+                                </a>
+                                @endcan
+                                @can('equipment_delete')
+                                <form action="{{  route('admin.repequipment.destroy', $RepEquipments->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="btn  btn-danger" title="{{ trans('global.delete') }}">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                                @endcan
+                                </div>
                         </td>
 
                     </tr>

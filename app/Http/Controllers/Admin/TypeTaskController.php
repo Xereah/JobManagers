@@ -48,8 +48,8 @@ class TypeTaskController extends Controller
     public function store(StoreTypeTaskRequest $request)
     {
         $typetask = TypeTask::create($request->all());
-        toastr()->success( trans('global.store_success') );
-        return redirect()->route('admin.typetask.index');
+       
+        return redirect()->route('admin.typetask.index')->with('success', 'Pomyślnie dodano typ zadania.');
     }
 
     /**
@@ -75,7 +75,7 @@ class TypeTaskController extends Controller
     {
         abort_if(Gate::denies('TypeTask_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         
-        return view('admin.typetask.edit', compact('typetask'));
+        return view('admin.typetask.edit', compact('typetask'))->with('success', 'Pomyślnie edytowano typ zadania.');
     }
 
     /**
@@ -104,7 +104,7 @@ class TypeTaskController extends Controller
 
         $typetask->delete();
 
-        return back();
+        return back()->with('success', 'Pomyślnie usunięto typ zadania.');
     }
 
     public function massDestroy(MassDestroyTypeTaskRequest $request)

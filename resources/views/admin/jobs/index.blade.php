@@ -199,7 +199,7 @@
                                 <?php
                                     $key =$key+1;
                                 ?>
-                                <option value="{{$key}}">{{ $filter_companys }} </option>
+                                <option value="{{$key}}">{{ $filter_companys->shortcode }} </option>
                                 @endforeach
                             </select></th>
                     <th><select class="form-control"  id="filtr_pracownikow" >
@@ -222,15 +222,6 @@
                         <option value="1">{{ trans('global.free') }}</option>
                         <option value="2">{{ trans('global.paid') }}</option>
                         </select></th>
-                        <th><select class="form-control" id="filtr_umow">
-                        <option> </option>
-                                @foreach($filter_contract as $key => $filter_contracts)
-                                <?php
-                                    $key =$key+1;
-                                ?>
-                                <option value="{{$key}}">{{ $filter_contracts }} </option>
-                                @endforeach
-                            </select></th>
                     </tr>
 
                     <tr>
@@ -273,9 +264,7 @@
                         <th>
                             {{ trans('cruds.job.fields.paid') }}
                         </th>
-                        <th>
-                             Umowa 
-                        </th>
+                      
                         <!-- <th>
                             {{ trans('cruds.company.fields.action') }}
                         </th> -->

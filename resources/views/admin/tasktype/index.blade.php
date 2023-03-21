@@ -1,17 +1,14 @@
 @extends('layouts.admin')
 @section('content')
-@can('TaskType_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.tasktype.create") }}">
-                {{ trans('global.add') }} {{ trans('cruds.tasktype.title_singular') }}
-            </a>
-        </div>
-    </div>
-@endcan
 <div class="card">
-    <div class="card-header">
+    <div class="card-header bg-dark">
         {{ trans('cruds.tasktype.title_singular') }} {{ trans('global.list') }}
+        @can('TaskType_create')
+        <a class="btn btn-dark float-right" href="{{ route("admin.tasktype.create") }}">
+        <i class="fa fa-plus"></i> {{ trans('global.add') }} {{ trans('cruds.tasktype.title_singular') }}
+            </a>
+        @endcan
+
     </div>
 
     <div class="card-body">
@@ -53,26 +50,29 @@
                                    {{ $item->name }},
                                 @endforeach
                             </td>
-                            <td>
-                                @can('TaskType_show')
+                            <td width="10">
+                                <!-- @can('TaskType_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.tasktype.show', $Tasktypes->id) }}">
                                         {{ trans('global.view') }}
                                     </a>
-                                @endcan
+                                @endcan -->
 
-                                @can('TaskType_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.tasktype.edit', $Tasktypes->id) }}">
-                                        {{ trans('global.edit') }}
+                                <div class="btn-group" role="group">
+                                @can('permission_edit')
+                                    <a class="btn  btn-info" href="{{ route('admin.tasktype.edit', $Tasktypes->id) }}" title="{{ trans('global.edit') }}">
+                                    <i class="fas fa-edit"></i>
                                     </a>
                                 @endcan
-
-                                @can('TaskType_delete')
-                                    <form action="{{ route('admin.tasktype.destroy', $Tasktypes->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
+                                @can('permission_delete')
+                                <form action="{{ route('admin.tasktype.destroy', $Tasktypes->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="btn  btn-danger" title="{{ trans('global.delete') }}">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
                                 @endcan
+                                </div>
 
                             </td>
 

@@ -51,8 +51,7 @@ class TaskTypeController extends Controller
     {
         $TaskType = TaskType::create($request->all());
         $TaskType->TypeTask()->sync($request->input('TypeTask', []));
-      //  toastr()->success( trans('global.store_success') );
-        return redirect()->route('admin.tasktype.index');
+        return redirect()->route('admin.tasktype.index')->with('success', 'Pomyślnie dodano rodzaj zadania.');
     }
 
     /**
@@ -79,7 +78,7 @@ class TaskTypeController extends Controller
         abort_if(Gate::denies('TaskType_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
        $TypeTask =  TypeTask::all();
 
-        return view('admin.tasktype.edit', compact('TypeTask','tasktype'));
+        return view('admin.tasktype.edit', compact('TypeTask','tasktype'))->with('success', 'Pomyślnie edytowano rodzaj zadania.');
     }
 
     /**
@@ -93,7 +92,6 @@ class TaskTypeController extends Controller
     {
         $tasktype->update($request->all());
         $tasktype->TypeTask()->sync($request->input('TypeTask', []));
-        toastr()->success( trans('global.store_edit') );
         return redirect()->route('admin.tasktype.index');
     }
 
@@ -109,7 +107,7 @@ class TaskTypeController extends Controller
 
         $tasktype->delete();
 
-        return back();
+        return back()->with('success', 'Pomyślnie usunięto rodzaj zadania.');
     }
 
     public function massDestroy(MassDestroyTaskTypeRequest $request)

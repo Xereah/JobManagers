@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 use Auth;
 use App\Models\Task;
 use App\Models\Company;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use DB;
+use Carbon\Carbon;
 class TaskController extends Controller
 {
     /**
@@ -30,7 +32,8 @@ class TaskController extends Controller
     {   
         $companies = Company::all();
         $user = Auth::user();
-        return view('admin.tasks.create', compact('companies','user'));
+        $user_all = User::all();
+        return view('admin.tasks.create', compact('companies','user','user_all'));
     }
 
     /**
@@ -44,7 +47,7 @@ class TaskController extends Controller
         $task = Task::create($request->all());
 
         return redirect()->route('admin.tasks.index')
-            ->with('success', 'Task created successfully.');
+            ->with('success', 'Pomyślnie dodano zadanie.');
     }
 
     /**
@@ -69,7 +72,8 @@ class TaskController extends Controller
         $task = Task::findOrFail($id);
         $user = Auth::user();
         $companies = Company::all();
-        return view('admin.tasks.edit', compact('task','user','companies'));
+        $user_all = User::all();
+        return view('admin.tasks.edit', compact('task','user','companies','user_all'));
     }
 
     /**
@@ -85,7 +89,7 @@ class TaskController extends Controller
         $task->update($request->all());
 
         return redirect()->route('admin.tasks.index')
-            ->with('success', 'Task updated successfully.');
+        ->with('success', 'Pomyślnie zaktualizowano zadanie.');
     }
 
     /**
@@ -98,15 +102,17 @@ class TaskController extends Controller
     {
         $task = Task::findOrFail($id);
         $task->delete();
-        return back();
+        return back()->with('success', 'Pomyślnie usunięto zadanie.');
     }
 
     public function is_done($id)
     {      
         $user = Auth::user();
+        $DateNow = Carbon::now();
         $data =array(
           
-            'fk_user' => $user->id,
+            'execution_user' => $user->id,
+            'execution_date' => $DateNow,
             'completed' =>1,
          );
          $created = Task::where('id',$id)->update($data);

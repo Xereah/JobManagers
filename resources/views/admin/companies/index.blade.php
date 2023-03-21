@@ -1,17 +1,13 @@
 @extends('layouts.admin')
 @section('content')
-@can('company_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.companies.create") }}">
-                {{ trans('global.add') }} {{ trans('cruds.company.title_singular') }}
-            </a>
-        </div>
-    </div>
-@endcan
 <div class="card">
-    <div class="card-header">
+    <div class="card-header bg-dark">
         {{ trans('cruds.company.title_singular') }} {{ trans('global.list') }}
+        @can('company_create')
+        <a class="btn btn-dark float-right" href="{{ route("admin.companies.create") }}">
+        <i class="fa fa-plus"></i> {{ trans('global.add') }} {{ trans('cruds.company.title_singular') }}
+            </a>
+        @endcan
     </div>
 
     <div class="card-body">
@@ -105,26 +101,28 @@
                             <td>
                                 {{ $company->distance ?? '' }}
                             </td> 
-                            <td>
-                                @can('company_show')
+                            <td width="10">
+                                <!-- @can('company_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.companies.show', $company->id) }}">
                                         {{ trans('global.view') }}
                                     </a>
-                                @endcan
-
+                                @endcan -->
+                                <div class="btn-group" role="group">
                                 @can('company_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.companies.edit', $company->id) }}">
-                                        {{ trans('global.edit') }}
+                                    <a class="btn  btn-info" href="{{ route('admin.companies.edit', $company->id) }}" title="{{ trans('global.edit') }}">
+                                    <i class="fas fa-edit"></i>
                                     </a>
                                 @endcan
-
                                 @can('company_delete')
-                                    <form action="{{ route('admin.companies.destroy', $company->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
+                                <form action="{{ route('admin.companies.destroy', $company->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="btn  btn-danger" title="{{ trans('global.delete') }}">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
                                 @endcan
+                                </div>
 
                             </td>
 

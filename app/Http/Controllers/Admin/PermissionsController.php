@@ -32,8 +32,7 @@ class PermissionsController extends Controller
     public function store(StorePermissionRequest $request)
     {
         $permission = Permission::create($request->all());
-        toastr()->success( trans('global.store_success') );
-        return redirect()->route('admin.permissions.index');
+        return redirect()->route('admin.permissions.index')->with('success', 'Pomyślnie dodano nowe uprawnienie.'); 
     }
 
     public function edit(Permission $permission)
@@ -46,8 +45,7 @@ class PermissionsController extends Controller
     public function update(UpdatePermissionRequest $request, Permission $permission)
     {
         $permission->update($request->all());
-        toastr()->success( trans('global.store_edit') );
-        return redirect()->route('admin.permissions.index');
+        return redirect()->route('admin.permissions.index')->with('success', 'Pomyślnie edytowano uprawnienie.'); 
     }
 
     public function show(Permission $permission)
@@ -63,7 +61,7 @@ class PermissionsController extends Controller
 
         $permission->delete();
 
-        return back();
+        return back()->with('success', 'Pomyślnie usunięto uprawnienie.'); 
     }
 
     public function massDestroy(MassDestroyPermissionRequest $request)

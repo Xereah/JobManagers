@@ -1,24 +1,22 @@
 @extends('layouts.admin')
 @section('content')
 @can('car_create')
-<div style="margin-bottom: 10px;" class="row">
-    <div class="col-lg-12">
-        <a class="btn btn-success" href="{{ route("admin.car.create") }}">
-            {{ trans('global.add') }} Sprzęt
-        </a>
-    </div>
-</div>
 @endcan
 <div class="card">
     <div class="card-header bg-dark">
         {{ trans('cruds.company.title_singular') }} {{ trans('global.list') }}
+
+        <a class="btn btn-dark float-right" href="{{ route("admin.car.create") }}">
+        <i class="fa fa-plus"></i> {{ trans('global.add') }} Sprzęt
+        </a>
+
     </div>
 
     <div class="card-body">
         <div class="table-responsive">
             <table class=" table table-bordered table-hover datatable" id="example">
                 <thead>
-                    <tr>
+                    <!-- <tr>
                         <th> <button class="btn btn-danger" id="btnSearch" name="btnSearch"><i
                                     class="fa fa-trash"></i></button></th>
                         <th><input id="filtr_marka" class="form-control" /></th>
@@ -26,7 +24,7 @@
                         <th><input id="filtr_rejestracja" class="form-control" /></th>
                         <th></th>
                 
-                    </tr>
+                    </tr> -->
                     <tr>
                         <th width="10">
                             {{ trans('cruds.company.fields.lp') }}
@@ -64,25 +62,24 @@
                         </td>
                                               
                       
-                        <td>
-                        @can('car_edit')
-                            <a class="btn btn-xs col-md-12  btn-info"
-                                href="{{ route('admin.car.edit', $cars->id) }}">
-                                {{ trans('global.edit') }}
-                            </a>
-                            @endcan
-                            @can('car_delete')
-                            <form action="{{ route('admin.car.destroy', $cars->id) }}" class="col-md-12 " method="POST"
-                                onsubmit="return confirm('{{ trans('global.areYouSure') }}');">
-                                <input type="hidden" class="btn btn-xs col-md-12 btn-danger" name="_method"
-                                    value="DELETE">
-                                <input type="hidden" class="btn btn-xs col-md-12 btn-danger" name="_token"
-                                    value="{{ csrf_token() }}">
-                                <input type="submit" class="btn btn-xs col-md-12 btn-danger"
-                                    value="{{ trans('global.delete') }}">
-                            </form>
-                            @endcan
-                        </td>
+                        <td width="10">
+                   
+                        <div class="btn-group" role="group">
+                                @can('car_edit')
+                                    <a class="btn  btn-info" href="{{  route('admin.car.edit', $cars->id) }}" title="{{ trans('global.edit') }}">
+                                    <i class="fas fa-edit"></i>
+                                    </a>
+                                @endcan
+                                @can('car_delete')
+                                <form action="{{ route('admin.car.destroy', $cars->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="btn  btn-danger" title="{{ trans('global.delete') }}">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                                @endcan
+                                </div>
 
                     </tr>
                     @endforeach

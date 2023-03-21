@@ -1,17 +1,14 @@
 @extends('layouts.admin')
 @section('content')
-@can('TypeTask_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.typetask.create") }}">
+
+<div class="card">
+    <div class="card-header bg-dark">
+        {{ trans('cruds.typetask.title_singular') }} {{ trans('global.list') }}
+        @can('TypeTask_create')
+        <a class="btn btn-dark float-right" href="{{ route("admin.typetask.create") }}">
                 {{ trans('global.add') }} {{ trans('cruds.typetask.title_singular') }}
             </a>
-        </div>
-    </div>
-@endcan
-<div class="card">
-    <div class="card-header">
-        {{ trans('cruds.typetask.title_singular') }} {{ trans('global.list') }}
+        @endcan
     </div>
 
     <div class="card-body">
@@ -20,11 +17,11 @@
                 <thead>
                     <tr>
                         <th width="10">
-
+                        LP.
                         </th>
-                        <th>
+                        <!-- <th>
                             {{ trans('cruds.typetask.fields.id') }}
-                        </th>
+                        </th> -->
                         <th>
                             {{ trans('cruds.typetask.fields.name') }}
                         </th>
@@ -39,32 +36,34 @@
                             <td>
 
                             </td>
-                            <td>
+                            <!-- <td>
                                 {{ $typetasks->id ?? '' }}
-                            </td>
+                            </td> -->
                             <td>
                                 {{ $typetasks->name ?? '' }}
                             </td>
-                            <td>
-                                @can('TypeTask_show')
+                            <td width="10">
+                                <!-- @can('TypeTask_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.typetask.show', $typetasks->id) }}">
                                         {{ trans('global.view') }}
                                     </a>
-                                @endcan
-
+                                @endcan -->
+                                <div class="btn-group" role="group">
                                 @can('TypeTask_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.typetask.edit', $typetasks->id) }}">
-                                        {{ trans('global.edit') }}
+                                    <a class="btn  btn-info" href="{{ route('admin.typetask.edit', $typetasks->id) }}" title="{{ trans('global.edit') }}">
+                                    <i class="fas fa-edit"></i>
                                     </a>
                                 @endcan
-
                                 @can('TypeTask_delete')
-                                    <form action="{{ route('admin.typetask.destroy', $typetasks->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
+                                <form action="{{ route('admin.typetask.destroy', $typetasks->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="btn  btn-danger" title="{{ trans('global.delete') }}">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
                                 @endcan
+                                </div>
 
                             </td>
 

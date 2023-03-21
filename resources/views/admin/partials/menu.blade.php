@@ -127,7 +127,7 @@
                         <i class="fa-fw fas fa-briefcase nav-icon">
 
                         </i>
-                        {{ trans('cruds.job.title') }}
+                        Zlecenia KC
                     </a>
                 </li>
             @endcan
@@ -145,8 +145,7 @@
             @can('job_access')
                 <li class="nav-item">
                     <a href="{{ route("admin.tasks.index") }}" class="nav-link {{ request()->is('admin/tasks') || request()->is('admin/tasks/*') ? 'active' : '' }}">
-                        <i class="fa-fw fas fa-briefcase nav-icon">
-
+                    <i class="fa-fw fas fa-tasks nav-icon">
                         </i>
                         {{ trans('cruds.job.title') }}
                     </a>
@@ -186,7 +185,20 @@
                                 </a>
                             </li>
                         @endcan -->
-            <li class="nav-item">
+            <!-- <li class="nav-item">
+                <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                    <i class="nav-icon fas fa-fw fa-sign-out-alt">
+
+                    </i>
+                    {{ trans('global.logout') }}
+                </a>
+            </li> -->
+        </ul>
+
+    </nav>
+    <!-- <button class="sidebar-minimizer brand-minimizer" type="button"></button> -->
+    <li class="nav-item">
                 <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                     <i class="nav-icon fas fa-fw fa-sign-out-alt">
@@ -195,8 +207,4 @@
                     {{ trans('global.logout') }}
                 </a>
             </li>
-        </ul>
-
-    </nav>
-    <!-- <button class="sidebar-minimizer brand-minimizer" type="button"></button> -->
 </div>

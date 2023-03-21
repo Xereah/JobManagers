@@ -15,11 +15,12 @@ class CreateTasksTable extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->string('task_title');
-            $table->text('task_description')->nullable();
+            $table->string('task_title')->nullable();
             $table->unsignedInteger('fk_company')->unsigned()->nullable();
             $table->unsignedInteger('fk_user')->unsigned()->nullable();
             $table->boolean('completed')->default(false);
+            $table->date('execution_date')->nullable();
+            $table->unsignedInteger('execution_user')->unsigned()->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

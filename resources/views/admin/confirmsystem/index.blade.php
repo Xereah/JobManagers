@@ -50,11 +50,11 @@
                             <div class="w-100"></div>
                             <div class="col"> <label for="default-picker">Wyjazd</label>
                                 <input type="time" id="start_car" name="start_car" class="form-control"
-                                    placeholder="Select time">
+                                    placeholder="Select time" required>
                             </div>
                             <div class="col"><label for="default-picker">Przyjazd</label>
                             <input type="time" id="end_car" name="end_car" class="form-control"
-                                placeholder="Select time">
+                                placeholder="Select time" required>
                             </div>
                             <div class="w-100"></div>
                             <div class="col"> <label for="paid">{{ trans('cruds.job.fields.paid') }}</label>
@@ -116,12 +116,12 @@
                                     <div class="col-md-6">
                                         <label for="default-picker">{{ trans('cruds.job.fields.start') }}</label>
                                         <input type="time" id="start[]" name="start[]" class="form-control"
-                                             placeholder="Select time">
+                                             placeholder="Select time" required>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="default-picker">{{ trans('cruds.job.fields.end') }}</label>
                                         <input type="time" id="end[]" name="end[]" class="form-control"
-                                            placeholder="Select time">
+                                            placeholder="Select time" required>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -149,7 +149,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <label for="description">{{ trans('cruds.job.fields.description') }}</label>
-                                        <textarea class="form-control" name="description[]" id="description"
+                                        <textarea class="form-control" name="description[]" id="description" required
                                             rows="3"></textarea>
                                     </div>
                                     <div class="col-md-12">
@@ -246,6 +246,7 @@
         </div>
 
 </form>
+
 @endsection
 @section('scripts')
 <script type='text/javascript'>
@@ -498,6 +499,4 @@ $('.addsprzet_pill').click(function(){
         document.getElementById('start[]').value = e.target.value;
     });
 </script>
-
-
 @endsection

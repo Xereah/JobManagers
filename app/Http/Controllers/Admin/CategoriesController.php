@@ -32,7 +32,6 @@ class CategoriesController extends Controller
     public function store(StoreCategoryRequest $request)
     {
         $category = Category::create($request->all());
-        toastr()->success( trans('global.store_success') );
         return redirect()->route('admin.categories.index');
     }
 

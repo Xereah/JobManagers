@@ -32,7 +32,7 @@
                 </p>
             </div>
 
-            <div class="form-group {{ $errors->has('task_description') ? 'has-error' : '' }}">
+            <!-- <div class="form-group {{ $errors->has('task_description') ? 'has-error' : '' }}">
                 <label for="shortcode">Dodatkowe informacje</label>
                 <textarea class="form-control" name="task_description" id="task_description"  rows="2">{{ $task -> task_description }}</textarea>
                 @if($errors->has('task_description'))
@@ -43,7 +43,7 @@
                 <p class="helper-block">
                     {{ trans('cruds.company.fields.name_helper') }}
                 </p>
-            </div>
+            </div> -->
 
             <div class="form-row" hidden>
                     <div class="form-group col-md-12">
@@ -54,10 +54,29 @@
                     </div>
             </div>
 
-           
+            <div class="form-group {{ $errors->has('task_title') ? 'has-error' : '' }}">
+                <label for="execution_user" style="margin-top:1%;">Wykonujący</label>
+                <select id="execution_user" name="execution_user" class="form-control select2">
+                                @foreach($user_all as $users)
+                                <option value="{{ $users ->id }}" @if($users ->id == $task->execution_user) selected="selected"
+                                    @endif>{{ $users->name }} {{ $users->surname }}</option>
+                                @endforeach
+                            </select>
+            </div>
+
+            <div class="form-group ">
+                            <label for="execution_date">Data wykonania</label>
+
+                            <input type='date' id="execution_date" name="execution_date"
+                                value="{{ old('execution_date', isset($task) ? $task->execution_date : '') }}"
+                                class="form-control input-group-addon" />
+                            </span>
+
+             </div>
 
             <div class="form-row" >
                     <div class="form-group col-md-12">
+                    <label for="fk_company" style="margin-top:1%;">Postęp</label>
                     <select id="completed" name="completed" class="form-control">
                                 @if($task -> completed === 1 )
                                 <option value="{{$task->completed}}">Wykonane</option>
@@ -72,7 +91,7 @@
             </div>
 
             <div>
-                <input class="btn btn-danger float-right" type="submit" value="{{ trans('global.save') }}">
+                <input class="btn btn-success float-right" type="submit" value="{{ trans('global.save') }}">
             </div>
             
         </form>

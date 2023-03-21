@@ -1,11 +1,12 @@
 @extends('layouts.admin')
 @section('content')
 
-<div class="card">
-    <div class="card-header">
-        {{ trans('global.create') }} {{ trans('cruds.user.title_singular') }}
+<div class="card-header bg-dark col-md-6 mx-auto">
+{{ trans('global.create') }} {{ trans('cruds.user.title_singular') }}
     </div>
 
+<div class="card  col-md-6 mx-auto">
+  
     <div class="card-body">
         <form action="{{ route("admin.users.store") }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -76,7 +77,7 @@
                 </p>
             </div>
             <div>
-                <input class="btn btn-danger" type="submit" value="{{ trans('global.save') }}">
+                <input class="btn btn-success float-right" type="submit" value="{{ trans('global.save') }}">
             </div>
         </form>
 

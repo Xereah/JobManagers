@@ -81,6 +81,10 @@ class ConfirmSystemController extends Controller
     public function store(StoreConfirmSystem $request)
     {   
 
+        $validatedData = $request->validate([
+            'description' => 'required',
+        ]);
+
             $year = Carbon::now()->year;
             $now = Carbon::now();
             $last = DB::table('jobs')->distinct('order')->count('order');
@@ -188,19 +192,26 @@ class ConfirmSystemController extends Controller
                  $created = RepEquipment::where('id',$fk_rep_eq[$key])->update($data3);                 
             }      
         }    
-            $data4 =array(
-                'fk_user' =>  $użytkownik,
-                'fk_company' => $request->fk_company,
-                'task_title' =>  $request->comments[$key],
-                'completed' => 0,
-            );
-                $created = Task::insert($data4);            
+        if (!empty($request->comments[$key])) {
+            $comments = explode("\n", $request->comments[$key]);
+            foreach ($comments as $comment) {
+                $data4 = array(
+                    'fk_user' => $użytkownik,
+                    'fk_company' => $request->fk_company,
+                    'task_title' => trim($comment),
+                    'execution_user' => $użytkownik,
+                    'completed' => 0,
+                    'created_at' => $now,
+                );
+                $created = Task::insert($data4);
+            }
+        }     
                 $created = Job::insert($data);                      
-             }  
+            };
              
              $last_id = DB::table('jobs')->count('id');
 
-             return redirect(url('admin/ConfirmSystem/'. $last_id.'/edit')); 
+             return redirect(url('admin/ConfirmSystem/'. $last_id.'/edit'))->with('success', 'Pomyślnie dodano nowe potwierdzenie.'); 
     }
 
     /**
@@ -424,7 +435,7 @@ class ConfirmSystemController extends Controller
 
      $last_id = DB::table('jobs')->count('id');
 
-     return redirect(url('admin/ConfirmSystem/'. $id.'/edit')); 
+     return redirect(url('admin/ConfirmSystem/'. $id.'/edit'))->with('success', 'Pomyślnie edytowano potwierdzenie.');  
     }
 
     /**

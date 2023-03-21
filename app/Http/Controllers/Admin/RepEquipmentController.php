@@ -51,9 +51,7 @@ class RepEquipmentController extends Controller
     public function store(Request $request)
     {
         $RepEquipment = RepEquipment::create($request->all());
-       
-        toastr()->success( trans('global.store_success') );
-        return redirect()->route('admin.repequipment.index');
+        return redirect()->route('admin.repequipment.index') ->with('success', 'Pomyślnie dodano nowe urządzenie.'); 
     }
 
     /**
@@ -97,7 +95,7 @@ class RepEquipmentController extends Controller
             'is_loan' =>0,
          );
          $created = RepEquipment::where('id',$id)->update($data);
-        return back();
+        return back()->with('success', 'Pomyślnie dokonano zwrotu sprzętu na serwis.'); 
     }
 
 
@@ -118,7 +116,7 @@ class RepEquipmentController extends Controller
          $created = RepEquipment::where('id',$id_delete)->update($data); 
          $job = Job::find($id);      
          $job->delete();
-        return back();
+        return back() ->with('success', 'Pomyślnie dokonano zwrotu sprzętu na serwis.'); 
     }
 
     public function delete($id)
@@ -142,7 +140,7 @@ class RepEquipmentController extends Controller
         $RepEquipment = RepEquipment::findOrFail($id);
         $RepEquipment->update($request->all());
        
-        return redirect()->route('admin.repequipment.index');
+        return redirect()->route('admin.repequipment.index')->with('success', 'Pomyślnie edytowano urządzenie.'); 
     }
 
     /**

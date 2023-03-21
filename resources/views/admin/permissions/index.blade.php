@@ -1,17 +1,13 @@
 @extends('layouts.admin')
 @section('content')
-@can('permission_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.permissions.create") }}">
-                {{ trans('global.add') }} {{ trans('cruds.permission.title_singular') }}
-            </a>
-        </div>
-    </div>
-@endcan
 <div class="card">
-    <div class="card-header">
+    <div class="card-header bg-dark">
         {{ trans('cruds.permission.title_singular') }} {{ trans('global.list') }}
+        @can('permission_create')
+        <a class="btn btn-dark float-right" href="{{ route("admin.permissions.create") }}">
+        <i class="fa fa-plus"></i>     {{ trans('global.add') }} {{ trans('cruds.permission.title_singular') }}
+        </a>
+        @endcan
     </div>
 
     <div class="card-body">
@@ -45,27 +41,28 @@
                             <td>
                                 {{ $permission->title ?? '' }}
                             </td>
-                            <td>
-                                @can('permission_show')
+                            <td width="10">
+                                <!-- @can('permission_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.permissions.show', $permission->id) }}">
                                         {{ trans('global.view') }}
                                     </a>
-                                @endcan
-
+                                @endcan -->
+                                <div class="btn-group" role="group">
                                 @can('permission_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.permissions.edit', $permission->id) }}">
-                                        {{ trans('global.edit') }}
+                                    <a class="btn  btn-info" href="{{ route('admin.permissions.edit', $permission->id) }}">
+                                    <i class="fas fa-edit"></i>
                                     </a>
                                 @endcan
-
                                 @can('permission_delete')
-                                    <form action="{{ route('admin.permissions.destroy', $permission->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
+                                <form action="{{ route('admin.permissions.destroy', $permission->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="btn  btn-danger" title="{{ trans('global.delete') }}">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
                                 @endcan
-
+                                </div>
                             </td>
 
                         </tr>

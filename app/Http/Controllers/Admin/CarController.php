@@ -42,8 +42,7 @@ class CarController extends Controller
     public function store(Request $request)
     {
         $car = Car::create($request->all());
-        toastr()->success( trans('global.store_success') );
-        return redirect()->route('admin.car.index');
+        return redirect()->route('admin.car.index')->with('success', 'Pomyślnie dodano samochód.');
     }
 
     /**
@@ -79,8 +78,7 @@ class CarController extends Controller
     public function update(Request $request, Car $car)
     {
         $car->update($request->all());       
-        toastr()->success( trans('global.car') );
-        return redirect()->route('admin.car.index');
+        return redirect()->route('admin.car.index')->with('success', 'Pomyślnie zaktualizowano samochód.');
     }
 
     /**
@@ -93,6 +91,6 @@ class CarController extends Controller
     {
         abort_if(Gate::denies('car_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $car->delete();
-        return back();
+        return back()->with('success', 'Pomyślnie usunięto samochód.');
     }
 }

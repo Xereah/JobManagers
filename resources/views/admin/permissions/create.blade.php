@@ -1,12 +1,12 @@
 @extends('layouts.admin')
 @section('content')
 
-<div class="card">
-    <div class="card-header">
-        {{ trans('global.create') }} {{ trans('cruds.permission.title_singular') }}
-    </div>
+<div class="card-header bg-dark col-md-6 mx-auto">
+{{ trans('global.create') }} {{ trans('cruds.permission.title_singular') }}
+</div>
 
-    <div class="card-body">
+<div class="card col-md-6 mx-auto">
+     <div class="card-body">
         <form action="{{ route("admin.permissions.store") }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
@@ -22,7 +22,7 @@
                 </p>
             </div>
             <div>
-                <input class="btn btn-danger" type="submit" value="{{ trans('global.save') }}">
+                <input class="btn btn-success float-right" type="submit" value="{{ trans('global.save') }}">
             </div>
         </form>
 

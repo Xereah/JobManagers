@@ -36,9 +36,7 @@ class CompaniesController extends Controller
     public function store(StoreCompanyRequest $request)
     {
         $company = Company::create($request->all());
-       
-        toastr()->success( trans('global.store_success') );
-        return redirect()->route('admin.companies.index');
+        return redirect()->route('admin.companies.index')->with('success', 'Pomyślnie dodano nowego kontrahenta.');
     }
 
     public function edit(Company $company)
@@ -52,7 +50,7 @@ class CompaniesController extends Controller
     {
         $company->update($request->all());
 
-        return redirect()->route('admin.companies.index');
+        return redirect()->route('admin.companies.index')->with('success', 'Pomyślnie zmodyfikowano kontrahenta.');
     }
 
     public function show(Company $company)
@@ -68,7 +66,7 @@ class CompaniesController extends Controller
 
         $company->delete();
 
-        return back();
+        return back()->with('success', 'Pomyślnie usunięto kontrahenta.');
     }
 
     public function massDestroy(MassDestroyCompanyRequest $request)

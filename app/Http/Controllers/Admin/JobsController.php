@@ -103,10 +103,7 @@ class JobsController extends Controller
             ->editColumn('comments', function ($job) {
                 return  $job->comments;
             })
-            ->editColumn('fk_contract', function ($job) {
-                return  $job->contract->contract_name;
-            })
-
+        
             ->editColumn('paid', function ($job) {
                 if($job->paid==1)
                 return  "Bezpłatne";
@@ -235,7 +232,7 @@ class JobsController extends Controller
                 );
                 $created = Job::insert($data); 
              }  
-         return redirect()->route('admin.jobs.index');
+         return redirect()->route('admin.jobs.index')->with('success', 'Pomyślnie dodano nowe zadanie.'); 
     }
 
 
@@ -269,9 +266,11 @@ class JobsController extends Controller
 
         $jobi=$job->order;  
         $type_task_id=$job->fk_tasktype;       
+        $Notification = Notification::all()
+        ->where('order', '==', $jobi);
         $jobs = Job::all()->where('order', '==', $jobi);
         $list=TaskType_Pivot::all()->where('task_type_id','==',$type_task_id);  
-        return view('admin.jobs.editone', compact('companies','job','TaskType','TypeTask','user_all','jobs','list'));
+        return view('admin.jobs.editone', compact('companies','job','TaskType','TypeTask','user_all','jobs','list','Notification'));
     }
 
 
@@ -349,15 +348,16 @@ class JobsController extends Controller
      }  
      $user = Auth::user();
      $DateNow = Carbon::now();
+     if(!empty($request)){
      $Notification = new Notification([
         'user' => $user->id,
         'order' => $order,
         'date' => $DateNow,
     ]);
       $Notification->save();
+     }
 
-
-       return redirect()->route('admin.jobs.index');
+       return redirect()->route('admin.jobs.index') ->with('success', 'Pomyślnie edytowano potwierdzenie.'); 
     }
 
     public function show(Job $job)
