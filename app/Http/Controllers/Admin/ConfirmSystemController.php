@@ -209,7 +209,7 @@ class ConfirmSystemController extends Controller
                 $created = Job::insert($data);                      
             };
              
-             $last_id = DB::table('jobs')->count('id');
+            $last_id = DB::table('jobs')->pluck('id')->last();
 
              return redirect(url('admin/ConfirmSystem/'. $last_id.'/edit'))->with('success', 'Pomyślnie dodano nowe potwierdzenie.'); 
     }
