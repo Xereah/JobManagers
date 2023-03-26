@@ -99,7 +99,23 @@ class TaskController extends Controller
     public function update(Request $request, $id)
     {
         $task = Task::findOrFail($id);
-        $task->update($request->all());
+        // $task->update($request->all());
+        $company =$request->input('fk_company');
+        $contract = DB::table('companies')->where('id',  $company)->pluck('fk_contract')->first();
+        $now = Carbon::now();
+
+        $data = array(     
+            'task_title' => $request->task_title,
+            'fk_company' =>  $request->fk_company,
+            'fk_contract' => $contract,
+            'execution_date' =>$request->execution_date,
+            'execution_user' => $request->execution_user,
+            'completed' =>  $request->completed,
+    
+        );
+        $created =Task::where('id',$id)->update($data); 
+
+      
 
         return redirect()->route('admin.tasks.index')
         ->with('success', 'Pomyślnie zaktualizowano zadanie.');
