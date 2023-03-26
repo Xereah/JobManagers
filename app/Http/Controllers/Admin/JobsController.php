@@ -30,17 +30,17 @@ class JobsController extends Controller
         $startDate = Carbon::now()->subMonth(12);
         $endDate = date('Y-m-d');
         if ($request->ajax()) {
-            $data = DB::table('jobs')
-            ->orderBy('jobs.id', 'desc')
-            ->join('companies', 'companies.id', '=', 'jobs.fk_company')
-            ->join('task_type', 'task_type.id', '=', 'jobs.fk_tasktype')
-            ->join('users', 'users.id', '=', 'jobs.fk_user')
-            ->select('jobs.*', 'companies.shortcode','users.name','users.surname','task_type.name')
-            ->orderBy('jobs.id', 'DESC')
-            ->whereBetween('jobs.start_date', [$startDate, $endDate])
-            ->get();
+            // $data = DB::table('jobs')
+            // ->orderBy('jobs.id', 'desc')
+            // ->join('companies', 'companies.id', '=', 'jobs.fk_company')
+            // ->join('task_type', 'task_type.id', '=', 'jobs.fk_tasktype')
+            // ->join('users', 'users.id', '=', 'jobs.fk_user')
+            // ->select('jobs.*', 'companies.shortcode','users.name','users.surname','task_type.name')
+            // ->orderBy('jobs.id', 'DESC')
+            // ->whereBetween('jobs.start_date', [$startDate, $endDate])
+            // ->get();
 
-            $jobs = Job::orderBy('id', 'desc')->get();
+            // $jobs = Job::orderBy('id', 'desc')->get();
             
             return Datatables::of(Job::query()->orderBy('id', 'desc')->whereBetween('jobs.start_date', [$startDate, $endDate]))
             ->editColumn('fk_typetask', function ($job) {

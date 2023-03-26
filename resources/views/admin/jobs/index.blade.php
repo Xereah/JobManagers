@@ -17,14 +17,19 @@
     <b> {{ trans('cruds.job.title_singular') }} {{ trans('global.list') }}</b>
 
         @can('job_create')
-
         <a class="btn btn-dark float-right" data-attr="{{ route('admin.jobs.create') }}" ddata-toggle="modal" id="mediumButton" data-target="#mediumModal"><i
                 class="fa fa-plus"></i>
             {{ trans('global.add') }} {{ trans('cruds.job.title_singular') }}
         </a>
         <button type="button" class="btn btn-demo btn-dark btn-demo float-right" data-toggle="modal"
             data-target="#myModal2"><i class="fa fa-filter"></i> Filtry </button>
-@endcan
+        @endcan
+
+        <div class="form-check p-1 float-right"  id="filtr_platnosci">
+            <input class="form-check-input" type="checkbox" id="paid-checkbox" value="2">
+            <label class="form-check-label" for="paid-checkbox">Płatne</label>
+        </div>
+
     </div>
 
 <!-- Filtry -->
@@ -434,9 +439,14 @@ var table = $('#example').DataTable();
     $('#filtr_uwag').on( 'change', function () {
     table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
     } );
-    $('#filtr_platnosci').on( 'change', function () {
-    table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
-    } );
+    $('#filtr_platnosci input[type="checkbox"]').on('change', function () {
+    var checkedBoxes = $('#filtr_platnosci input[type="checkbox"]:checked');
+    var values = [];
+    $.each(checkedBoxes, function (index, element) {
+        values.push($(element).val());
+    });
+    table.column(12).search(values.join('|'), true, false).draw();
+        });
     $('#filtr_umow').on( 'change', function () {
     table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
     } );

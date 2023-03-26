@@ -22,8 +22,7 @@ class ContractsSeeder extends Seeder
             'Medycyna umowy',
             'Przedsiębiorstwa',
             'Przedsiębiorstwa umowy',
-
-        ];
+                ];
 
         foreach($contract as $id => $contracts)
         Contracts::create(['contract_name' => $contracts,     

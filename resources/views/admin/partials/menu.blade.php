@@ -114,7 +114,7 @@
             @can('equipment_access')
                 <li class="nav-item">
                     <a href="{{ route("admin.repequipment.index") }}" class="nav-link {{ request()->is('admin/repequipment') || request()->is('admin/repequipment/*') ? 'active' : '' }}">
-                        <i class="fa-fw fas fa-briefcase nav-icon">
+                        <i class="fa-fw fas fa-desktop nav-icon">
 
                         </i>
                         Sprzęt zast.
@@ -124,7 +124,8 @@
             @can('job_access')
                 <li class="nav-item">
                     <a href="{{ route("admin.jobs.index") }}" class="nav-link {{ request()->is('admin/jobs') || request()->is('admin/jobs/*') ? 'active' : '' }}">
-                        <i class="fa-fw fas fa-briefcase nav-icon">
+                    <i class="fa-fw fas fa-window-restore nav-icon"></i>
+
 
                         </i>
                         Zlecenia KC
@@ -134,7 +135,7 @@
             @can('user_access')
                             <li class="nav-item">
                             <a href="{{ route("admin.ConfirmSystem.index") }}" class="nav-link {{ request()->is('admin/ConfirmSystem') || request()->is('admin/ConfirmSystem/*') ? 'active' : '' }}">
-                                    <i class="fa-fw fas fa-user nav-icon">
+                                    <i class="fa-fw fas fa-exclamation-triangle nav-icon">
 
                                     </i>
                                     Syst. Potwierdzeń

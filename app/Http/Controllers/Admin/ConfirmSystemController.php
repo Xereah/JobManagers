@@ -200,6 +200,7 @@ class ConfirmSystemController extends Controller
                     'fk_company' => $request->fk_company,
                     'task_title' => trim($comment),
                     'execution_user' => $użytkownik,
+                    'fk_contract' => $contract,
                     'completed' => 0,
                     'created_at' => $now,
                 );

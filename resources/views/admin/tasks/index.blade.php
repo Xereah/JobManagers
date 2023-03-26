@@ -8,22 +8,31 @@
         <i class="fa fa-plus"></i>  {{ trans('global.add') }} Zadanie
             </a>
         @endcan
+        <div class="form-check p-1 float-right" id="filtr_kontrahent">
+            <input class="form-check-input" type="checkbox" id="medycyna-checkbox" value="[5,6]" style="margin-right: 10px;">
+            <label class="form-check-label" for="medycyna-checkbox" style="padding-right: 30px;">Medycyna</label>
+            
+            <input class="form-check-input" type="checkbox" id="farmacja-checkbox" value="[2,3]" style="margin-right: 10px;">
+            <label class="form-check-label" for="farmacja-checkbox" style="padding-right: 30px;">Farmacja</label>
+            
+            <input class="form-check-input" type="checkbox" id="przedsiebiorstwa-checkbox" value="[7,8]" style="margin-right: 10px;">
+            <label class="form-check-label" for="przedsiebiorstwa-checkbox">Przedsiębiorstwa</label>
+        </div>
     </div>
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-tasks" id="example">
+            <table class=" table table-bordered table-striped table-hover datatable yajra-datatable" id="example">
                 <thead>
                 <tr>
                
                <th> <button class="btn btn-danger" id="btnSearch" name="btnSearch"><i class="fa fa-trash"></i></button></th>
                <th><input id="filtr_akronim" class="form-control" /></th>
-               <th><input id="filtr_nazwa" class="form-control" /></th>
-              
+               <th><input id="filtr_nazwa" class="form-control" /></th>              
                <th><input id="filtr_wykonujacy" class="form-control" /></th>
-               <th><input id="filtr_dat" class="form-control" /></th>
-               <th><input id="filtr_dat" class="form-control" /></th>
-               <th><input id="filtr_postep" class="form-control" /></th>
+               <th><input id="filtr_data_wpisu" type="date" class="form-control"></th>
+               <th><input id="filtr_wykonujacy_zadanie" class="form-control" /></th>
+               <th><input id="filtr_data_wykonania" type="date" class="form-control"></th>          
                <th><input id="filtr_postep" class="form-control" /></th>
                <th></th>
               
@@ -58,6 +67,9 @@
                         </th>
                         <th width="10">                          
                         </th>
+                        <th width="10" hidden>
+                           Kontrakt                         
+                        </th>
 
                       
                     </tr>
@@ -88,7 +100,8 @@
                         {{$firstLetter1}}{{$firstLetter2}}
                         </td>
                         <td>
-                        {{$task->created_at}}
+                        {{ date('Y-m-d', strtotime($task->created_at)) }}
+                      
                         </td>
                         <td>
 
@@ -120,10 +133,12 @@
                                     </a>
                                 @endcan
                                 @can('job_edit')
+                                @if($task->completed !=1)
                                 <a class="btn  btn-success" title="Wykonane"
                                 href="{{ url('/is_done', $task->id) }}">
                                 <i class="fa fa-check" aria-hidden="true"></i>
                                 </a>
+                                @endif
                                 @endcan
                                 @can('job_delete')
                                 <form action="{{  route('admin.tasks.destroy', $task->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
@@ -137,7 +152,9 @@
                                 </div>
 
                         </td>
-
+                        <td hidden>
+                        {{$task->fk_contract}}
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -179,7 +196,16 @@ var table = $('#example').DataTable();
     $('#filtr_wykonujacy').on('change', function () {
     table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
     } );
+    $('#filtr_wykonujacy_zadanie').on('change', function () {
+    table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
+    } );
     $('#filtr_postep').on('change', function () {
+    table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
+    } );
+    $('#filtr_data_wpisu').on( 'change', function () {
+    table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
+    } );
+    $('#filtr_data_wykonania').on( 'change', function () {
     table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
     } );
  
@@ -187,7 +213,19 @@ var table = $('#example').DataTable();
         table.columns([1,2,3,4,5,6]).search('').draw();
        });
 
+     $('#filtr_kontrahent input[type="checkbox"]').on('change', function () {
+    var checkedBoxes = $('#filtr_kontrahent input[type="checkbox"]:checked');
+    var values = [];
+    $.each(checkedBoxes, function (index, element) {
+        values.push($(element).val());
+    });
+    table.column(9).search(values.join('|'), true, false).draw();
+        });
+
 
 });
+
 </script>
+
+
 @endsection

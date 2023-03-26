@@ -44,7 +44,20 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $task = Task::create($request->all());
+        $company =$request->input('fk_company');
+        $contract = DB::table('companies')->where('id',  $company)->pluck('fk_contract')->first();
+        $now = Carbon::now();
+        $data = array(     
+            'task_title' => $request->task_title,
+            'fk_company' =>  $company,
+            'fk_contract' => $contract,
+            'fk_user' => $request->fk_user,
+            'created_at' =>$now,
+            'execution_user' => $request->execution_user,
+            'completed' =>  0,
+    
+        );
+        $created = Task::insert($data); 
 
         return redirect()->route('admin.tasks.index')
             ->with('success', 'Pomyślnie dodano zadanie.');

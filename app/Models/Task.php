@@ -20,6 +20,7 @@ class Task extends Model
     protected $fillable = [
         'task_title',
         'fk_company',
+        'fk_contract',
         'fk_user',
         'execution_date',
         'execution_user',
