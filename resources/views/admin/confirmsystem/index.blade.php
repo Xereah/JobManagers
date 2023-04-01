@@ -414,7 +414,37 @@ $(function() {
     });
     $('.resultbody_towar').delegate('.delete_towar', 'click', function() {
         $(this).closest('.card').remove();
+        //sprawdź czy zakładka ze sprzętem zastępczym jest pusta
+        if ($('.resultbody_towar').is(':empty')) {
+            //jeśli tak, przejdź do zakładki home
+            $('#pills-home-tab').tab('show');
+            const equipmentTab = $('#pills-towary-tab');
+            // ukryj zakładkę ze sprzętem zastępczym
+            equipmentTab.hide();
+        }
     });
+});
+
+$(document).ready(function() {
+  // znajdź przycisk dodawania sprzętu zastępczego
+  const addButton = $('.addtowar_pill');
+  // znajdź zakładkę ze sprzętem zastępczym
+  const equipmentTab = $('#pills-towary-tab');
+  // ukryj zakładkę ze sprzętem zastępczym
+  equipmentTab.hide();
+  
+  // dodaj nasłuchiwanie na kliknięcie przycisku
+  addButton.click(function() {
+    // sprawdź, czy zakładka nie jest pusta
+    if($('.resultbody_towar').is(':empty')){
+        // jeżeli jest pusta, przejdź do zakładki home
+        $('#pills-home-tab').tab('show');
+    } else {
+        // jeżeli nie jest pusta, pokaż zakładkę ze sprzętem zastępczym i aktywuj ją
+        equipmentTab.show();
+        equipmentTab.tab('show');
+    }
+  });
 });
 </script>
 
@@ -467,9 +497,40 @@ $(function() {
     });
     $('.resultbody_sprzet').delegate('.delete3', 'click', function() {
         $(this).closest('.card').remove();
+        //sprawdź czy zakładka ze sprzętem zastępczym jest pusta
+        if ($('.resultbody_sprzet').is(':empty')) {
+            //jeśli tak, przejdź do zakładki home
+            $('#pills-home-tab').tab('show');
+            const equipmentTab = $('#pills-equipment-tab');
+            // ukryj zakładkę ze sprzętem zastępczym
+            equipmentTab.hide();
+        }
     });
 });
+
+$(document).ready(function() {
+  // znajdź przycisk dodawania sprzętu zastępczego
+  const addButton = $('.addsprzet_pill');
+  // znajdź zakładkę ze sprzętem zastępczym
+  const equipmentTab = $('#pills-equipment-tab');
+  // ukryj zakładkę ze sprzętem zastępczym
+  equipmentTab.hide();
+  
+  // dodaj nasłuchiwanie na kliknięcie przycisku
+  addButton.click(function() {
+    // sprawdź, czy zakładka nie jest pusta
+    if($('.resultbody_sprzet').is(':empty')){
+        // jeżeli jest pusta, przejdź do zakładki home
+        $('#pills-home-tab').tab('show');
+    } else {
+        // jeżeli nie jest pusta, pokaż zakładkę ze sprzętem zastępczym i aktywuj ją
+        equipmentTab.show();
+        equipmentTab.tab('show');
+    }
+  });
+});
 </script>
+
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
@@ -499,4 +560,5 @@ $('.addsprzet_pill').click(function(){
         document.getElementById('start[]').value = e.target.value;
     });
 </script>
+
 @endsection
