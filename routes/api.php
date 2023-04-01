@@ -35,6 +35,9 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
      //Cars
     Route::apiResource('car', 'CarController');
     
-    //tasks
+    //Task
     Route::apiResource('tasks', 'TaskController');
+
+    //Inventory
+    Route::apiResource('inventory', 'InventoryController');
 });

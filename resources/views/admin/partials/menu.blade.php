@@ -152,6 +152,16 @@
                     </a>
                 </li>
             @endcan  
+            <!-- Inwentaryzacja -->
+            @can('job_access')
+                <li class="nav-item">
+                    <a href="{{ route("admin.inventory.index") }}" class="nav-link {{ request()->is('admin/inventory') || request()->is('admin/inventory/*') ? 'active' : '' }}">
+                    <i class="fa-fw fas fa-hand-holding-usd nav-icon">
+                        </i>
+                        Inwentarz
+                    </a>
+                </li>
+            @endcan  
 
                    <!-- Configuration -->
              @can('user_management_access')

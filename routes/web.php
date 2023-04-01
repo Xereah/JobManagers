@@ -87,8 +87,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('/getEmployees/{id}', [App\Http\Controllers\Admin\ConfirmSystemController::class, 'getEmployees'])->name('getEmployees');
     Route::get('/getTask/{id}', [App\Http\Controllers\Admin\JobsController::class, 'getTask'])->name('getTask');
 
-     //tasks
+     //Tasks
      Route::resource('tasks', 'TaskController');
+
+     //Inventory
+      Route::resource('inventory', 'InventoryController');
 });
 
 
