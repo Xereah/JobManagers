@@ -103,6 +103,9 @@ class JobsController extends Controller
             ->editColumn('comments', function ($job) {
                 return  $job->comments;
             })
+            ->editColumn('fk_contract', function ($job) {
+                return  $job->contract -> contract_name;
+            })
         
             ->editColumn('paid', function ($job) {
                 if($job->paid==1)

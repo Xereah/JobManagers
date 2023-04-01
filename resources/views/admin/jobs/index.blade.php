@@ -30,7 +30,18 @@
             <label class="form-check-label" for="paid-checkbox">Płatne</label>
         </div>
 
-    </div>
+        <div class="form float-right" style="margin-right: 2%; text-align: center;" >
+    <select class="form-control" style="display: inline-block;" id="filtr_umow">
+        <option value="">-------- Umowa --------</option>
+        @foreach($filter_contracts as $contracts)
+        <option value="{{ $contracts ->id }}" style="text-align: center;">{{ $contracts-> contract_name }} </option>
+        @endforeach
+    </select>
+</div>
+
+
+    
+   </div>
 
 <!-- Filtry -->
 
@@ -222,11 +233,9 @@
                     <th><input id="filtr_rns" class="form-control" /></th>
                     <th><input id="filtr_opisu" class="form-control" /></th>
                     <th><input id="filtr_uwag" class="form-control" /></th>
-                    <th><select class="form-control"  id="filtr_platnosci" >
-                        <option ></option>
-                        <option value="1">{{ trans('global.free') }}</option>
-                        <option value="2">{{ trans('global.paid') }}</option>
-                        </select></th>
+                    <th></th>
+        
+                        <th></th>
                     </tr>
 
                     <tr>
@@ -269,6 +278,9 @@
                         <th>
                             {{ trans('cruds.job.fields.paid') }}
                         </th>
+                        <th>
+                            {{ trans('cruds.job.fields.contracts') }}
+                        </th>
                       
                         <!-- <th>
                             {{ trans('cruds.company.fields.action') }}
@@ -294,7 +306,7 @@
                         <th></th>
                         <th></th>
                         <th></th>
-
+                       
                     </tr>
                 </tfoot>
             </table>
@@ -413,7 +425,7 @@ maxDate = new DateTime($('#max').val(), {
 
 var table = $('#example').DataTable();
    $('#btnSearch').click(function (){
-        table.columns([1,2,3,4,5,7,9,10,11]).search('').draw();
+        table.columns([1,2,3,4,5,7,9,10,11,12,13]).search('').draw();
        });
     $('#filtr_nazw').on( 'change', function () {      
     table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
@@ -439,6 +451,9 @@ var table = $('#example').DataTable();
     $('#filtr_uwag').on( 'change', function () {
     table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
     } );
+    $('#filtr_umow').on( 'change', function () {
+        table.column(13).search( this.value ).draw();
+    } );
     $('#filtr_platnosci input[type="checkbox"]').on('change', function () {
     var checkedBoxes = $('#filtr_platnosci input[type="checkbox"]:checked');
     var values = [];
@@ -446,10 +461,7 @@ var table = $('#example').DataTable();
         values.push($(element).val());
     });
     table.column(12).search(values.join('|'), true, false).draw();
-        });
-    $('#filtr_umow').on( 'change', function () {
-    table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
-    } );
+     });
     $('#min, #max').on('change', function () {
   var minDate = $('#min').val().split('/').reverse().join('-'); // Konwertuj datę minimalną na format "yyyy-mm-dd"
   var maxDate = $('#max').val().split('/').reverse().join('-'); // Konwertuj datę maksymalną na format "yyyy-mm-dd"
@@ -463,14 +475,11 @@ var table = $('#example').DataTable();
 
   // Dodaj filtr po stronie serwera do parametrów wyszukiwania DataTables
   table.column(7).search(dates.join('|'), true, false).draw();
-});
-$('#btnSearch').click(function (){
-        table.columns([1,2,3,4,5,7,9,10,11]).search('').draw();
-       });
- 
-    
+});    
   });
 </script>
+
+
 <script>
     jQuery.fn.extend({
 	printElem: function() {

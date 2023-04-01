@@ -255,6 +255,7 @@ return [
             'value'                                => 'Wartość',
             'comments'                                => 'Uwagi',
             'performer'                                => 'Wykonujący',
+            'contracts' => "Umowa"
         ],
     ],
 ];
