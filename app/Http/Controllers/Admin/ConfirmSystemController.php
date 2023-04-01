@@ -449,59 +449,42 @@ class ConfirmSystemController extends Controller
     {
         //
     }
-
-    // public function SendMail(Request $request)
-    // {
-    //     Mail::send([], [], function($message)
-    //     {
-    //         $message->to('patrykstruzik@onet.pl')
-    //             ->subject('Tytuł wiadomości'); 
-    //     });
-          
-    //         dd('sent');
-          
-       
-    // }
-
-    // public function SendMail()
-    // {
-    //     $data["email"] = "patrykstruzik@onet.pl";
-    //     $data["title"] = "Test";
-    //     $data["body"] = "This is Demo";
-  
-    //     $pdf = PDF::loadView('admin.confirmsystem.myTestMail', $data);
-  
-    //     Mail::send('admin.confirmsystem.myTestMail', $data, function($message)use($data, $pdf) {
-    //         $message->to($data["email"], $data["email"])
-    //                 ->subject($data["title"])
-    //                 ->attachData($pdf->output(), "text.pdf");
-    //     });
-  
-    //     dd('Mail sent successfully');
-    // }
-
     public function SendMail($id) 
     {
         $job = Job::findOrFail($id);
         $jobi = $job->order;      
         $company = $job->fk_company;
         $company_mail = DB::table('companies')->where('id',  $company)->pluck('email')->first();
+        $company_km = DB::table('companies')->where('id',  $company)->pluck('distance')->first();
         $time = Job::where('order', $jobi)->sum(DB::raw("TIME_TO_SEC(time)/60"));
         $minsandsecs = date('i:s', $time);
         $jobs = Job::where('order', $jobi)->whereNotNull('description')->get();
         $jobs_towary = Job::where('order', $jobi)->whereNotNull('description_goods')->get();
         $jobs_sprzetzast = Job::where('order', $jobi)->whereNotNull('fk_rep_eq')->get();
         $data["title"] = "Potwierdzenie wykonania usługi";
-        $pdf = PDF::loadView('admin.confirmsystem.sendMail', compact('job', 'jobs', 'minsandsecs', 'jobs_towary', 'jobs_sprzetzast'));
+        $pdf = PDF::loadView('admin.confirmsystem.sendMail', compact('job', 'jobs', 'minsandsecs', 'jobs_towary', 'jobs_sprzetzast','company_km'));
         $fileName = 'potwierdzenie-wykonania-uslug.pdf';
         $output = $pdf->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->output();
-        Mail::send('admin.confirmsystem.sendMail', compact('job', 'jobs', 'minsandsecs', 'jobs_towary', 'jobs_sprzetzast'), function ($message) use ($company_mail, $fileName, $output)  {
-            $message->to($company_mail);
-            $message->subject('Kasper Komputer, potwierdzenie wykonania usług');
-            // $message->attachData($output, $fileName, [
-            //     'mime' => 'application/pdf',
-            // ]);
-        });
-        return redirect()->back();
+    
+        // Walidacja adresu e-mail
+        if (filter_var($company_mail, FILTER_VALIDATE_EMAIL)) {
+            // Adres e-mail jest poprawny, próba wysłania wiadomości
+            try {
+                Mail::send('admin.confirmsystem.sendMailHi', compact('job', 'jobs', 'minsandsecs', 'jobs_towary', 'jobs_sprzetzast','company_km'), function ($message) use ($company_mail, $fileName, $output)  {
+                    $message->to($company_mail);
+                    $message->subject('Kasper Komputer, potwierdzenie wykonania usług');
+                    $message->attachData($output, $fileName, [
+                        'mime' => 'application/pdf',
+                    ]);
+                });
+                return redirect()->back()->with('success', 'Wiadomość e-mail została wysłana.');
+            } catch (\Exception $e) {
+                // Błąd podczas wysyłania wiadomości e-mail
+                return redirect()->back()->with('error', 'Nie udało się wysłać wiadomości e-mail. ' . $e->getMessage());
+            }
+        } else {
+            // Adres e-mail jest niepoprawny
+            return redirect()->back()->with('error', 'Niepoprawny adres e-mail.');
+        }
     }
 }

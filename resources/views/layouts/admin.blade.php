@@ -35,9 +35,25 @@
 body{
     font-size: 16px;
 }
+@media print {
 
+@page {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* Ukryj domyślny nagłówek */
+header {
+    display: none;
+}
+body {
+    font-size: 10pt;
+  }
+  table {
+    font-size: inherit;
+  }
+}
  
-
 
 
         </style>
@@ -221,19 +237,24 @@ body{
       //     columns: ':visible',
       //   }
       // },
-       {
-        extend: 'excelHtml5',
-        className: 'btn-default',
-        autoFilter: true,
-        title: 'JobManager Excel Export',
-        sheetName: 'JobManager Export',
-        text: excelButtonTrans,
-        footer: true,
-        autoFilter: true,
-        exportOptions: {
-          columns: ':visible'          
-        }
-      },
+      {
+            extend: 'excelHtml5',
+            className: 'btn-default',
+            autoFilter: true,
+            title: 'JobManager Excel Export',
+            sheetName: 'JobManager Export',
+            text: excelButtonTrans,
+            footer: true,
+            autoFilter: true,
+            exportOptions: {
+                columns: ':not(:first-child):visible'
+            },
+            customize: function(xlsx) {
+                var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                $('row c[r^="C"]', sheet).attr('s', '55');
+            }
+        },
+
       {
         extend: 'pdfHtml5',
         className: 'btn-default',
@@ -241,28 +262,36 @@ body{
         pageSize: 'LEGAL',
         orientation: 'landscape',
         exportOptions: {
-          columns: ':visible',
+            columns: ':not(:first-child):visible'
           
         }
       },
-      {
-        extend: 'print',
-        className: 'btn-default',
-        text: printButtonTrans,
-        autoPrint: true,
-        customize: function ( win ) {
-                    $(win.document.body)
-                        .css( 'font-size', '10pt' )
-                       
-                    $(win.document.body).find( 'table' )
-                        .addClass( 'compact' )
-                        .css( 'font-size', 'inherit' )
-
-                },
-        exportOptions: {
-          columns: ':visible'
-        }
-      },
+    //   {
+    //     extend: 'print',
+    //     className: 'btn-default',
+    //     text: printButtonTrans,
+    //     autoPrint: true,
+    //     customize: function ( win ) {
+    //         $(win.document.body)
+    //         .css( 'font-size', '1em' )
+    //         .find( 'table' )
+    //             .addClass( 'compact' )
+    //             .css( 'font-size', 'inherit' )
+    //             .css( 'width', '100%' )
+    //             .css( 'max-width', 'none' )
+    //             .css( 'table-layout', 'auto' )
+    //             .css( 'word-wrap', 'break-word' )
+    //         .find( 'th, td' )
+    //             .css( 'text-align', 'left' )
+    //             .css( 'padding', '0.5em' )
+    //             .css( 'vertical-align', 'middle' )
+    //             .css( 'word-wrap', 'break-word' );
+    //     },
+    //     exportOptions: {
+    //         columns: ':not(:first-child):visible'
+    //     },
+    //     autoWidth: true
+    //     },
       
       {
         extend: 'colvis',

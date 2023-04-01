@@ -6,12 +6,23 @@
 <head>
     <script src="{{ asset('js/main.js') }}"></script>
     <style>
-    @media print {
+    /* Styl dla ekranu */
+    body {
+        font-size: 16px;
+        padding: 0;
+        margin: 0;
+    }
 
+    table {
+        font-size: 16px;
+    }
+
+    /* Styl dla wydruku */
+    @media print {
         /* Zastosuj obramowania dla elementów */
         hr,
         .border {
-            border: 1px solid black !important;
+            border: 2px solid black !important;
         }
 
         body {
@@ -22,7 +33,6 @@
 
         table {
             font-size: 22px;
-
         }
 
         @page {
@@ -34,9 +44,9 @@
         header {
             display: none;
         }
-
     }
-    </style>
+</style>
+
 </head>
 
 <body onload="window.print()">

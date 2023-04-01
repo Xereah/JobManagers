@@ -40,6 +40,7 @@ class StoreJobRequest extends FormRequest
             ],
             'rns' => [
                 'numeric',
+                'min:0',
             ],
             'start_date[]' => [
                 'required',

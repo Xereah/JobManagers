@@ -11,7 +11,7 @@
         /* Zastosuj obramowania dla elementów */
         hr,
         .border {
-            border: 1px solid black !important;
+            border: 2px solid black !important;
         }
 
         body {
