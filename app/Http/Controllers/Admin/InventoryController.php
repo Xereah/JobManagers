@@ -17,6 +17,41 @@ class InventoryController extends Controller
     {
         return view('admin.inventory.index');
     }
+    
+    public function drukarki()
+    {
+        return view('admin.inventory.create.drukarki');
+    }
+
+    public function fiskalne()
+    {
+        return view('admin.inventory.create.fiskalne');
+    }
+
+    public function komputery()
+    {
+        return view('admin.inventory.create.komputery');
+    }
+
+    public function monitory()
+    {
+        return view('admin.inventory.create.monitory');
+    }
+
+    public function notebooki()
+    {
+        return view('admin.inventory.create.notebooki');
+    }
+
+    public function ups()
+    {
+        return view('admin.inventory.create.ups');
+    }
+
+    public function pozostale()
+    {
+        return view('admin.inventory.create.pozostale');
+    }
 
     /**
      * Show the form for creating a new resource.

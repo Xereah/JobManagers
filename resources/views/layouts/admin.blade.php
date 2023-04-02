@@ -160,9 +160,8 @@ body {
     
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="https://unpkg.com/@coreui/coreui@2.1.16/dist/js/coreui.min.js"></script>
 
@@ -238,40 +237,34 @@ body {
       //   }
       // },
       {
-  extend: 'excelHtml5',
-  className: 'btn-default',
-  autoFilter: true,
-  title: 'JobManager Excel Export',
-  sheetName: 'JobManager Export',
-  text: excelButtonTrans,
-  footer: true,
-  autoFilter: true,
-  exportOptions: {
-    columns: ':not(:first-child):visible',
-  },
-  customizeData: function (data) {
-    for (var i = 0; i < data.body.length; i++) {
-      var row = data.body[i];
-      for (var j = 0; j < row.length; j++) {
-        var value = row[j];
-        if (typeof value === 'string' && value.match(/^\d{4}-\d{2}-\d{2}(?:\s\d{2}:\d{2})?$/)) {
-          var parts = value.split(' ');
-          var date = parts[0];
-          var time = parts[1] || ''; // pusta wartość, jeśli brak godziny
-          row.splice(j, 1, date, time);
-          j++;
-          // Sprawdź, czy to nowa kolumna
-          if (j == row.indexOf(time) + 1 && i == 0) {
-            var header = "Godzina";
-            row.splice(j, 0, header);
-          }
-        }
+    extend: 'excelHtml5',
+    className: 'btn-default',
+    autoFilter: true,
+    title: 'JobManager Excel Export',
+    sheetName: 'JobManager Export',
+    text: excelButtonTrans,
+    footer: true,
+    autoFilter: true,
+    exportOptions: {
+        columns: ':not(:first-child):visible',
+    },
+    customizeData: function (data) {
+  for (var i = 0; i < data.body.length; i++) {
+    var row = data.body[i];
+    for (var j = 0; j < row.length; j++) {
+      var value = row[j];
+      if (typeof value === 'string' && value.match(/^\d{4}-\d{2}-\d{2}(?:\s\d{2}:\d{2})?$/)) {
+        var parts = value.split(' ');
+        var date = parts[0];
+        var time = parts[1] || ''; // pusta wartość, jeśli brak godziny
+        row.splice(j, 1, date, time);
+        j++;
       }
     }
-    return data;
-  },
+  }
+  return data;
 },
-
+},
 
       {
         extend: 'pdfHtml5',
