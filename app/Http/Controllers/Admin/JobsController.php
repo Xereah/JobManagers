@@ -48,10 +48,10 @@ class JobsController extends Controller
                 $pos = strpos($job->order, $order_querry);
 
                 if($pos === false)
-                return '<a class="text-success" data-toggle="modal" id="mediumButton" data-target="#mediumModal"
+                return '<a class="text-success" data-toggle="modal" id="mediumButton" data-target="#mediumModal" data-toggle="tooltip" title="' . $job->description . '"
                 data-attr="'.url('/job/editone', $job->id).'">'.$job->type_task->name .'</a>';
                 else
-                return '<a class="text-info" href="'.route('admin.ConfirmSystem.edit', $job->id) . '">' . $job->type_task->name . '</a>';
+                return '<a class="text-info" data-toggle="tooltip" title="' . $job->description . '" href="'.route('admin.ConfirmSystem.edit', $job->id) . '">' . $job->type_task->name . '</a>';
             })
             ->editColumn('order', function ($job) {
                 $order_querry="SRW/";

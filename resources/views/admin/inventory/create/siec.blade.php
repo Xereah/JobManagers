@@ -1,11 +1,11 @@
 @extends('layouts.admin')
 @section('content')
 <div class="card-header bg-dark col-md-6 mx-auto">
-    {{ trans('global.create') }} drukarkę
+    {{ trans('global.create') }} urządzenie sicowe
 </div>
 <div class="card col-md-6 mx-auto">
     <div class="card-body">
-        <form action="{{ url('/inventory/drukarki/add') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ url('/inventory/siec/add') }}" method="POST" enctype="multipart/form-data">
 
             @csrf
 

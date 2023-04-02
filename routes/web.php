@@ -35,17 +35,29 @@ Route::get('/is_done/{id}', [App\Http\Controllers\Admin\TaskController::class, '
 
 //Inventory
 Route::get('/inventory/drukarki' , [App\Http\Controllers\Admin\InventoryController::class, 'drukarki'])->name('drukarki')->middleware(['auth']);
-Route::get('/inventory/fiskalne' , [App\Http\Controllers\Admin\InventoryController::class, 'fiskalne'])->name('fiskalne')->middleware(['auth']);
+Route::post('/inventory/drukarki/add', [App\Http\Controllers\Admin\InventoryController::class, 'store_drukarki'])->name('store_drukarki');
 
+Route::get('/inventory/fiskalne' , [App\Http\Controllers\Admin\InventoryController::class, 'fiskalne'])->name('fiskalne')->middleware(['auth']);
+Route::post('/inventory/fiskalne/add', [App\Http\Controllers\Admin\InventoryController::class, 'store_fiskalne'])->name('store_fiskalne');
 
 Route::get('/inventory/komputery' , [App\Http\Controllers\Admin\InventoryController::class, 'komputery'])->name('komputery')->middleware(['auth']);
 Route::post('/inventory/komputery/add', [App\Http\Controllers\Admin\InventoryController::class, 'store_komputery'])->name('store_komputery');
+Route::get('/job/edit_pc/{id}', [App\Http\Controllers\Admin\InventoryController::class, 'edit_pc'])->name('edit_pc');
 
 Route::get('/inventory/monitory' , [App\Http\Controllers\Admin\InventoryController::class, 'monitory'])->name('monitory')->middleware(['auth']);
-Route::get('/inventory/notebooki' , [App\Http\Controllers\Admin\InventoryController::class, 'notebooki'])->name('notebooki')->middleware(['auth']);
-Route::get('/inventory/ups' , [App\Http\Controllers\Admin\InventoryController::class, 'ups'])->name('ups')->middleware(['auth']);
-Route::get('/inventory/pozostale' , [App\Http\Controllers\Admin\InventoryController::class, 'pozostale'])->name('pozostale')->middleware(['auth']);
+Route::post('/inventory/monitory/add', [App\Http\Controllers\Admin\InventoryController::class, 'store_monitory'])->name('store_monitory');
 
+Route::get('/inventory/notebooki' , [App\Http\Controllers\Admin\InventoryController::class, 'notebooki'])->name('notebooki')->middleware(['auth']);
+Route::post('/inventory/notebooki/add', [App\Http\Controllers\Admin\InventoryController::class, 'store_notebooki'])->name('store_notebooki');
+
+Route::get('/inventory/ups' , [App\Http\Controllers\Admin\InventoryController::class, 'ups'])->name('ups')->middleware(['auth']);
+Route::post('/inventory/ups/add', [App\Http\Controllers\Admin\InventoryController::class, 'store_ups'])->name('store_ups');
+
+Route::get('/inventory/siec' , [App\Http\Controllers\Admin\InventoryController::class, 'siec'])->name('siec')->middleware(['auth']);
+Route::post('/inventory/siec/add', [App\Http\Controllers\Admin\InventoryController::class, 'store_siec'])->name('store_siec');
+
+Route::get('/inventory/pozostale' , [App\Http\Controllers\Admin\InventoryController::class, 'pozostale'])->name('pozostale')->middleware(['auth']);
+Route::post('/inventory/pozostale/add', [App\Http\Controllers\Admin\InventoryController::class, 'store_pozostale'])->name('store_pozostale');
 
 
 

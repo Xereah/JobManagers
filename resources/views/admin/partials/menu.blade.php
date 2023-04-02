@@ -158,7 +158,7 @@
                     <a href="{{ route("admin.inventory.index") }}" class="nav-link {{ request()->is('admin/inventory') || request()->is('admin/inventory/*') ? 'active' : '' }}">
                     <i class="fa-fw fas fa-hand-holding-usd nav-icon">
                         </i>
-                        Inwentarz
+                        Sprzęt
                     </a>
                 </li>
             @endcan  

@@ -12,16 +12,7 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="shortcode">Marka*</label>
-                    <select name="mark" id="mark" class="form-control" required>
-                        <option value="Dell">Dell</option>
-                        <option value="Dell">Hp</option>
-                        <option value="Dell">Lenovo</option>
-                        <option value="Dell">Apple</option>
-                        <option value="Dell">Asus</option>
-                        <option value="Dell">Acer</option>
-                        <option value="Dell">Asoz</option>
-                        <option value="Dell">Składak</option>
-                    </select>
+                    <input type="text" name="mark" class="form-control">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="model">Model*</label>
