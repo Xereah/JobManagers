@@ -67,7 +67,7 @@
                         <div class="row">
                         <div class="col-12 text-right">
                               Wersja 1.2<br>
-                              Data kompilacji 12.03.2023
+                              Data kompilacji 02.04.2023
                               </div>
                               </div>
                     </form>

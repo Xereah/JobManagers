@@ -168,7 +168,25 @@
                     </tr>
                     <?php $i++ ?>
                     @endforeach
-
+                    <tr>
+                    <td align="center">{{$i}}</td>
+                    <td align="left" class="strong"><b> Dojazd(DKM)</b></td>
+                    <td align="center" class=" strong">Dojazd samochodem osobowym</td>
+                    <?php
+                        $zmienna1=$job->user->name;
+                        $zmienna2=$job->user->surname;
+                        $firstLetter1 = substr($zmienna1, 0, 1);
+                        $firstLetter2 = substr($zmienna2, 0, 1);
+                        ?>
+                    <td align="center"> {{ $firstLetter1 }} {{  $firstLetter2  ?? '' }}</td>
+                    <td> {{$company_km}} km</td>
+                    @if($job->paid==1)
+                    <td align="center"> B</td>
+                    @else
+                    <td align="center"> P</td>
+                    @endif
+                </tr>
+                <?php $i++ ?>
                 </tbody>
 
             </table>
