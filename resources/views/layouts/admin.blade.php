@@ -238,22 +238,40 @@ body {
       //   }
       // },
       {
-            extend: 'excelHtml5',
-            className: 'btn-default',
-            autoFilter: true,
-            title: 'JobManager Excel Export',
-            sheetName: 'JobManager Export',
-            text: excelButtonTrans,
-            footer: true,
-            autoFilter: true,
-            exportOptions: {
-                columns: ':not(:first-child):visible'
-            },
-            customize: function(xlsx) {
-                var sheet = xlsx.xl.worksheets['sheet1.xml'];
-                $('row c[r^="C"]', sheet).attr('s', '55');
-            }
-        },
+  extend: 'excelHtml5',
+  className: 'btn-default',
+  autoFilter: true,
+  title: 'JobManager Excel Export',
+  sheetName: 'JobManager Export',
+  text: excelButtonTrans,
+  footer: true,
+  autoFilter: true,
+  exportOptions: {
+    columns: ':not(:first-child):visible',
+  },
+  customizeData: function (data) {
+    for (var i = 0; i < data.body.length; i++) {
+      var row = data.body[i];
+      for (var j = 0; j < row.length; j++) {
+        var value = row[j];
+        if (typeof value === 'string' && value.match(/^\d{4}-\d{2}-\d{2}(?:\s\d{2}:\d{2})?$/)) {
+          var parts = value.split(' ');
+          var date = parts[0];
+          var time = parts[1] || ''; // pusta wartość, jeśli brak godziny
+          row.splice(j, 1, date, time);
+          j++;
+          // Sprawdź, czy to nowa kolumna
+          if (j == row.indexOf(time) + 1 && i == 0) {
+            var header = "Godzina";
+            row.splice(j, 0, header);
+          }
+        }
+      }
+    }
+    return data;
+  },
+},
+
 
       {
         extend: 'pdfHtml5',
@@ -262,9 +280,12 @@ body {
         pageSize: 'LEGAL',
         orientation: 'landscape',
         exportOptions: {
-            columns: ':not(:first-child):visible'
-          
-        }
+        columns: ':not(:first-child):visible',
+        all: true,
+        },
+        customize: function (doc) {
+                doc.content.splice(0, 1);
+            }
       },
     //   {
     //     extend: 'print',
