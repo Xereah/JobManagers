@@ -36,7 +36,11 @@ Route::get('/is_done/{id}', [App\Http\Controllers\Admin\TaskController::class, '
 //Inventory
 Route::get('/inventory/drukarki' , [App\Http\Controllers\Admin\InventoryController::class, 'drukarki'])->name('drukarki')->middleware(['auth']);
 Route::get('/inventory/fiskalne' , [App\Http\Controllers\Admin\InventoryController::class, 'fiskalne'])->name('fiskalne')->middleware(['auth']);
+
+
 Route::get('/inventory/komputery' , [App\Http\Controllers\Admin\InventoryController::class, 'komputery'])->name('komputery')->middleware(['auth']);
+Route::post('/inventory/komputery/add', [App\Http\Controllers\Admin\InventoryController::class, 'store_komputery'])->name('store_komputery');
+
 Route::get('/inventory/monitory' , [App\Http\Controllers\Admin\InventoryController::class, 'monitory'])->name('monitory')->middleware(['auth']);
 Route::get('/inventory/notebooki' , [App\Http\Controllers\Admin\InventoryController::class, 'notebooki'])->name('notebooki')->middleware(['auth']);
 Route::get('/inventory/ups' , [App\Http\Controllers\Admin\InventoryController::class, 'ups'])->name('ups')->middleware(['auth']);

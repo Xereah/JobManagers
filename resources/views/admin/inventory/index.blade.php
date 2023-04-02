@@ -62,7 +62,57 @@
                     </tr>
                 </thead>
                 <tbody align="center">
+                @foreach($computers as $key => $computer)
+                    <tr data-entry-id="{{ $RepEquipments->id }}">
+                        <td>
+                            <!-- {{ $RepEquipments->id }} -->
+                        </td>
+                        <td>
+                            {{$computer->code}}
+                        </td>
+                        <td>
+                            {{$computer->mark}} {{$computer->model}}
+                        </td>
+                        <td>
+                            {{$computer->eq_name}}
+                        </td>
+                        
+                        <td>
+                            {{$computer->serial_number}}
+                        </td>
+                        <td>
+                           
+                            {{$computer->company->shortcode}}
+                           
+                        </td>
+                
+                        <td>
+                            <!-- @can('equipment_show')
+                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.repequipment.show', $RepEquipments->id) }}">
+                                        {{ trans('global.view') }}
+                                    </a>
+                                @endcan -->
+                         
+                            <div class="btn-group" role="group">
+                                @can('equipment_edit')
+                                    <a class="btn  btn-info" href="{{ route('admin.repequipment.edit', $RepEquipments->id) }}" title="{{ trans('global.edit') }}">
+                                    <i class="fas fa-edit"></i>
+                                    </a>
+                                @endcan
+                                @can('equipment_delete')
+                                <form action="{{  route('admin.repequipment.destroy', $RepEquipments->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="btn  btn-danger" title="{{ trans('global.delete') }}">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                                @endcan
+                                </div>
+                        </td>
 
+                    </tr>
+                    @endforeach
                 </tbody>
 
             </table>
