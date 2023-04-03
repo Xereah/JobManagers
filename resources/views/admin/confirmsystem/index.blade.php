@@ -80,9 +80,13 @@
 
 
     <ul class="nav nav-tabs col-md-8 mx-auto" id="myTab" role="tablist">
-    <li class="nav-item">
+        <li class="nav-item">
             <a class="nav-link active"  id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
                 aria-controls="pills-home" aria-selected="true">Zadanie</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="pills-uwagi-tab" data-toggle="pill" href="#pills-uwagi" role="tab"
+                aria-controls="pills-uwagi" aria-selected="false">Uwagi</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="pills-towary-tab" data-toggle="pill" href="#pills-towary" role="tab"
@@ -150,12 +154,7 @@
                                     <div class="col-md-12">
                                         <label for="description">{{ trans('cruds.job.fields.description') }}</label>
                                         <textarea class="form-control" name="description[]" id="description" required
-                                            rows="3"></textarea>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label for="description">Uwagi</label>
-                                        <textarea class="form-control" name="comments[]" id="comments"
-                                            rows="3"></textarea>
+                                            rows="5"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -165,6 +164,40 @@
             </div>
 
             <div class="resultbody "></div>
+        </div>
+
+
+        <div class="tab-pane fade" id="pills-uwagi" role="tabpanel" aria-labelledby="pills-uwagi-tab">
+            <div class="card">
+                <div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-1 bg-success">
+                                <p style="text-align:center;">
+                                    <span></span><br>
+                                    <span>U</span><br>
+                                    <span>W</span><br>
+                                    <span>A</span><br>
+                                    <span>G</span><br>
+                                    <span>I</span><br>
+                                    <span></span><br>
+                                </p>
+                            </div>
+                            <div class="col-md-11">
+                                <div class="col-md-11 py-2">
+                                    <div class="row">
+                                    <div class="col-md-12">
+                                        <label for="description">Uwagi do wizyty</label>
+                                        <textarea class="form-control" name="comments[]" id="comments"
+                                            rows="5"></textarea>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
         </div>
 
 
@@ -345,11 +378,7 @@ $(function() {
                                 '<div class="row">'+
                                     '<div class="col-md-12">'+
                                         '<label for="description">{{ trans('cruds.job.fields.description') }}</label>'+
-                                        '<textarea class="form-control" name="description[]" id="description" rows="3"></textarea>'+
-                                    '</div>'+
-                                    '<div class="col-md-12">'+
-                                        '<label for="description">Uwagi</label>'+
-                                        '<textarea class="form-control" name="comments[]" id="comments" rows="3"></textarea>'+
+                                        '<textarea class="form-control" name="description[]" id="description" rows="5"></textarea>'+
                                     '</div>'+
                                 '</div>'+
                             '</div>'+
@@ -360,9 +389,6 @@ $(function() {
                       'Anuluj</i>'+
                     '</button>'+  
             '</div>';
-
-
-
         $('.resultbody').append(tr);
     });
     $('.resultbody').delegate('.delete', 'click', function() {

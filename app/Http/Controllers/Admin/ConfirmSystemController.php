@@ -210,7 +210,7 @@ class ConfirmSystemController extends Controller
                 $created = Job::insert($data);                      
             };
              
-            $last_id = DB::table('jobs')->pluck('id')->last();
+            $last_id = DB::table('jobs')->whereNull('deleted_at')->pluck('id')->last();
 
              return redirect(url('admin/ConfirmSystem/'. $last_id.'/edit'))->with('success', 'Pomyślnie dodano nowe potwierdzenie.'); 
     }
@@ -241,8 +241,10 @@ class ConfirmSystemController extends Controller
         $jobs_sprzetzast = Job::all()
         ->where('order', '==', $jobi)
         ->wherenotNull('fk_rep_eq');
+        $company = $job->fk_company;
+        $company_km = DB::table('companies')->where('id',  $company)->pluck('distance')->first();
         
-        return view('admin.confirmsystem.print', compact('job','jobs','minsandsecs','jobs_towary','jobs_sprzetzast'));
+        return view('admin.confirmsystem.print', compact('job','jobs','minsandsecs','jobs_towary','jobs_sprzetzast','company_km'));
     }
 
     /**
@@ -367,7 +369,37 @@ class ConfirmSystemController extends Controller
             // możliwość dodania nowych rekordów
                 $created = Job::create($data);
             }
-        };      
+        };   
+        
+        if (!empty($request->comments[$key])) {
+            $comments = explode("\n", $request->comments[$key]);
+            foreach ($comments as $comment) {
+                $existingTask = Task::where('fk_user', $użytkownik)
+                                     ->where('fk_company', $request->fk_company)
+                                     ->where('task_title', trim($comment))
+                                     ->first();
+                if ($existingTask) {
+                    // modify existing task
+                    $existingTask->execution_user = $użytkownik;
+                    $existingTask->fk_contract = $contract;
+                    $existingTask->completed = 0;
+                    $existingTask->created_at = $now;
+                    $existingTask->save();
+                } else {
+                    // create new task
+                    $data4 = array(
+                        'fk_user' => $użytkownik,
+                        'fk_company' => $request->fk_company,
+                        'task_title' => trim($comment),
+                        'execution_user' => $użytkownik,
+                        'fk_contract' => $contract,
+                        'completed' => 0,
+                        'created_at' => $now,
+                    );
+                    $created = Task::insert($data4);
+                }
+            }
+        };
            
     
         foreach($description_goods as $key => $value) 
@@ -423,8 +455,7 @@ class ConfirmSystemController extends Controller
                 'description_eq'=>$description_equipment[$key],
             );
             // możliwość dodania nowych rekordów
-                $created = Job::create($data2);
-               
+                $created = Job::create($data2); 
                      
             $data3 =array(
                 'entry_date' => $now,
@@ -436,7 +467,7 @@ class ConfirmSystemController extends Controller
 
      $last_id = DB::table('jobs')->count('id');
 
-     return redirect(url('admin/ConfirmSystem/'. $id.'/edit'))->with('success', 'Pomyślnie edytowano potwierdzenie.');  
+     return back()->with('success', 'Pomyślnie edytowano potwierdzenie.');  
     }
 
     /**
