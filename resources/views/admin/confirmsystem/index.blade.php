@@ -420,7 +420,7 @@ $(function() {
                             '</div>'+
                             '<div class="col-md-11">'+
                                 '<div class="col-md-11 py-2">'+
-                                    '<div class="row">'+
+                                    '<div>'+
                                         '<div>'+
                                             '<label for="description_goods">Pozostawiono towar</label>'+
                                             '<textarea class="form-control" name="description_goods[]"  id="description_goods[]" rows="3"></textarea>'+
@@ -495,7 +495,7 @@ $(function() {
                                 '</p>'+
                             '</div>'+
                             '<div class="col-md-11 py-2">'+
-                                '<div class="row">'+
+                                '<div >'+
                                     '<div>'+
                                         '<label for="description">Pozostawiono sprzęt</label>'+
                                         '<select name="fk_rep_eq[]" id="fk_rep_eq[]" class="form-control select2"required>'+

@@ -2,14 +2,14 @@
     <nav class="sidebar-nav">
 
         <ul class="nav">
-            <li >
+            <!-- <li >
                 <a class="navbar-brand justify-content-center">
                     <i class="nav-icon fas fa-fw fa-tachometer-alt">
 
                     </i>
                     {{ trans('global.dashboard') }}
                 </a>
-            </li>
+            </li> -->
 
             <!-- USER MANAGEMENT -->
             @can('user_management_access')
