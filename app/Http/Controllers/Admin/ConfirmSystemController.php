@@ -108,6 +108,8 @@ class ConfirmSystemController extends Controller
             $location = DB::table('companies')->where('id',  $company)->pluck('id')->first();
             $sprzęt_zast= DB::table('task_type')->where('name',  'Sprzęt zastępczy(SZ)')->pluck('id')->first();
 
+            $comments1 = $request->comments[0];
+
             $time1= strtotime(implode($start));          
             $time2= strtotime(implode($end));          
             $diff = $time2-$time1;
@@ -139,8 +141,9 @@ class ConfirmSystemController extends Controller
                     'time' => $diff2,
                     'order' =>'SRW/'. $number_order. '/'. $year,
                     'description' =>$request->description[$key],
-                    'comments' =>  $request->comments[$key],                 
-                );   
+                    'comments' => $comments1,                
+                );  
+                
 
                 if (!empty($description_goods[$key])){
                     foreach ($description_goods as $key => $value) {
@@ -323,7 +326,7 @@ class ConfirmSystemController extends Controller
         $time2= strtotime(implode($end));          
         $diff = $time2-$time1;
         $diff2 = date("H:i",  $diff); 
-        
+        $comments1 = $request->comments[0];
         $job = Job::findOrFail($id);
 
         foreach ($description as $key => $value) 
@@ -356,7 +359,7 @@ class ConfirmSystemController extends Controller
                 'order' => $order,
                 'fk_user' => $user_order,
                 'description' =>$request->description[$key],
-                'comments' =>  $request->comments[$key], 
+                'comments' =>  $comments1, 
                                 
             );   
             // możliwość aktualizacji
@@ -371,8 +374,8 @@ class ConfirmSystemController extends Controller
             }
         };   
         
-        if (!empty($request->comments[$key])) {
-            $comments = explode("\n", $request->comments[$key]);
+        if (!empty($comments1)) {
+            $comments = explode("\n", $comments1);
             foreach ($comments as $comment) {
                 $existingTask = Task::where('fk_user', $użytkownik)
                                      ->where('fk_company', $request->fk_company)
