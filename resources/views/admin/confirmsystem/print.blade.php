@@ -48,8 +48,8 @@
         <div class="row d-flex justify-content-center align-items-center">
             <div style="display: flex; align-items: center;">
                 <img alt="Qries" src="{{ asset('/img/logo.png')}}" width="80" height="100">
-                <h2 style="margin-left: 2%;"><strong> POTWIERDZENIE/ZLECENIE WYKONANIA USŁUG<br>
-                        DLA ZLECENIA: {{ $job->order ?? '' }}</strong>
+                <h2 style="margin-left: 2%;"><strong> {{ trans('cruds.print.title') }}<br>
+                {{ trans('cruds.print.order') }}: {{ $job->order ?? '' }}</strong>
                 </h2>
             </div>
         </div>

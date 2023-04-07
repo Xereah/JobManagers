@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('content')
 <div class="card-header bg-dark col-md-6 mx-auto">
-        {{ trans('global.create') }} Sprzęt
+{{ trans('global.edit') }} {{ trans('cruds.rep_eq.title_plural') }}
     </div>
 <div class="card col-md-6 mx-auto">
 

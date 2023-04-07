@@ -3,10 +3,10 @@
 
 <div class="card">
     <div class="card-header bg-dark">
-        {{ trans('cruds.typetask.title_singular') }} {{ trans('global.list') }}
+    {{ trans('global.list') }} {{ trans('cruds.typetask.title_plular') }}
         @can('TypeTask_create')
         <a class="btn btn-dark float-right" href="{{ route("admin.typetask.create") }}">
-                {{ trans('global.add') }} {{ trans('cruds.typetask.title_singular') }}
+        <i class="fa fa-plus"></i>  {{ trans('global.add') }} {{ trans('cruds.typetask.title_singular') }}
             </a>
         @endcan
     </div>
@@ -17,11 +17,8 @@
                 <thead>
                     <tr>
                         <th width="10">
-                        LP.
+                        {{ trans('global.lp') }}
                         </th>
-                        <!-- <th>
-                            {{ trans('cruds.typetask.fields.id') }}
-                        </th> -->
                         <th>
                             {{ trans('cruds.typetask.fields.name') }}
                         </th>
@@ -36,18 +33,10 @@
                             <td>
 
                             </td>
-                            <!-- <td>
-                                {{ $typetasks->id ?? '' }}
-                            </td> -->
                             <td>
                                 {{ $typetasks->name ?? '' }}
                             </td>
                             <td width="10">
-                                <!-- @can('TypeTask_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.typetask.show', $typetasks->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan -->
                                 <div class="btn-group" role="group">
                                 @can('TypeTask_edit')
                                     <a class="btn  btn-info" href="{{ route('admin.typetask.edit', $typetasks->id) }}" title="{{ trans('global.edit') }}">

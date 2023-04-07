@@ -1,8 +1,30 @@
 @extends('layouts.admin')
+
+@section('styles')
+<style>
+    div.dt-buttons {
+        float: left;
+        margin-right: 1em;
+    }
+
+    table.dataTable {
+        clear: both;
+        margin-top: 6px !important;
+        margin-bottom: 6px !important;
+        max-width: none !important;
+    }
+
+    table.dataTable th,
+    table.dataTable td {
+        white-space: nowrap;
+    }
+</style>
+@endsection
+
 @section('content')
 <div class="card">
     <div class="card-header bg-dark">
-        {{ trans('cruds.user.title_singular') }} {{ trans('global.list') }}
+    {{ trans('global.list') }} {{ trans('cruds.user.title_plural') }}
         @can('user_create')
         <a class="btn btn-dark float-right" href="{{ route("admin.users.create") }}">
         <i class="fa fa-plus"></i>  {{ trans('global.add') }} {{ trans('cruds.user.title_singular') }}
@@ -12,15 +34,14 @@
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-User">
+        <table id="example" class="table table-striped table-bordered dt-responsive nowrap datatable datatable-User" style="width:100%">
+           
                 <thead>
                     <tr>
                         <th width="10">
-                        LP.
+                        {{ trans('global.lp') }}
                         </th>
-                        <!-- <th>
-                            {{ trans('cruds.user.fields.id') }}
-                        </th> -->
+                        &nbsp;
                         <th>
                             {{ trans('cruds.user.fields.name') }}
                         </th>
@@ -61,12 +82,7 @@
                                 {{ $item->title }}
                                 @endforeach
                             </td>
-                            <td width="10">
-                                <!-- @can('user_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.users.show', $user->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan -->                             
+                            <td width="10">                                                       
                             
                                 <div class="btn-group" role="group">
                                 @can('user_edit')
@@ -144,4 +160,6 @@
 })
 
 </script>
+
+
 @endsection

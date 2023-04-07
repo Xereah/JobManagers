@@ -2,10 +2,10 @@
 @section('content')
 <div class="card">
     <div class="card-header bg-dark">
-        {{ trans('cruds.company.title_singular') }} {{ trans('global.list') }}
+    {{ trans('global.list') }} {{ trans('cruds.company.title_plural') }}
         @can('company_create')
         <a class="btn btn-dark float-right" href="{{ route("admin.companies.create") }}">
-        <i class="fa fa-plus"></i> {{ trans('global.add') }} {{ trans('cruds.company.title_singular') }}
+        <i class="fa fa-plus"></i> {{ trans('global.add') }} {{ trans('cruds.company.title_add') }}
             </a>
         @endcan
     </div>
@@ -32,7 +32,7 @@
            </tr>
                     <tr>
                         <th width="10">
-                        {{ trans('cruds.company.fields.lp') }}
+                        {{ trans('global.lp') }}
                         </th>
                        
                         <th >
@@ -102,11 +102,6 @@
                                 {{ $company->distance ?? '' }}
                             </td> 
                             <td width="10">
-                                <!-- @can('company_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.companies.show', $company->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan -->
                                 <div class="btn-group" role="group">
                                 @can('company_edit')
                                     <a class="btn  btn-info" href="{{ route('admin.companies.edit', $company->id) }}" title="{{ trans('global.edit') }}">
@@ -173,7 +168,7 @@
 
   $.extend(true, $.fn.dataTable.defaults, {
     order: [[ 1, 'desc' ]],
-    pageLength: 100,
+    pageLength: 10,
   });
   $('.datatable-Company:not(.ajaxTable)').DataTable({ buttons: dtButtons })
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){

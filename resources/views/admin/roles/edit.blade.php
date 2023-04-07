@@ -3,7 +3,7 @@
 
 <div class="card">
     <div class="card-header bg-dark">
-        {{ trans('global.edit') }} {{ trans('cruds.role.title_singular') }}
+        {{ trans('global.edit') }} {{ trans('cruds.role.title_plural') }}
     </div>
 
     <div class="card-body">

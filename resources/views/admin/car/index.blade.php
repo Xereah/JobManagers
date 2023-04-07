@@ -4,10 +4,10 @@
 @endcan
 <div class="card">
     <div class="card-header bg-dark">
-        {{ trans('cruds.company.title_singular') }} {{ trans('global.list') }}
+    {{ trans('global.list') }} {{ trans('cruds.cars.title_plural') }}
 
         <a class="btn btn-dark float-right" href="{{ route("admin.car.create") }}">
-        <i class="fa fa-plus"></i> {{ trans('global.add') }} Sprzęt
+        <i class="fa fa-plus"></i> {{ trans('global.add') }} {{ trans('cruds.cars.title_singular') }}
         </a>
 
     </div>
@@ -16,7 +16,7 @@
         <div class="table-responsive">
             <table class=" table table-bordered table-hover datatable" id="example">
                 <thead>
-                    <!-- <tr>
+                    <tr>
                         <th> <button class="btn btn-danger" id="btnSearch" name="btnSearch"><i
                                     class="fa fa-trash"></i></button></th>
                         <th><input id="filtr_marka" class="form-control" /></th>
@@ -24,24 +24,24 @@
                         <th><input id="filtr_rejestracja" class="form-control" /></th>
                         <th></th>
                 
-                    </tr> -->
+                    </tr> 
                     <tr>
                         <th width="10">
-                            {{ trans('cruds.company.fields.lp') }}
+                        {{ trans('global.lp') }}
                         </th>
 
                         <th>
-                            Marka
+                        {{ trans('cruds.cars.fields.mark') }}
                         </th>
                         <th>
-                           Model
+                        {{ trans('cruds.cars.fields.model') }}
                         </th>
                         <th>
-                           Numer rejestracyjny
+                        {{ trans('cruds.cars.fields.plates') }}
                         </th>
                      
                         <th>
-                            {{ trans('cruds.company.fields.action') }}
+                           
                         </th>
                     </tr>
                 </thead>

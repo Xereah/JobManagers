@@ -14,7 +14,7 @@
 <!-- Nagłówek -->
 <div class="card">
     <div class="card-header bg-dark">
-    <b> {{ trans('cruds.job.title_singular') }} {{ trans('global.list') }}</b>
+   {{ trans('global.list') }} {{ trans('cruds.job.title_plural') }} 
 
         @can('job_create')
         <a class="btn btn-dark float-right" data-attr="{{ route('admin.jobs.create') }}" ddata-toggle="modal" id="mediumButton" data-target="#mediumModal"><i
@@ -22,17 +22,17 @@
             {{ trans('global.add') }} {{ trans('cruds.job.title_singular') }}
         </a>
         <button type="button" class="btn btn-demo btn-dark btn-demo float-right" data-toggle="modal"
-            data-target="#myModal2"><i class="fa fa-filter"></i> Filtry </button>
+            data-target="#myModal2"><i class="fa fa-filter"></i> {{ trans('cruds.job.fields.filtrs') }} </button>
         @endcan
 
         <div class="form-check p-1 float-right"  id="filtr_platnosci">
             <input class="form-check-input" type="checkbox" id="paid-checkbox" value="2">
-            <label class="form-check-label" for="paid-checkbox">Płatne</label>
+            <label class="form-check-label" for="paid-checkbox">{{ trans('cruds.job.fields.paid_singular') }}</label>
         </div>
 
         <div class="form float-right" style="margin-right: 2%; text-align: center;" >
     <select class="form-control" style="display: inline-block;" id="filtr_umow">
-        <option value="">-------- Umowa --------</option>
+        <option value="">-------- {{ trans('cruds.job.fields.contracts') }} --------</option>
         @foreach($filter_contracts as $contracts)
         <option value="{{ $contracts ->id }}" style="text-align: center;">{{ $contracts-> contract_name }} </option>
         @endforeach
@@ -65,7 +65,7 @@
                             <div class="col">
                                 <label for="task_name" style="display:block;">{{ trans('cruds.job.fields.task_name') }}</label>                         
                                 <select class="form-control" style="width:100%;" id="task_name" name="task_name">
-                                    <option value="">-- wybierz --</option>
+                                    <option value="" >-----{{ trans('cruds.job.fields.choose') }}-----</option>
                                     @foreach($filter_task_name as $task_name)
                                         <option value="{{ $task_name->id }}">{{ $task_name->name }}</option>
                                     @endforeach
@@ -78,7 +78,7 @@
                                     style="display:block;">{{ trans('cruds.job.fields.task') }}</label>
                                 <select
                                     class="form-control" style="width:100%;" id="task" name="task">
-                                    <option value="">-- wybierz --</option>
+                                    <option value="">-----{{ trans('cruds.job.fields.choose') }}-----</option>
                                     @foreach($filter_task as $task)
                                     <option value="{{ $task ->id }}">{{ $task-> name }} </option>
                                     @endforeach
@@ -89,7 +89,7 @@
                                     style="display:block;">{{ trans('cruds.job.fields.company') }}</label>
                                 <select
                                     class="form-control select2" style="width:100%;" id="company" name="company">
-                                    <option value="">-- wybierz --</option>
+                                    <option value="">-----{{ trans('cruds.job.fields.choose') }}-----</option>
                                     @foreach($filter_company as $filter_companys)
                                     <option value="{{ $filter_companys ->id }}">{{ $filter_companys-> shortcode }}
                                     </option>
@@ -102,7 +102,7 @@
                                 <select
                                     class="form-control" style="width:100%;" id="contract_filter"
                                     name="contract_filter">
-                                    <option value="">-- wybierz --</option>
+                                    <option value="">-----{{ trans('cruds.job.fields.choose') }}-----</option>
                                     @foreach($filter_contracts as $contracts)
                                     <option value="{{ $contracts ->id }}">{{ $contracts-> contract_name }} </option>
                                     @endforeach
@@ -113,7 +113,7 @@
                                     style="display:block;">{{ trans('cruds.job.fields.performed') }}</label> 
                                 <select
                                     class="form-control" style="width:100%;" id="users" name="users">
-                                    <option value="">-- wybierz --</option>
+                                    <option value="">-----{{ trans('cruds.job.fields.choose') }}-----</option>
                                     @foreach($filter_user as $users)
                                     <option value="{{ $users ->id }}">{{ $users-> name }} {{ $users-> surname }}
                                     </option>
@@ -170,8 +170,8 @@
                         </div>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-                            <button type="submit" class="btn btn-primary ">Szukaj</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ trans('global.close') }}</button>
+                            <button type="submit" class="btn btn-primary ">{{ trans('global.search') }}</button>
                         </div>
                     </form>
                 </div>
@@ -240,7 +240,7 @@
 
                     <tr>
                          <th width="10">
-                            {{ trans('cruds.company.fields.lp') }}
+                            {{ trans('global.lp') }}
                         </th> 
                         <th width="10%;" >
                             {{ trans('cruds.job.fields.task_name') }}
@@ -281,10 +281,6 @@
                         <th>
                             {{ trans('cruds.job.fields.contracts') }}
                         </th>
-                      
-                        <!-- <th>
-                            {{ trans('cruds.company.fields.action') }}
-                        </th> -->
                     </tr>
                 </thead>
                 <tbody>

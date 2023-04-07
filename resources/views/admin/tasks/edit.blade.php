@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('content')
 <div class="card-header bg-dark col-md-6 mx-auto">
-        {{ trans('global.edit') }} Zadania
+        {{ trans('global.edit') }} {{ trans('cruds.task.title') }}
     </div>
 <div class="card col-md-6 mx-auto">
     <div class="card-body">
@@ -9,7 +9,7 @@
             @csrf
             @method('PUT')
             <div class="form-group {{ $errors->has('task_title') ? 'has-error' : '' }}">
-                <label for="fk_company" style="margin-top:1%;">{{ trans('cruds.job.fields.company') }}</label>
+                <label for="fk_company" style="margin-top:1%;">{{ trans('cruds.company.title_singular') }}</label>
                         <select name="fk_company" id="fk_company" class="form-control select2" required>
                             <option value=""></option>
                             @foreach($companies as $company)
@@ -20,7 +20,7 @@
                         </select>
             </div>
             <div class="form-group {{ $errors->has('task_title') ? 'has-error' : '' }}">
-                <label for="shortcode">Treść zadania*</label>
+                <label for="shortcode">{{ trans('cruds.task.fields.description') }}*</label>
                 <input type="text" id="task_title" name="task_title" value="{{ $task -> task_title }}" class="form-control" >
                 @if($errors->has('task_title'))
                     <em class="invalid-feedback">
@@ -31,20 +31,6 @@
                     {{ trans('cruds.company.fields.name_helper') }}
                 </p>
             </div>
-
-            <!-- <div class="form-group {{ $errors->has('task_description') ? 'has-error' : '' }}">
-                <label for="shortcode">Dodatkowe informacje</label>
-                <textarea class="form-control" name="task_description" id="task_description"  rows="2">{{ $task -> task_description }}</textarea>
-                @if($errors->has('task_description'))
-                    <em class="invalid-feedback">
-                        {{ $errors->first('task_description') }}
-                    </em>
-                @endif
-                <p class="helper-block">
-                    {{ trans('cruds.company.fields.name_helper') }}
-                </p>
-            </div> -->
-
             <div class="form-row" hidden>
                     <div class="form-group col-md-12">
                         <label for="fk_user" style="margin-top:1%;">Odpowiedzialny</label>
@@ -55,7 +41,7 @@
             </div>
 
             <div class="form-group {{ $errors->has('task_title') ? 'has-error' : '' }}">
-                <label for="execution_user" style="margin-top:1%;">Wykonujący</label>
+                <label for="execution_user" style="margin-top:1%;">{{ trans('cruds.task.fields.performed') }}</label>
                 <select id="execution_user" name="execution_user" class="form-control select2">
                                 @foreach($user_all as $users)
                                 <option value="{{ $users ->id }}" @if($users ->id == $task->execution_user) selected="selected"
@@ -65,7 +51,7 @@
             </div>
 
             <div class="form-group ">
-                            <label for="execution_date">Data wykonania</label>
+                            <label for="execution_date">  {{ trans('cruds.task.fields.typing_finish') }}</label>
 
                             <input type='date' id="execution_date" name="execution_date"
                                 value="{{ old('execution_date', isset($task) ? $task->execution_date : '') }}"
@@ -76,15 +62,15 @@
 
             <div class="form-row" >
                     <div class="form-group col-md-12">
-                    <label for="fk_company" style="margin-top:1%;">Postęp</label>
+                    <label for="fk_company" style="margin-top:1%;">  {{ trans('cruds.task.fields.progress') }}</label>
                     <select id="completed" name="completed" class="form-control">
                                 @if($task -> completed === 1 )
-                                <option value="{{$task->completed}}">Wykonane</option>
+                                <option value="{{$task->completed}}">{{ trans('cruds.task.fields.done') }}</option>
                                 @else
-                                <option value="{{$task->completed}}">Nie Wykonane</option>
+                                <option value="{{$task->completed}}">{{ trans('cruds.task.fields.not_done') }}</option>
                                 @endif
-                                <option value="0">Nie Wykonane</option>
-                                <option value="1">Wykonane</option>
+                                <option value="0">{{ trans('cruds.task.fields.not_done') }}</option>
+                                <option value="1">{{ trans('cruds.task.fields.done') }}</option>
 
                             </select>
                     </div>

@@ -9,7 +9,7 @@
 <body>
     <div class="">
         <ul class="nav nav-pills">
-            <li class="nav-item"><a class="nav-link active" href="#Zlecenie" data-toggle="tab">Zlecenie</a></li>
+            <li class="nav-item"><a class="nav-link active" href="#Zlecenie" data-toggle="tab">Zlecasdaenie</a></li>
             <li class="nav-item"><a class="nav-link" href="#Uwagi" data-toggle="tab">Uwagi</a></li>
             <li class="nav-item"><a class="nav-link" href="#Historia" data-toggle="tab">Historia</a></li>
         </ul>

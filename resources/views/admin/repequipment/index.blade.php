@@ -2,10 +2,10 @@
 @section('content')
 <div class="card">
     <div class="card-header bg-dark">
-        {{ trans('cruds.company.title_singular') }} {{ trans('global.list') }}
+    {{ trans('global.list') }} {{ trans('cruds.rep_eq.title_plural') }}
         @can('equipment_create')
         <a class="btn btn-dark float-right" href="{{ route("admin.repequipment.create") }}">
-        <i class="fa fa-plus"></i>  {{ trans('global.add') }} Sprzęt
+        <i class="fa fa-plus"></i>  {{ trans('global.add') }} {{ trans('cruds.rep_eq.title') }}
         </a>
         @endcan
     </div>
@@ -30,32 +30,32 @@
                     </tr>
                     <tr>
                         <th width="10">
-                            {{ trans('cruds.company.fields.lp') }}
+                        {{ trans('global.lp') }}
                         </th>
 
                         <th>
-                            Numer
+                        {{ trans('cruds.rep_eq.fields.number') }}
                         </th>
                         <th>
-                           Kategoria
+                        {{ trans('cruds.rep_eq.fields.category') }}
                         </th>
                         <th>
-                            Nazwa urządzenia
+                        {{ trans('cruds.rep_eq.fields.device_name') }}
                         </th>
                         <th>
-                            Numer seryjny
+                        {{ trans('cruds.rep_eq.fields.serial_number') }}
                         </th>
                         <th>
-                            Miejsce przebywania
+                        {{ trans('cruds.rep_eq.fields.place') }}
                         </th>
                         <th>
-                            Data wpisu
+                        {{ trans('cruds.rep_eq.fields.entry_date') }}
                         </th>
                         <th>
-                            Uwagi
+                        {{ trans('cruds.rep_eq.fields.comments') }}
                         </th>
                         <th>
-                            {{ trans('cruds.company.fields.action') }}
+                           
                         </th>
                     </tr>
                 </thead>

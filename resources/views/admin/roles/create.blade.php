@@ -2,7 +2,7 @@
 @section('content')
 
 <div class="card-header bg-dark col-md-6 mx-auto">
-{{ trans('global.create') }} {{ trans('cruds.role.title_singular') }}
+{{ trans('global.create') }} {{ trans('cruds.role.title') }}
     </div>
 
 <div class="card col-md-6 mx-auto">

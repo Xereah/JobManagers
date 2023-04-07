@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('content')
 <div class="card-header bg-dark col-md-6 mx-auto">
-        {{ trans('global.create') }} Zadanie
+        {{ trans('global.create') }} {{ trans('cruds.task.title') }}
     </div>
 <div class="card col-md-6 mx-auto">
     <div class="card-body">
@@ -10,7 +10,7 @@
 
         
             <div class="form-group {{ $errors->has('task_title') ? 'has-error' : '' }}">
-                <label for="fk_company" style="margin-top:1%;">{{ trans('cruds.job.fields.company') }}</label>
+                <label for="fk_company" style="margin-top:1%;">  {{ trans('cruds.company.title_singular') }}</label>
                         <select name="fk_company" id="fk_company" class="form-control select2" required>
                             <option value=""></option>
                             @foreach($companies as $company)                           
@@ -20,7 +20,7 @@
                         </select>
             </div>
             <div class="form-group {{ $errors->has('task_title') ? 'has-error' : '' }}">
-                <label for="shortcode">Treść zadania*</label>
+                <label for="shortcode">{{ trans('cruds.task.fields.description') }}*</label>
                 <input type="text" id="task_title" name="task_title" class="form-control" required >
                 @if($errors->has('task_title'))
                     <em class="invalid-feedback">
@@ -33,9 +33,9 @@
             </div>
             <div class="form-row">
                     <div class="form-group col-md-12">
-                        <label for="execution_user" style="margin-top:1%;">Osoba wykonująca</label>
+                        <label for="execution_user" style="margin-top:1%;"> {{ trans('cruds.task.fields.performed') }}</label>
                         <select id="execution_user" name="execution_user" class="form-control " required>
-                            <option value="">-- wybierz --</option>
+                            <option value="">-----{{ trans('cruds.job.fields.choose') }}-----</option>
                             @foreach($user_all as $userall)
                             
                             <option value="{{ $userall->id}}">{{ $userall->name }} {{ $userall->surname }}</option>
@@ -43,20 +43,6 @@
                         </select>
                     </div>
             </div>
-
-            <!-- <div class="form-group {{ $errors->has('task_description') ? 'has-error' : '' }}">
-                <label for="shortcode">Dodatkowe informacje</label>
-                <textarea class="form-control" name="task_description" id="task_description" rows="2"></textarea>
-                @if($errors->has('task_description'))
-                    <em class="invalid-feedback">
-                        {{ $errors->first('task_description') }}
-                    </em>
-                @endif
-                <p class="helper-block">
-                    {{ trans('cruds.company.fields.name_helper') }}
-                </p>
-            </div> -->
-
             <div class="form-row" hidden>
                     <div class="form-group col-md-12">
                         <label for="fk_user" style="margin-top:1%;">Odpowiedzialny</label>

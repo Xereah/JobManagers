@@ -7,7 +7,7 @@
 }
 </style>
 <div class="card-header bg-dark col-md-8 mx-auto">
-    System Potwierdzeń
+{{ trans('cruds.confirm_system.title') }}
 </div>
 <form action="{{ route("admin.ConfirmSystem.update", [$job->id]) }}" method="POST" enctype="multipart/form-data">
     @csrf
@@ -17,13 +17,13 @@
             <ul class="list-group py-3">
                 <li class="list-group-item"><input type="button"
                         class="btn btn-dark float-left btn-floating add col-md-12 addzadanie_pill"
-                        value="Dodaj zadanie"></li>
+                        value="{{ trans('global.add') }} {{ trans('cruds.job.title_singular') }}"></li>
                 <li class="list-group-item"><input type="button"
                         class="btn btn-danger float-left btn-floating addtowar col-md-12 addtowar_pill"
-                        value="Dodaj towary"></li>
+                        value="{{ trans('global.add') }} {{ trans('cruds.confirm_system.fields.goods') }}"></li>
                 <li class="list-group-item"><input type="button"
                         class="btn btn-primary float-left btn-floating addsprzet col-md-12 addsprzet_pill"
-                        value="Dodaj sprzęt zastępczy">
+                        value="{{ trans('global.add') }} {{ trans('cruds.rep_eq.title') }}">
                 </li>
                 <li class="list-group-item"><input class="btn btn-success float-right col-md-12 " type="submit"
                         value="{{ trans('global.update') }}">
@@ -43,7 +43,7 @@
                                 </select>
                             </div>
                             <div class="col">
-                                <label for="car">Samochód</label>
+                                <label for="car">{{ trans('cruds.cars.title_singular') }}</label>
                                 <select name="fk_car" id="fk_car" class="form-control select2" required>
                                     @foreach($car as $cars)
                                     <option value="{{ $cars->id }}" @if($cars->id == $job->fk_car)
@@ -53,12 +53,12 @@
                                 </select>
                             </div>
                             <div class="w-100"></div>
-                            <div class="col"> <label for="default-picker">Wyjazd</label>
+                            <div class="col"> <label for="default-picker">{{ trans('cruds.cars.fields.out') }}</label>
                                 <input type="time" id="start_car" name="start_car"
                                     value="{{ old('start_car', isset($job) ? $job->start_car : '') }}"
                                     class="form-control">
                             </div>
-                            <div class="col"><label for="default-picker">Przyjazd</label>
+                            <div class="col"><label for="default-picker">{{ trans('cruds.cars.fields.come') }}</label>
                                 <input type="time" id="end_car" name="end_car"
                                     value="{{ old('end_car', isset($job) ? $job->end_car : '') }}" class="form-control">
                             </div>
@@ -75,7 +75,7 @@
 
                                 </select>
                             </div>
-                            <div class="col"> <label for="start_date">Data usługi</label>
+                            <div class="col"> <label for="start_date">{{ trans('cruds.confirm_system.fields.task_date') }}</label>
                                 <input type='date' id="start_date" name="start_date"
                                     class="form-control input-group-addon"
                                     value="{{ old('start_date', isset($job) ? $job->start_date : '') }}" />
@@ -86,11 +86,11 @@
             </div>
         </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end py-2">
-            <!-- <input class="btn bg-danger float-right" href="{{ url('/SendMail') }}" type="submit" value="Wyślij"> -->
+          
 
             <a href="{{ url('/SendMail', [$job->id]) }}">
-                <input class="btn bg-success  float-right" onclick="return confirm('{{ trans('global.areYouSure') }}');"
-                    type="button" value="Wyślij Mail"></a>
+                <input class="btn bg-dark  float-right" onclick="return confirm('{{ trans('global.areYouSure') }}');"
+                    type="button" value="{{ trans('global.send') }} {{ trans('global.email') }}"></a>
 
             <a href="{{ route('admin.ConfirmSystem.show', $job->id) }}">
                 <input class="btn bg-success  float-right" type="button" value="{{ trans('global.datatables.print') }}">
@@ -103,24 +103,24 @@
     <ul class="nav nav-tabs col-md-8 mx-auto" id="myTab" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
-                aria-controls="pills-home" aria-selected="true">Zadanie</a>
+                aria-controls="pills-home" aria-selected="true">{{ trans('cruds.job.title_singular') }}</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="pills-uwagi-tab" data-toggle="pill" href="#pills-uwagi" role="tab"
-                aria-controls="pills-uwagi" aria-selected="false">Uwagi</a>
+                aria-controls="pills-uwagi" aria-selected="false">{{ trans('cruds.job.fields.comments') }}</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="pills-towary-tab" data-toggle="pill" href="#pills-towary" role="tab"
-                aria-controls="pills-towary" aria-selected="false">Towary</a>
+                aria-controls="pills-towary" aria-selected="false">{{ trans('cruds.confirm_system.fields.goods') }}</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="pills-equipment-tab" data-toggle="pill" href="#pills-equipment" role="tab"
-                aria-controls="pills-equipment" aria-selected="false">Sprzęt zastępczy</a>
+                aria-controls="pills-equipment" aria-selected="false">{{ trans('cruds.rep_eq.title') }}</a>
         </li>
 
         <li class="nav-item">
             <a class="nav-link" id="pills-equipment_loan-tab" data-toggle="pill" href="#pills-equipment_loan" role="tab"
-                aria-controls="pills-equipment_loan" aria-selected="false">Sprzęt zastępczy u klienta</a>
+                aria-controls="pills-equipment_loan" aria-selected="false">{{ trans('cruds.confirm_system.fields.rep_eq_company') }}</a>
         </li>
 
     </ul>
@@ -172,7 +172,7 @@
                                         </select>
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="default-picker">Wykonujący</label>
+                                        <label for="default-picker">{{ trans('cruds.job.fields.performed_singular') }}</label>
                                         <select id="fk_user" name="fk_user" class="form-control select2 ">
                                             @foreach($user_all as $users)
                                             <option value="{{ $users ->id }}" @if($users ->id == $job->fk_user)
@@ -234,7 +234,7 @@
                                 <div class="col-md-11 py-2">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <label for="description">Uwagi do wizyty</label>
+                                            <label for="description">{{ trans('cruds.job.fields.comments') }}</label>
                                             <textarea class="form-control" name="comments[]" id="comments"
                                                 rows="3">{{$job->comments}}</textarea>
                                         </div>
@@ -268,7 +268,7 @@
                             <div class="col-md-11">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <label for="default-picker">Pozostawiono towar</label>
+                                        <label for="default-picker">{{ trans('cruds.confirm_system.fields.goods_left') }}</label>
                                         <input name="id_towar[]" hidden class="form-control"
                                             value="{{ old('id', isset($jobs_towarys) ? $jobs_towarys->id : '') }}">
                                         <textarea class="form-control" name="description_goods[]"
@@ -316,7 +316,7 @@
                             <div class="col-md-11">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <label for="description">Pozostawiono sprzęt</label>
+                                        <label for="description">{{ trans('cruds.confirm_system.fields.rep_eq_left') }}</label>
                                         <input name="id_sprzet[]" id="id_sprzet[]" hidden class="form-control"
                                             value="{{ old('id', isset($jobs_sprzetzasts) ? $jobs_sprzetzasts->id : '') }}">
                                         <select name="fk_rep_eq[]" id="fk_rep_eq[]" required disabled
@@ -333,7 +333,7 @@
                                         </select>
                                     </div>
                                     <div>
-                                        <label for="description">Opis</label>
+                                        <label for="description">{{ trans('cruds.job.fields.description') }}</label>
                                         <textarea required class="form-control" required disabled
                                             name="description_eq[]" id="description_eq[]"
                                             rows="3">{{$jobs_sprzetzasts->description_eq}}</textarea>
@@ -365,19 +365,19 @@
                     <tr>
 
                         <th>
-                            Numer
+                        {{ trans('cruds.rep_eq.fields.number') }}
                         </th>
                         <th>
-                            Kategoria
+                        {{ trans('cruds.rep_eq.fields.category') }}
                         </th>
                         <th>
-                            Nazwa urządzenia
+                        {{ trans('cruds.rep_eq.fields.device_name') }}
                         </th>
                         <th>
-                            Data montażu u klienta
+                        {{ trans('cruds.rep_eq.fields.entry_date') }}
                         </th>
                         <th>
-                            Uwagi
+                        {{ trans('cruds.rep_eq.fields.comments') }}
                         </th>
                         <th>
 
@@ -410,7 +410,7 @@
                             <a class="btn btn-xs col-md-12  btn-success"
                                 href="{{ url('/is_loan', $RepEquipments->id) }}"
                                 onclick="return confirm('{{ trans('global.areYouSure') }}');">
-                                Zwrot
+                                {{ trans('global.return') }}
                             </a>
                             @endcan
 
@@ -509,7 +509,7 @@ $(function() {
                                         '</select>'+
                                     '</div>'+
                                     '<div class="col-md-6">'+
-                                        '<label for="default-picker">Wykonujący</label>'+
+                                        '<label for="default-picker">{{ trans('cruds.job.fields.performed_singular') }}</label>'+
                                         '<select id="fk_user" name="fk_user[]" class="form-control select2">'+
                                             '<option value="{{ $user->id}}">{{ $user->name }} {{ $user->surname }}'+
                                             '</option>'+
@@ -525,17 +525,13 @@ $(function() {
                                         '<label for="description">{{ trans('cruds.job.fields.description') }}</label>'+
                                         '<textarea class="form-control" name="description[]" id="description" rows="3"></textarea>'+
                                     '</div>'+
-                                    '<div class="col-md-12">'+
-                                        '<label for="description">Uwagi</label>'+
-                                        '<textarea class="form-control" name="comments[]" id="comments" rows="3"></textarea>'+
-                                    '</div>'+
                                 '</div>'+
                             '</div>'+
                         '</div>'+
                     '</div>'+
                 '</div>'+
                 '<button type="button" style="margin-left:90%;" class="btn btn-dark float-right btn-sm col-md-1 delete">'+
-                      'Anuluj</i>'+
+                '{{ trans('global.cancel') }}</i>'+
                     '</button>'+  
             '</div>';
 
@@ -574,7 +570,7 @@ $(function() {
                                 '<div class="col-md-11 py-2">'+
                                     '<div>'+
                                         '<div>'+
-                                            '<label for="description_goods">Pozostawiono towar</label>'+
+                                            '<label for="description_goods">{{ trans('cruds.confirm_system.fields.goods_left') }}</label>'+
                                             '<textarea class="form-control" name="description_goods[]"  id="description_goods[]" rows="3"></textarea>'+
                                         '</div>'+
                                     '</div>'+
@@ -583,7 +579,7 @@ $(function() {
                         '</div>'+
                     '</div>'+
                     '<button type="button" style="margin-left:95%;" class="btn btn-dark float-right btn-sm col-md-1 delete_towar">'+
-                      'Anuluj</i>'+
+                    '{{ trans('global.cancel') }}</i>'+
                     '</button>'+  
                 '</div>'+
             '</div>'+
@@ -619,7 +615,7 @@ $(function() {
                             '<div class="col-md-11 py-2">'+
                                 '<div>'+
                                     '<div>'+
-                                        '<label for="description">Pozostawiono sprzęt</label>'+
+                                        '<label for="description">{{ trans('cruds.confirm_system.fields.rep_eq_left') }}</label>'+
                                         '<select name="fk_rep_eq[]" id="fk_rep_eq[]" class="form-control select2"required>'+
                                             '<option value=""></option>'+
                                             '@foreach($repEquipment_loan_add as $repEquipments)'+
@@ -629,7 +625,7 @@ $(function() {
                                         '</select>'+
                                     '</div>'+
                                     '<div>'+
-                                        '<label for="description">Opis</label>'+
+                                        '<label for="description">{{ trans('cruds.job.fields.description') }}</label>'+
                                         '<textarea class="form-control" name="description_eq[]" id="description_eq[]" rows="3"></textarea>'+
                                     '</div>'+
                                 '</div>'+
@@ -637,7 +633,7 @@ $(function() {
                         '</div>'+
                     '</div>'+
                     '<button type="button" style="margin-left:95%;" class="btn btn-dark float-right btn-sm col-md-1 delete3">'+
-                     'Anuluj</i>'+
+                    '{{ trans('global.cancel') }}</i>'+
                     '</button>'+  
                 '</div>'+
             '</div>';

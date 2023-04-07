@@ -2,7 +2,7 @@
 @section('content')
 <div class="card">
     <div class="card-header bg-dark">
-        {{ trans('cruds.permission.title_singular') }} {{ trans('global.list') }}
+    {{ trans('global.list') }} {{ trans('cruds.permission.title_plural') }}
         @can('permission_create')
         <a class="btn btn-dark float-right" href="{{ route("admin.permissions.create") }}">
         <i class="fa fa-plus"></i>     {{ trans('global.add') }} {{ trans('cruds.permission.title_singular') }}
@@ -16,7 +16,7 @@
                 <thead>
                     <tr>
                         <th width="10">
-
+                            {{ trans('global.lp') }}
                         </th>
                         <th>
                             {{ trans('cruds.permission.fields.id') }}
@@ -33,7 +33,7 @@
                     @foreach($permissions as $key => $permission)
                         <tr data-entry-id="{{ $permission->id }}">
                             <td>
-
+                            &nbsp;
                             </td>
                             <td>
                                 {{ $permission->id ?? '' }}
@@ -112,7 +112,7 @@
 
   $.extend(true, $.fn.dataTable.defaults, {
     order: [[ 1, 'desc' ]],
-    pageLength: 100,
+  
   });
   $('.datatable-Permission:not(.ajaxTable)').DataTable({ buttons: dtButtons })
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){

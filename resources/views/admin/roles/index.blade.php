@@ -2,10 +2,10 @@
 @section('content')
 <div class="card">
     <div class="card-header bg-dark">
-        {{ trans('cruds.role.title_singular') }} {{ trans('global.list') }}
+    {{ trans('global.list') }} {{ trans('cruds.role.title_plural') }}
         @can('role_create')
         <a class="btn btn-dark float-right" href="{{ route("admin.roles.create") }}">
-        <i class="fa fa-plus"></i>   {{ trans('global.add') }} {{ trans('cruds.role.title_singular') }}
+        <i class="fa fa-plus"></i>   {{ trans('global.add') }} {{ trans('cruds.role.title') }}
             </a>
         @endcan
     </div>
@@ -16,7 +16,7 @@
                 <thead>
                     <tr>
                         <th width="10">
-                        LP
+                        {{ trans('global.lp') }}
                         </th>
                       
                         <th>
@@ -34,7 +34,7 @@
                     @foreach($roles as $key => $role)
                         <tr data-entry-id="{{ $role->id }}">
                             <td>
-
+                            &nbsp;
                             </td>
                             
                             <td>
@@ -119,7 +119,7 @@
 
   $.extend(true, $.fn.dataTable.defaults, {
     order: [[ 1, 'desc' ]],
-    pageLength: 100,
+    pageLength: 10,
   });
   $('.datatable-Role:not(.ajaxTable)').DataTable({ buttons: dtButtons })
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){

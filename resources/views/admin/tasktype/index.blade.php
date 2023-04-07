@@ -2,7 +2,7 @@
 @section('content')
 <div class="card">
     <div class="card-header bg-dark">
-        {{ trans('cruds.tasktype.title_singular') }} {{ trans('global.list') }}
+    {{ trans('global.list') }} {{ trans('cruds.tasktype.title_plular') }}
         @can('TaskType_create')
         <a class="btn btn-dark float-right" href="{{ route("admin.tasktype.create") }}">
         <i class="fa fa-plus"></i> {{ trans('global.add') }} {{ trans('cruds.tasktype.title_singular') }}
@@ -17,10 +17,7 @@
                 <thead>
                     <tr>
                         <th width="10">
-
-                        </th>
-                        <th>
-                            {{ trans('cruds.tasktype.fields.id') }}
+                            {{ trans('global.lp') }}
                         </th>
                         <th>
                             {{ trans('cruds.tasktype.fields.name') }}
@@ -40,9 +37,6 @@
 
                             </td>
                             <td>
-                                {{ $Tasktypes->id ?? '' }}
-                            </td>
-                            <td>
                                 {{ $Tasktypes->name ?? '' }}
                             </td>
                             <td>
@@ -51,12 +45,6 @@
                                 @endforeach
                             </td>
                             <td width="10">
-                                <!-- @can('TaskType_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.tasktype.show', $Tasktypes->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan -->
-
                                 <div class="btn-group" role="group">
                                 @can('permission_edit')
                                     <a class="btn  btn-info" href="{{ route('admin.tasktype.edit', $Tasktypes->id) }}" title="{{ trans('global.edit') }}">

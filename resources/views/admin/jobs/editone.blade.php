@@ -9,9 +9,12 @@
 <body>
     <div class="">
         <ul class="nav nav-pills">
-            <li class="nav-item"><a class="nav-link active" href="#Zlecenie" data-toggle="tab">Zlecenie</a></li>
-            <li class="nav-item"><a class="nav-link" href="#Uwagi" data-toggle="tab">Uwagi</a></li>
-            <li class="nav-item"><a class="nav-link" href="#Historia" data-toggle="tab">Historia</a></li>
+            <li class="nav-item"><a class="nav-link active" href="#Zlecenie"
+                    data-toggle="tab">{{ trans('cruds.job.title_singular') }}</a></li>
+            <li class="nav-item"><a class="nav-link" href="#Uwagi" data-toggle="tab">
+                    {{ trans('cruds.job.fields.comments') }}</a></li>
+            <li class="nav-item"><a class="nav-link" href="#Historia"
+                    data-toggle="tab">{{ trans('global.history') }}</a></li>
         </ul>
     </div><!-- /.card-header -->
 
@@ -41,7 +44,7 @@
                         </div>
 
                         <div class="form-group col-md-6">
-                            <label for="rns" style="margin-top:1%;">Miejsce wykonania</label>
+                            <label for="rns" style="margin-top:1%;">{{ trans('cruds.job.fields.place') }}</label>
                             <select name="location" id="myText" class="form-control select2" required>
                                 <option value="{{$job->location}}">
 
@@ -88,7 +91,8 @@
 
                     <div class="form-row" style="margin-left:1%;margin-right:1%;">
                         <div class="form-group col-md-6">
-                            <label for="paid" style="margin-top:1%;">Odpowiedzialny</label>
+                            <label for="paid"
+                                style="margin-top:1%;">{{ trans('cruds.job.fields.performed_singular') }}</label>
                             <select id="user" name="fk_user" class="form-control select2">
                                 @foreach($user_all as $users)
                                 <option value="{{ $users ->id }}" @if($users ->id == $job->fk_user) selected="selected"
@@ -98,7 +102,7 @@
                         </div>
 
                         <div class="form-group col-md-6">
-                            <label for="rns" style="margin-top:1%;">RNS</label>
+                            <label for="rns" style="margin-top:1%;">{{ trans('cruds.job.fields.rns') }}</label>
                             <input type="number" id="rns" name="rns" class="form-control"
                                 value="{{ old('rns', isset($job) ? $job->rns : '') }}" required>
                         </div>
@@ -143,7 +147,7 @@
                         </div>
                     </div>
                     <div class="form-row" style="margin-left:1%;margin-right:1%;">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-12">
                             <label for="fk_typetask">
                                 {{ trans('cruds.job.fields.task_name') }}</label>
                             <select name="fk_typetask[]" id="fk_typetask" class="form-control select2 " required>
@@ -154,42 +158,53 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group col-md-6">
+                        <!-- <div class="form-group col-md-6">
                             <label for="comments">{{ trans('cruds.job.fields.value') }}</label>
                             <input type="number" class="form-control" name="value[]" id="value"
                                 value="{{ old('value', isset($job) ? $job->value : '') }}">
-                        </div>
+                        </div> -->
 
                     </div>
 
                     <div class="form-row" style="margin-left:1%;margin-right:1%;">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-12">
                             <label for="description">{{ trans('cruds.job.fields.description') }}</label>
                             <textarea class="form-control" name="description[]" id="comments"
                                 rows="3">{{$job->description}}</textarea>
                         </div>
-                        <div class="form-group col-md-6">
-                            <label for="comments">Comments</label>
+                        <!-- <div class="form-group col-md-6">
+                            <label for="comments">{{ trans('cruds.job.fields.comments') }}</label>
                             <textarea class="form-control" name="comments[]" id="comments"
                                 rows="3">{{$job->comments}}</textarea>
-                        </div>
+                        </div> -->
 
                     </div>
                     <div class="form-group col-md-6" style="display:none">
-                        <label for="id" style="margin-top:1%;">RNS</label>
+                        <label for="id" style="margin-top:1%;">{{ trans('cruds.job.fields.rns') }}</label>
                         <input type="number" id="id" name="id[]" class="form-control"
                             value="{{ old('id', isset($job) ? $job->id : '') }}" required>
                     </div>
-
-                    <div>
-                <input class="btn btn-success float-right " type="submit" value="{{ trans('global.save') }}"><a href="{{ route('admin.jobs.show', $job->id) }}">
-                <input class="btn btn-info  float-right" type="button" value="{{ trans('global.datatables.print') }}">
-                </a>
-                </div>
                 </div>
 
-          
-                
+                <div class="resultbody "></div>
+                <div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <input type="button" class="btn btn-dark float-left btn-floating add"
+                            value="Dodaj nowe zadanie">
+                    </div>
+                    <div class="col">
+                        <input class="btn btn-success float-right " type="submit" value="{{ trans('global.save') }}">
+                        <a href="{{ route('admin.jobs.show', $job->id) }}">
+                            <input class="btn btn-info  float-right" type="button"
+                                value="{{ trans('global.datatables.print') }}">
+
+                        </a>
+                    </div>
+                </div>
+
             </form>
         </div>
         <!-- /.tab-pane -->
@@ -198,15 +213,16 @@
         </div>
         <!-- /.tab-pane -->
         <div class="tab-pane" id="Historia">
-           @if(!empty($Notification))
-        @foreach($Notification as $Notifications)
-        <td>Użytkownik {{$Notifications->NotificationUser->name}} {{$Notifications->NotificationUser->surname}}
-            modyfikował rekord {{$Notifications->date}}
-        </td><hr>
-        @endforeach
-        @else
-        <td> Dawno dawno temu....</td>
-       @endif  
+            @if(!empty($Notification))
+            @foreach($Notification as $Notifications)
+            <td>Użytkownik {{$Notifications->NotificationUser->name}} {{$Notifications->NotificationUser->surname}}
+                modyfikował rekord {{$Notifications->date}}
+            </td>
+            <hr>
+            @endforeach
+            @else
+            <td> Dawno dawno temu....</td>
+            @endif
         </div>
         <!-- /.tab-pane -->
     </div>
@@ -217,6 +233,7 @@
 
 </html>
 
+
 <script type="text/javascript">
 $(function() {
     $('.add').click(function() {
@@ -226,52 +243,44 @@ $(function() {
         '<div class="card">'+
             '<h5 class="card-header bg-dark">{{ trans('cruds.job.fields.description') }}</h5>'+
             ' <button type="button" style="margin-left:91%;" class="btn btn-dark float-right btn-sm col-md-1 delete">'+
-                      '<i class="fas fa-minus"></i>'+
+                      'X</i>'+
                     '</button>'+
             
             '<div class="form-row " style="margin-left:1%;margin-right:1%;">'+
             '<div class="form-group col-md-6">'+
                         '<label for="default-picker">{{ trans('cruds.job.fields.startdate') }}</label>'+
-                       '<input type="date" id="startdate" name="start_date_new" class="form-control input-group-addon" value="{{ date("Y-m-d") }}">'+
+                       '<input type="date" id="startdate" name="start_date_new[]" class="form-control input-group-addon" value="{{ date("Y-m-d") }}">'+
                        '</div>'+
                    
                     '<div class="form-group col-md-6">'+
                         '<label for="default-picker">{{ trans('cruds.job.fields.enddate') }}</label>'+
-                       '<input type="date" id="enddate" name="end_date_new" class="form-control" value="{{ date("Y-m-d") }}">'+
+                       '<input type="date" id="enddate" name="end_date_new[]" class="form-control" value="{{ date("Y-m-d") }}">'+
                     '</div>'+
                     '<div class="form-group col-md-6">'+
                         '<label for="default-picker">{{ trans('cruds.job.fields.start') }}</label>'+
-                       '<input type="time" id="start" name="start_new" class="form-control" placeholder="Select time">'+
+                       '<input type="time" id="start" name="start_new[]" class="form-control" placeholder="Select time">'+
                     '</div>'+
                     '<div class="form-group col-md-6">'+
                         '<label for="default-picker">{{ trans('cruds.job.fields.end') }}</label>'+
-                        '<input type="time" id="end" name="end_new" class="form-control" placeholder="Select time">'+
+                        '<input type="time" id="end" name="end_new[]" class="form-control" placeholder="Select time">'+
                     '</div>'+
                 '</div>'+
                 '<div class="form-row " style="margin-left:1%;margin-right:1%;">'+
-            '<div class="form-group col-md-6">'+
+            '<div class="form-group col-md-12">'+
             '<label for="fk_typetask" >{{ trans('cruds.job.fields.task_name') }}</label>'+
-            '<select name="fk_typetask_new" id="fk_typetask" class="form-control select2" required>'+                       
-                    '  @foreach($TypeTask as $id => $TypeTasks)'+
-                          '<option value="{{ $TypeTasks->name }}">{{ $TypeTasks ->name }}</option>'+
-                      '@endforeach'+
+            '<select name="fk_typetask_new[]" id="fk_typetask" class="form-control select2" required>'+                       
+                                '@foreach($list as $lists)'+
+                                '<option value="{{ $lists->type_task_id }}" @if($lists->type_task_id ==$job->fk_typetask) selected="selected" @endif>{{ $lists->TaskId->name }}'+
+                               '</option>'+
+                                '@endforeach'+
                  '</select>'+
             '</div>'+
-            '<div class="form-group col-md-6">'+
-                        '<label for="default-picker">{{ trans('cruds.job.fields.value') }}</label>'+
-                       '<input type="number" id="value" name="value_new" class="form-control" >'+
-                    '</div>'+
                     '</div>'+
             '<div class="form-row" style="margin-left:1%;margin-right:1%;">'+
-            '<div class="form-group col-md-6">'+
+            '<div class="form-group col-md-12">'+
             '<label for="description">{{ trans('cruds.job.fields.description') }}</label>'+
-            '<textarea class="form-control" name="description_new" id="description" rows="3"></textarea>'+
+            '<textarea class="form-control" name="description_new[]" id="description" rows="3"></textarea>'+
             '</div>'+
-            '<div class="form-group col-md-6">'+
-            '<label for="description">Comments</label>'+
-            '<textarea class="form-control" name="comments_new" id="comments" rows="3"></textarea>'+
-            '</div>'+
-
             '</div>'+
             
             '</div>';

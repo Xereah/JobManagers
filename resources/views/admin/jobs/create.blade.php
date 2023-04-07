@@ -29,7 +29,7 @@
                         </select>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="rns" style="margin-top:1%;">Miejsce wykonania</label>
+                        <label for="rns" style="margin-top:1%;">{{ trans('cruds.job.fields.place') }}</label>
                         <select name="location" id="myText" class="form-control" required>
                             <option value="3">Kasper Komputer Sp. z o.o</option>
                             @foreach($companies as $company)
@@ -54,8 +54,8 @@
                     <div class="form-group col-md-6">
                         <label for="paid" style="margin-top:1%;">{{ trans('cruds.job.fields.paid') }}</label>
                         <select id="paid" name="paid" class="form-control ">
-                            <option value="1">Bezpłatne</option>
-                            <option value="2">Płatne</option>
+                            <option value="1">{{ trans('global.free') }}</option>
+                            <option value="2">{{ trans('global.paid') }}</option>
                         </select>
                     </div>
                  
@@ -63,7 +63,7 @@
 
                 <div class="form-row" style="margin-left:1%;margin-right:1%;">
                     <div class="form-group col-md-6">
-                        <label for="fk_user" style="margin-top:1%;">Odpowiedzialny</label>
+                        <label for="fk_user" style="margin-top:1%;">{{ trans('cruds.job.fields.performed_singular') }}</label>
                         <select id="fk_user" name="fk_user" class="form-control ">
                             <option value="{{ $user->id}}">{{ $user->name }} {{ $user->surname }}
                             </option>
@@ -75,7 +75,7 @@
                     </div>
 
                     <div class="form-group col-md-6">
-                        <label for="rns" style="margin-top:1%;">RNS</label>
+                        <label for="rns" style="margin-top:1%;">{{ trans('cruds.job.fields.rns') }}</label>
                         <input type="number" name="rns" class="form-control">
                     </div>
                 </div>
@@ -115,7 +115,7 @@
                     </div>
                 </div>
                 <div class="form-row" style="margin-left:1%;margin-right:1%;">
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-12">
                     <label for="fk_typetask"> 
                         {{ trans('cruds.job.fields.task_name') }}</label>
                    
@@ -127,22 +127,22 @@
                     </select>
                   
                 </div>
-                    <div class="form-group col-md-6">
+                    <!-- <div class="form-group col-md-6">
                         <label for="comments">{{ trans('cruds.job.fields.value') }}</label>
                         <input type="number" class="form-control" name="value[]" value="0" id="value[]"></textarea>
-                    </div>
+                    </div> -->
 
                 </div>
 
                 <div class="form-row" style="margin-left:1%;margin-right:1%;">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-12">
                         <label for="description">{{ trans('cruds.job.fields.description') }}</label>
                         <textarea class="form-control" name="description[]" id="comments[]" rows="3"></textarea>
                     </div>
-                    <div class="form-group col-md-6">
-                        <label for="comments">Comments</label>
+                    <!-- <div class="form-group col-md-6">
+                        <label for="comments">{{ trans('cruds.job.fields.comments') }}</label>
                         <textarea class="form-control" name="comments[]" id="comments[]" rows="3"></textarea>
-                    </div>
+                    </div> -->
 
                 </div>
             </div>
@@ -150,7 +150,7 @@
             <div>
                 <input class="btn btn-success float-right" type="submit" value="{{ trans('global.save') }}">
                 <button type="button" class="btn btn-dark float-left btn-floating add">
-                      Dodaj nowe zadanie
+                {{ trans('global.add') }} {{ trans('global.new') }} {{ trans('cruds.job.title_singular') }}
                     </button>
         </form>
 
@@ -192,7 +192,7 @@ $(function() {
                     '</div>'+
                 '</div>'+
                 '<div class="form-row " style="margin-left:1%;margin-right:1%;">'+
-            '<div class="form-group col-md-6">'+
+            '<div class="form-group col-md-12">'+
             '<label for="fk_typetask" >{{ trans('cruds.job.fields.task_name') }}</label>'+
             '<select id="fk_typetask1" name="fk_typetask[]"  class="form-control " required>'+  
                                 '@foreach($list as $lists)'+
@@ -201,19 +201,11 @@ $(function() {
                                 '@endforeach'+  
                     '</select>'+
             '</div>'+
-            '<div class="form-group col-md-6">'+
-                        '<label for="default-picker">{{ trans('cruds.job.fields.value') }}</label>'+
-                       '<input type="number" id="value" name="value[]" class="form-control" >'+
-                    '</div>'+
                     '</div>'+
             '<div class="form-row" style="margin-left:1%;margin-right:1%;">'+
-            '<div class="form-group col-md-6">'+
+            '<div class="form-group col-md-12">'+
             '<label for="description">{{ trans('cruds.job.fields.description') }}</label>'+
             '<textarea class="form-control" name="description[]" id="description" rows="3"></textarea>'+
-            '</div>'+
-            '<div class="form-group col-md-6">'+
-            '<label for="description">Comments</label>'+
-            '<textarea class="form-control" name="comments[]" id="comments" rows="3"></textarea>'+
             '</div>'+
             '</div>'+
             

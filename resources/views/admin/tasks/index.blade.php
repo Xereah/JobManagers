@@ -2,10 +2,10 @@
 @section('content')
 <div class="card">
     <div class="card-header bg-dark">
-        Lista Zadań
+    {{ trans('global.list') }} {{ trans('cruds.task.title_singular') }}
         @can('company_create')
         <a class="btn btn-dark float-right" href="{{ route("admin.tasks.create") }}">
-        <i class="fa fa-plus"></i>  {{ trans('global.add') }} Zadanie
+        <i class="fa fa-plus"></i>  {{ trans('global.add') }} {{ trans('cruds.task.title_plural') }}
             </a>
         @endcan
         <div class="form-check p-1 float-right" id="filtr_kontrahent">
@@ -40,35 +40,35 @@
            </tr>
                     <tr>
                         <th width="15">
-                        {{ trans('cruds.company.fields.lp') }}
+                        {{ trans('global.lp') }}
                         </th>
                        
                         <th width="10" >
-                            Kontrahent
+                        {{ trans('cruds.company.title_singular') }}
                         </th>
                         <th>
-                           Zadanie
+                        {{ trans('cruds.task.title_plural') }}
                         </th>
                        
                         <th width="10">
-                          Wpisujący
+                        {{ trans('cruds.task.fields.typing') }}
                         </th>
                         <th width="10">
-                         Data wpisu
+                        {{ trans('cruds.task.fields.typing_date') }}
                         </th>
                         <th width="10">
-                          Wykonujący
+                        {{ trans('cruds.task.fields.performed') }}
                         </th>
                         <th width="10">
-                         Data wykonania
+                        {{ trans('cruds.task.fields.typing_finish') }}
                         </th>
                         <th width="10">
-                           Postęp
+                        {{ trans('cruds.task.fields.progress') }}
                         </th>
                         <th width="10">                          
                         </th>
                         <th width="10" hidden>
-                           Kontrakt                         
+                        {{ trans('cruds.job.fields.contracts') }}                   
                         </th>
 
                       
