@@ -140,7 +140,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label for="default-picker">{{ trans('cruds.job.fields.performed_singular') }}</label>
-                                        <select id="fk_user" name="fk_user" class="form-control select2">
+                                        <select id="fk_user[]" name="fk_user[]" class="form-control select2">
                                             <option value="{{ $user->id}}">{{ $user->name }} {{ $user->surname }}
                                             </option>
                                             @foreach($user_all as $users)
@@ -365,7 +365,7 @@ $(function() {
                                     '</div>'+
                                     '<div class="col-md-6">'+
                                         '<label for="default-picker">{{ trans('cruds.job.fields.performed_singular') }}</label>'+
-                                        '<select id="fk_user" name="fk_user" class="form-control select2">'+
+                                        '<select id="fk_user[]" name="fk_user[]" class="form-control select2">'+
                                             '<option value="{{ $user->id}}">{{ $user->name }} {{ $user->surname }}'+
                                             '</option>'+
                                             '@foreach($user_all as $users)'+

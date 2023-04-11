@@ -96,7 +96,7 @@ class ConfirmSystemController extends Controller
             $end = $request->input('end',[]);
             $fk_typetask = $request->input('fk_typetask',[]);
             $description = $request->input('description',[]);  
-            $użytkownik = $request->input('fk_user');  
+            $użytkownik = $request->input('fk_user',[]);   
             $description_goods = $request->input('description_goods',[]);  
             $fk_rep_eq = $request->input('fk_rep_eq',[]);
             $description_eq = $request->input('description_eq',[]);               
@@ -107,7 +107,7 @@ class ConfirmSystemController extends Controller
             $slugi_typ = DB::table('type_task')->where('name', 'Serwis sprzętu komputerowego')->pluck('id')->first();
             $location = DB::table('companies')->where('id',  $company)->pluck('id')->first();
             $sprzęt_zast= DB::table('task_type')->where('name',  'Sprzęt zastępczy(SZ)')->pluck('id')->first();
-
+            $user_auth = Auth::user();
             $comments1 = $request->comments[0];
 
             $time1= strtotime(implode($start));          
@@ -135,7 +135,7 @@ class ConfirmSystemController extends Controller
                     'fk_tasktype' =>  $usługi,
                     'end' => $request->end[$key],
                     'fk_typetask' =>  $request->fk_typetask[$key],
-                    'fk_user' =>  $użytkownik,
+                    'fk_user' =>  $request->fk_user[$key],
                     'fk_contract' =>  $contract,
                     'location' =>$location,
                     'time' => $diff2,
@@ -143,7 +143,7 @@ class ConfirmSystemController extends Controller
                     'description' =>$request->description[$key],
                     'comments' => $comments1,                
                 );  
-                
+               
 
                 if (!empty($description_goods[$key])){
                     foreach ($description_goods as $key => $value) {
@@ -158,10 +158,11 @@ class ConfirmSystemController extends Controller
                         'fk_tasktype' =>  $towary,
                         'fk_typetask' =>  $slugi_typ,
                         'fk_contract' =>  $contract,
-                        'fk_user' =>  $użytkownik,
+                        'fk_user' =>  $request->fk_user[$key],
                         'order' =>'SRW/'. $number_order. '/'. $year,
                         'description_goods' =>$description_goods[$key],
-                    );  
+                    ); 
+                   
                     $created = Job::insert($data1); 
                 }
             }
@@ -179,11 +180,12 @@ class ConfirmSystemController extends Controller
                     'fk_tasktype' =>  $sprzęt_zast,
                     'fk_contract' =>  $contract,
                     'fk_typetask' =>  $slugi_typ,
-                    'fk_user' =>   $użytkownik,
+                    'fk_user' =>  $request->fk_user[$key],
                     'order' =>'SRW/'. $number_order. '/'. $year,
                     'fk_rep_eq' =>$fk_rep_eq[$key],
                     'description_eq'=>$description_eq[$key],
                 ); 
+              
                  $created = Job::insert($data2); 
 
                  $data3 =array(
@@ -199,14 +201,15 @@ class ConfirmSystemController extends Controller
             $comments = explode("\n", $request->comments[$key]);
             foreach ($comments as $comment) {
                 $data4 = array(
-                    'fk_user' => $użytkownik,
+                    'fk_user' =>  $user_auth->id,
                     'fk_company' => $request->fk_company,
                     'task_title' => trim($comment),
-                    'execution_user' => $użytkownik,
+                    'execution_user' => $user_auth->id,
                     'fk_contract' => $contract,
                     'completed' => 0,
                     'created_at' => $now,
                 );
+               
                 $created = Task::insert($data4);
             }
         }     
@@ -299,6 +302,11 @@ class ConfirmSystemController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        $validatedData = $request->validate([
+            'description' => 'required',
+        ]);
+
         $last = DB::table('jobs')->distinct('order')->count('order');
         if($last == 0){$last=0;}
         else{$last;}
@@ -321,6 +329,7 @@ class ConfirmSystemController extends Controller
         $sprzęt_zast= DB::table('task_type')->where('name',  'Sprzęt zastępczy(SZ)')->pluck('id')->first();
         $order = $request->input('order');
         $user_order = $request->input('user_order');
+        $user_auth = Auth::user();
 
         $time1= strtotime(implode($start));          
         $time2= strtotime(implode($end));          
@@ -357,11 +366,14 @@ class ConfirmSystemController extends Controller
                 'location' =>$location,
                 'time' => $diff2,
                 'order' => $order,
-                'fk_user' => $user_order,
+                'fk_user' =>  $request->fk_user[$key],
                 'description' =>$request->description[$key],
                 'comments' =>  $comments1, 
                                 
-            );   
+            ); 
+            
+           
+            
             // możliwość aktualizacji
             if(!empty($id_opis[$key]))
             {
@@ -381,9 +393,7 @@ class ConfirmSystemController extends Controller
                                      ->where('fk_company', $request->fk_company)
                                      ->where('task_title', trim($comment))
                                      ->first();
-                if ($existingTask) {
-                    // modify existing task
-                    $existingTask->execution_user = $użytkownik;
+                if ($existingTask) {                  
                     $existingTask->fk_contract = $contract;
                     $existingTask->completed = 0;
                     $existingTask->created_at = $now;
@@ -391,14 +401,14 @@ class ConfirmSystemController extends Controller
                 } else {
                     // create new task
                     $data4 = array(
-                        'fk_user' => $użytkownik,
+                        'fk_user' => $user_auth->id,
                         'fk_company' => $request->fk_company,
                         'task_title' => trim($comment),
-                        'execution_user' => $użytkownik,
+                        'execution_user' =>$user_auth->id,
                         'fk_contract' => $contract,
                         'completed' => 0,
                         'created_at' => $now,
-                    );
+                    );                   
                     $created = Task::insert($data4);
                 }
             }

@@ -80,6 +80,9 @@
                                     class="form-control input-group-addon"
                                     value="{{ old('start_date', isset($job) ? $job->start_date : '') }}" />
                             </div>
+                            <div class="col-md-12">
+                                        <input name="order"  class="form-control" value="{{ $job->order }}">
+                                    </div>
                         </div>
                     </div>
                 </div>
@@ -173,7 +176,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label for="default-picker">{{ trans('cruds.job.fields.performed_singular') }}</label>
-                                        <select id="fk_user" name="fk_user" class="form-control select2 ">
+                                        <select id="fk_user[]" name="fk_user[]" class="form-control select2 ">
                                             @foreach($user_all as $users)
                                             <option value="{{ $users ->id }}" @if($users ->id == $job->fk_user)
                                                 selected="selected" @endif>{{ $users->name }} {{ $users->surname }}
@@ -190,9 +193,7 @@
 
                                     </div>
                                    
-                                    <div class="col-md-12">
-                                        <input name="order" hidden class="form-control" value="{{ $job->order }}">
-                                    </div>
+                                   
                                     <div class="col-md-12">
                                         <input name="user_order" hidden class="form-control"
                                             value="{{ $job->fk_user }}">
@@ -332,7 +333,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div>
+                                    <div class="col-md-12">
                                         <label for="description">{{ trans('cruds.job.fields.description') }}</label>
                                         <textarea required class="form-control" required disabled
                                             name="description_eq[]" id="description_eq[]"

@@ -42,7 +42,23 @@ class JobsController extends Controller
 
             // $jobs = Job::orderBy('id', 'desc')->get();
             
-            return Datatables::of(Job::query()->orderBy('id', 'desc')->whereBetween('jobs.start_date', [$startDate, $endDate]))
+            return Datatables::of(Job::query()->orderBy('id', 'desc')
+            // ->where(function($query) {
+            //     $query->whereNotNull('description')
+            //           ->orWhereNotNull('description_goods')
+            //           ->orWhereNotNull('fk_rep_eq');
+            // })
+            // ->where(function($query) {
+            //     $query->whereNotNull('description')
+            //           ->orWhereNotNull('description_goods')
+            //           ->orWhereNotNull('fk_rep_eq');
+            // })
+            // ->where(function($query) {
+            //     $query->whereNotNull('description')
+            //           ->orWhereNotNull('description_goods')
+            //           ->orWhereNotNull('fk_rep_eq');
+            // })
+            ->whereBetween('jobs.start_date', [$startDate, $endDate]))
             ->editColumn('fk_typetask', function ($job) {
                 $order_querry="SRW/";
                 $pos = strpos($job->order, $order_querry);
@@ -119,7 +135,7 @@ class JobsController extends Controller
                     return  '<div style="text-align:left; max-height: 75px; overflow: auto;">' . $job->description . '</div>';
                 elseif(!(is_null($job->description_goods)))
                     return '<div style="text-align:left; max-height: 75px; overflow: auto;">' . $job->description_goods . '</div>';
-                else
+                elseif(!(is_null($job->fk_rep_eq)))
                     return '<div style="text-align:left; max-height: 75px; overflow: auto;">' . $job->repeq->eq_number . ' ' . $job->repeq->eq_name . '</div>';
             })        
                 ->addIndexColumn()
