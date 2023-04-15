@@ -64,8 +64,7 @@ class JobsController extends Controller
                 $pos = strpos($job->order, $order_querry);
 
                 if($pos === false)
-                return '<a class="text-success" data-toggle="modal" id="mediumButton" data-target="#mediumModal" data-toggle="tooltip" title="' . $job->description . '"
-                data-attr="'.url('/job/editone', $job->id).'">'.$job->type_task->name .'</a>';
+                return '<a class="text-success" data-toggle="tooltip" title="' . $job->description .'" href="'.route('admin.jobs.edit', $job->id).'">'.$job->type_task->name .'</a>';
                 else
                 return '<a class="text-info" data-toggle="tooltip" title="' . $job->description . '" href="'.route('admin.ConfirmSystem.edit', $job->id) . '">' . $job->type_task->name . '</a>';
             })
@@ -74,8 +73,7 @@ class JobsController extends Controller
                 $pos = strpos($job->order, $order_querry);
 
                 if($pos === false)
-                return '<a class="text-success" data-toggle="modal" id="mediumButton" data-target="#mediumModal"
-                data-attr="'.url('/job/editone', $job->id).'">'.$job->order .'</a>';
+                return '<a class="text-success" data-toggle="tooltip" title="' . $job->description .'" href="'.route('admin.jobs.edit', $job->id).'">'.$job->order .'</a>';
                 else
                 return '<a class="text-info" href="'.route('admin.ConfirmSystem.edit', $job->id) . '">' . $job->order . '</a>';
             })
@@ -267,8 +265,7 @@ class JobsController extends Controller
         ->where('order', '==', $jobi);
        
         $type_task_id=$job->fk_tasktype;        
-        $jobs = Job::all()
-        ->whereNull('description');
+        $jobs = Job::all()->where('order', '==', $jobi);
         $list=TaskType_Pivot::all()->where('task_type_id','==',$type_task_id);   
 
         return view('admin.jobs.edit', compact('companies','job','TaskType','TypeTask','user_all','jobs','list','type_task_id','Notification'));
@@ -295,8 +292,10 @@ class JobsController extends Controller
     public function update(Request $request, $id)
     {
     $company = $request->fk_company;
+    $description = $request->input('description',[]); 
+    $id_opis = $request->input('id_opis',[]);
     $contract = DB::table('companies')->where('id',  $company)->pluck('fk_contract')->first();
-    foreach ($request->id as $key => $value) {
+    foreach ($description as $key => $value) {
         $start =$request->start[$key];
         $end =$request->end[$key];
         $time1= strtotime($start);          
@@ -306,31 +305,30 @@ class JobsController extends Controller
         $data = array(                
             'fk_company' => $request->fk_company,
             'fk_user' => $request->fk_user,
-            'rns' => $request->rns,
-            'fk_tasktype' => $request->fk_tasktype,
-            'paid' => $request->paid,
-            'location' => $request->location,
+            'rns' => $request->rns[$key],
+            'fk_tasktype' => $request->fk_tasktype[$key],
+            'paid' => $request->paid[$key],
+            'location' => 1,
             'fk_contract' =>  $contract,
             'time' => $diff2,
-
             'fk_typetask' => $request->fk_typetask[$key],
             'start_date' => $request->start_date[$key],
             'end_date' => $request->end_date[$key],
             'start' =>$request->start[$key],
             'end' => $request->end[$key],
-            'description' =>$request->description[$key],
-            'comments' =>  $request->comments[$key],
-            'value'=> $request->value[$key],                             
-        );        
-        Job::where('id',$request->id[$key])
-        ->update($data);         
+            'description' =>$request->description[$key],                          
+        );     
+        
+        
+
+        Job::where('id',$id_opis[$key])->update($data);       
      }
 
-     $description = $request->input('description_new',[]);
+     $description_new = $request->input('description_new',[]);
      $job = Job::findOrFail($id);
      $order=$job -> order;
 
-    foreach ($description as $key => $value) {
+    foreach ($description_new as $key => $value) {
         $start1 =$request->start_new[$key];
         $end1 =$request->end_new[$key];
         $time3= strtotime($start1);          
@@ -339,27 +337,25 @@ class JobsController extends Controller
         $diff3 = date("H:i",  $diff1);
 
         $data = array(     
+        
+            'order' => $order,  
             'fk_company' => $request->fk_company,
             'fk_user' => $request->fk_user,
-            'rns' => $request->rns,
-            'fk_tasktype' => $request->fk_tasktype,
-            'paid' => $request->paid,
-            'location' => $request->location,
+            'rns' => $request->rns_new[$key],
+            'fk_tasktype' => $request->fk_tasktype_new[$key],
+            'paid' => $request->paid_new[$key],
+            'location' => 1,
             'fk_contract' =>  $contract,
             'time' => $diff3,
-            'order' => $order,  
-
             'fk_typetask' => $request->fk_typetask_new[$key],
             'start_date' => $request->start_date_new[$key],
             'end_date' => $request->end_date_new[$key],
             'start' =>$request->start_new[$key],
             'end' => $request->end_new[$key],
-            'description' => $request->description_new[$key],
-            'comments' =>  $request->comments_new[$key],
-            'value'=> $request->value_new[$key],      
+            'description' =>$request->description_new[$key],
         );
-        
-        if (!empty($description)) {
+       
+        if (!empty($request->description_new[$key])) {
         $created = Job::insert($data);
         
     }   
@@ -375,7 +371,8 @@ class JobsController extends Controller
       $Notification->save();
      }
 
-       return redirect()->route('admin.jobs.index') ->with('success', 'Pomyślnie edytowano potwierdzenie.'); 
+    //    return redirect()->route('admin.jobs.index') ->with('success', 'Pomyślnie edytowano potwierdzenie.'); 
+          return back()->with('success', 'Pomyślnie edytowano potwierdzenie.'); 
     }
 
     public function show(Job $job)

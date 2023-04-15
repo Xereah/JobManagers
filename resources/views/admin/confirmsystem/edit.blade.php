@@ -81,7 +81,7 @@
                                     value="{{ old('start_date', isset($job) ? $job->start_date : '') }}" />
                             </div>
                             <div class="col-md-12">
-                                        <input name="order"  class="form-control" value="{{ $job->order }}">
+                                        <input name="order" hidden class="form-control" value="{{ $job->order }}">
                                     </div>
                         </div>
                     </div>
