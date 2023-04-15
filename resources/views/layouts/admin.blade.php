@@ -68,7 +68,7 @@ body {
         </button>
         <a class="navbar-brand" href="{{ route("admin.jobs.index") }}">
         <span class="navbar-brand-full" style="padding: 10%;">
-            <img src="{{ asset('/img/logo.png') }}" style="width: 25%; height: 25%;" alt="Logo">
+            <img  style="width: 25%; height: 25%;" alt="Logo">
             {{ trans('panel.site_title') }}
         </span>
             <span class="navbar-brand-minimized">{{ trans('panel.site_title') }}</span>

@@ -232,10 +232,10 @@ class JobsController extends Controller
                 $data = array(     
                     'fk_company' => $request->fk_company,
                     'fk_user' => $request->fk_user,
-                    'rns' => $request->rns,
-                    'fk_tasktype' => $request->fk_tasktype,
-                    'paid' => $request->paid,
-                    'location' => $request->location,
+                    'rns' => $request->rns[$key],
+                    'fk_tasktype' => $request->fk_tasktype[$key],
+                    'paid' => $request->paid[$key],
+                    'location' => 1,
                     'fk_contract' =>  $contract,
                     'time' => $diff2,
                     'order' =>'CZK/'. $number_order. '/'. $year,
@@ -245,10 +245,9 @@ class JobsController extends Controller
                     'end_date' => $request->end_date[$key],
                     'start' =>$request->start[$key],
                     'end' => $request->end[$key],
-                    'description' =>$request->description[$key],
-                    'comments' =>  $request->comments[$key],
-                    'value'=> $request->value[$key],      
+                    'description' =>$request->description[$key],    
                 );
+               
                 $created = Job::insert($data); 
              }  
          return redirect()->route('admin.jobs.index')->with('success', 'Pomyślnie dodano nowe zadanie.'); 

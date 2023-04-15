@@ -17,8 +17,9 @@
    {{ trans('global.list') }} {{ trans('cruds.job.title_plural') }} 
 
         @can('job_create')
-        <a class="btn btn-dark float-right" data-attr="{{ route('admin.jobs.create') }}" ddata-toggle="modal" id="mediumButton" data-target="#mediumModal"><i
-                class="fa fa-plus"></i>
+        <!-- <a class="btn btn-dark float-right" data-attr="{{ route('admin.jobs.create') }}" ddata-toggle="modal" id="mediumButton" data-target="#mediumModal"><i -->
+        <a class="btn btn-dark float-right" href="{{ route('admin.jobs.create') }}"><i
+        class="fa fa-plus"></i>
             {{ trans('global.add') }} {{ trans('cruds.job.title_singular') }}
         </a>
         <button type="button" class="btn btn-demo btn-dark btn-demo float-right" data-toggle="modal"

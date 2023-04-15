@@ -59,7 +59,7 @@ Route::post('/inventory/siec/add', [App\Http\Controllers\Admin\InventoryControll
 Route::get('/inventory/pozostale' , [App\Http\Controllers\Admin\InventoryController::class, 'pozostale'])->name('pozostale')->middleware(['auth']);
 Route::post('/inventory/pozostale/add', [App\Http\Controllers\Admin\InventoryController::class, 'store_pozostale'])->name('store_pozostale');
 
-
+Route::get('/getTask/{id}', [App\Http\Controllers\Admin\JobsController::class, 'getTask'])->name('getTask');
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
     Route::get('/', [App\Http\Controllers\Admin\JobsController::class, 'index'])->name('index')->middleware(['auth']);
@@ -113,7 +113,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // ConfirmSytem
     Route::resource('ConfirmSystem', 'ConfirmSystemController');
     Route::get('/getEmployees/{id}', [App\Http\Controllers\Admin\ConfirmSystemController::class, 'getEmployees'])->name('getEmployees');
-    Route::get('/getTask/{id}', [App\Http\Controllers\Admin\JobsController::class, 'getTask'])->name('getTask');
+ 
 
      //Tasks
      Route::resource('tasks', 'TaskController');
