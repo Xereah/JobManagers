@@ -148,7 +148,7 @@
                     <a href="{{ route("admin.tasks.index") }}" class="nav-link {{ request()->is('admin/tasks') || request()->is('admin/tasks/*') ? 'active' : '' }}">
                     <i class="fa-fw fas fa-tasks nav-icon">
                         </i>
-                        {{ trans('cruds.job.title') }}
+                        {{ trans('cruds.task.title') }}
                     </a>
                 </li>
             @endcan  

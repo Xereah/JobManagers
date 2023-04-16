@@ -239,41 +239,41 @@
                         <th></th>
                     </tr>
 
-                    <tr>
-                         <th width="10">
+                    <tr >
+                         <th style="width: 1%;" >
                             {{ trans('global.lp') }}
                         </th> 
-                        <th width="10%;" >
+                        <th style="width: 1%;" >
                             {{ trans('cruds.job.fields.task_name') }}
                         </th>
-                        <th>
+                        <th style="width: 1%;">
                             {{ trans('cruds.job.fields.task') }}
                         </th>
-                        <th>
+                        <th style="width: 1%;">
                             {{ trans('cruds.job.fields.order') }}
                         </th>
-                        <th>
+                        <th style="width: 1%;">
                             {{ trans('cruds.job.fields.company') }}
                         </th>
-                        <th>
+                        <th style="width: 1%;">
                             {{ trans('cruds.job.fields.performed') }}
                         </th>
-                        <th>
+                        <th style="width: 1%;">
                             {{ trans('cruds.job.fields.time') }}
                         </th>
-                        <th>
+                        <th style="width: 1%;">
                             {{ trans('cruds.job.fields.beginning') }}
                         </th>
-                        <th>
+                        <th style="width: 1%;">
                             {{ trans('cruds.job.fields.end') }}
                         </th>
-                        <th width="3%;">
+                        <th style="width: 1%;">
                             {{ trans('cruds.job.fields.rns') }}
                         </th>
-                        <th width="35%;">
+                        <th style="width: 100%;">
                             {{ trans('cruds.job.fields.description') }}
                         </th>
-                        <th width="35%;">
+                        <th >
                             {{ trans('cruds.job.fields.comments') }}
                         </th>
                         <th>

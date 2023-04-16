@@ -11,7 +11,16 @@
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
 }
-
+#ukryty-tekst {
+  display: none;
+}
+.smiley-button {
+  border: none; /* usuń obramowanie */
+  background: none; /* usuń tło */
+  font-size: 1em; /* dostosuj rozmiar czcionki do wielkości przycisku */
+  line-height: 1; /* ustaw linię na 1, aby wyśrodkować minkę */
+  vertical-align: middle; /* wyśrodkuj w pionie */
+}
 @media (min-width: 768px) {
     .gradient-form {
         height: 100vh !important;
@@ -98,7 +107,7 @@
                         <div class="row">
                             <div class="col-12 text-right">
                                 Wersja 1.2<br>
-                                Data kompilacji 02.04.2023
+                                Data kompilacji 16.04.2023
                             </div>
                         </div>
                     </form>
@@ -107,11 +116,33 @@
             </div>
             <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
                 <div class="text-white px-3 py-4 p-md-5 mx-md-4">
-                    <h4 class="mb-4">Wiedza jest w firmie </h4>
-
+                <button class="smiley-button float-right" id="pokaz-ukryj">😊</button>   <h2 class="mb-4" align="center" >Wiedza jest w firmie </h2>
+                   
+                    <div id="ukryty-tekst"> <h2 class="mb-4" align="center" >Ale nikt nie chce się nią podzielić</h2></div>
                 </div>
             </div>
         </div>
+        
     </div>
 </div>
+@endsection
+@section('scripts')
+<script>
+var button = document.getElementById("pokaz-ukryj");
+var ukrytyTekst = document.getElementById("ukryty-tekst");
+
+// dodaj nasłuchiwanie na kliknięcie przycisku
+button.addEventListener("click", function() {
+  // sprawdź, czy tekst jest widoczny
+  if (ukrytyTekst.style.display === "none") {
+    // jeśli jest ukryty, pokaż go
+    ukrytyTekst.style.display = "block";
+    button.classList.add("ukryj-tekst");
+  } else {
+    // jeśli jest widoczny, ukryj go
+    ukrytyTekst.style.display = "none";
+    button.classList.remove("ukryj-tekst");
+  }
+});
+</script>
 @endsection

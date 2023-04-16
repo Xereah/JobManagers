@@ -18,13 +18,8 @@
     <link href="https://cdn.datatables.net/select/1.5.0/css/select.dataTables.min.css" rel="stylesheet" />
     <link href="https://unpkg.com/@coreui/coreui@2.1.16/dist/css/coreui.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-    <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-
-
-  
-  
+    <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet" /> 
    
- 
    <style>
 .select2-selection {
     height: 34px !important;
@@ -68,7 +63,7 @@ body {
         </button>
         <a class="navbar-brand" href="{{ route("admin.jobs.index") }}">
         <span class="navbar-brand-full" style="padding: 10%;">
-            <img  style="width: 25%; height: 25%;" alt="Logo">
+            <img src="{{ asset('/img/logo.png')}}" style="width: 25%; height: 25%;" alt="Logo">
             {{ trans('panel.site_title') }}
         </span>
             <span class="navbar-brand-minimized">{{ trans('panel.site_title') }}</span>
