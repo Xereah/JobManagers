@@ -19,11 +19,17 @@
 
     /* Styl dla wydruku */
     @media print {
+
         /* Zastosuj obramowania dla elementów */
         hr,
         .border {
-            border: 2px solid black !important;
+            border: 0.1cm solid black !important;
         }
+
+        .obramowanie_góra_dół {
+          
+            border-bottom: 0.1cm solid black;
+            }
 
         body {
             font-size: 22px;
@@ -45,7 +51,7 @@
             display: none;
         }
     }
-</style>
+    </style>
 
 </head>
 
@@ -64,7 +70,7 @@
             </div>
         </div>
 
-        <div class="border"></div>
+        <div class="obramowanie_góra_dół"></div>
 
         <br>
         <table align="center">
@@ -111,7 +117,7 @@
                     <?php $i=1 ?>
 
                     @foreach($jobs as $key => $job)
-                    <tr>
+                    <tr class="obramowanie_góra_dół">
                         <td class="center">{{$i}}</td>
                         <td class="left strong"><b> {{ $job->task_type->name ?? '' }}</b></td>
                         <td></td>
@@ -134,7 +140,7 @@
                     </tr>
                     <?php $i++ ?>
                     @endforeach
-                   
+
 
                 </tbody>
 
@@ -144,26 +150,15 @@
         <br>
 
         <footer class="fixed-bottom">
-        <div class="row justify-content-around mb-5">
-
-<div class="col-12 ml-5">
-<h3 class=" text-left"><strong>OGÓLNE UWAGI DO WYKONANYCH ZADAŃ W RAMACH ZLECENIA:</strong></h3>
-<h3 class=" text-left  ">{!! nl2br(e($job->comments)) !!}
-</h3>
-</div>
-</div>
-
-
-
-
+        
             <div class="row justify-content-around mb-5">
 
                 <div class="col-4 text-center">
-                    <hr>
+                <div class="obramowanie_góra_dół"></div>
                     {{ $job->user->name ?? '' }} {{ $job->user->surname ?? '' }}
                 </div>
                 <div class="col-4 text-center">
-                    <hr>
+                <div class="obramowanie_góra_dół"></div>
                     Nazwisko i imię oraz podpis
                     upoważnionego przedstawiciela Klienta
                 </div>
@@ -175,7 +170,7 @@
                         RR.- Rodzaj Rozliczenia wykonanej Usługi: (P- Usługa Płatna, B- Usługa Bezpłatna)<br>
                     </div>
                 </div>
-                <div class="border"></div>
+                <div class="obramowanie_góra_dół"></div>
                 <div>
                     Kasper Komputer, ul. Podmiejska 16, 62-800 Kalisz, tel/fax (0-62) 764-40-66, 501-15-05
                 </div>
@@ -197,7 +192,6 @@
 
 </html>
 @endsection
-
 <script>
 document.getElementById("btnPrint").onclick = function() {
     printElement(document.getElementById("printThis"));
