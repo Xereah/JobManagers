@@ -99,7 +99,7 @@
     </ul>
 
     <div class="tab-content col-md-8 mx-auto" id="pills-tabContent">
-        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+        <div class="tab-pane fade show active {{ ($errors->has('description[]')) ? 'active' : '' }}" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
             <div class="card">
                 <div>
                     <div class="container">
@@ -153,8 +153,13 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <label for="description">{{ trans('cruds.job.fields.description') }}</label>
-                                        <textarea class="form-control" name="description[]" id="description" required
+                                        <textarea class="form-control" name="description[]" id="description[]" required
                                             rows="5"></textarea>
+                                            @if ($errors->has('description[]'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('description[]') }}</strong>
+                                    </span>
+                                @endif
                                     </div>
                                 </div>
                             </div>
@@ -585,6 +590,16 @@ $('.addsprzet_pill').click(function(){
     document.getElementById('end_car').addEventListener('change', function (e) {
         document.getElementById('start[]').value = e.target.value;
     });
+</script>
+
+<script>
+const tabs = document.querySelectorAll('.nav-link');
+tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+        const tabId = tab.getAttribute('href').substring(1);
+        document.getElementById('active-tab').value = tabId;
+    });
+});
 </script>
 
 @endsection

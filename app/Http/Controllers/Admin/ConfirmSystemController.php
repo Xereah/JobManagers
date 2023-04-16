@@ -81,9 +81,18 @@ class ConfirmSystemController extends Controller
     public function store(StoreConfirmSystem $request)
     {   
 
-        $validatedData = $request->validate([
-            'description' => 'required',
-        ]);
+        $request->validate([  
+            'description.*' => 'required',
+            'start.*' => 'required',
+            'end.*' => 'required',
+              ], 
+            [  
+            'description.*.required' => 'Pole Opis jest wymagane',
+            'start.*.required' => 'Pole Początek jest wymagane',
+            'end.*.required' => 'Pole Koniec jest wymagane',
+             ]);
+
+    
 
             $year = Carbon::now()->year;
             $now = Carbon::now();
