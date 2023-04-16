@@ -108,7 +108,7 @@ class StoreJobRequest extends FormRequest
                 'required',
                 'date',
                 'before_or_equal:now',
-                'after_or_equal:start_date[]'           
+                'after_or_equal:start_date_new[]'           
                
             ],
             'start_new[]' => [
@@ -117,7 +117,7 @@ class StoreJobRequest extends FormRequest
             ],
             'end_new[]' => [
                 'required',
-                'after_or_equal:start[]'
+                'after_or_equal:start_new[]'
                 
             ],
             'fk_typetask_new[]' => [

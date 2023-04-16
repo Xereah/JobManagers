@@ -55,8 +55,17 @@ class CreateJobsTable extends Migration
             $table->time('end_car')->nullable();
 
             $table->text('description_goods')->nullable();
+            $table->string('paid_goods')->nullable();
+            $table->integer('value_goods')->nullable();
+
             $table->integer('fk_rep_eq')->nullable();
             $table->string('description_eq', 255)->nullable();
+            $table->string('paid_eq')->nullable();
+            $table->string('paid_job')->nullable();
+          
+
+
+
 
             $table->timestamps();
             

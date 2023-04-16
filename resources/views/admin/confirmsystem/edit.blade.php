@@ -12,8 +12,8 @@
 <form action="{{ route("admin.ConfirmSystem.update", [$job->id]) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
-    <div class="card col-md-8 mx-auto">
-        <div class="card-horizontal">
+    <div class="card col-md-8 mx-auto" style="background-color:#F2F2F2; ">
+        <div class="card-horizontal" >
             <ul class="list-group py-3">
                 <li class="list-group-item"><input type="button"
                         class="btn btn-dark float-left btn-floating add col-md-12 addzadanie_pill"
@@ -30,7 +30,7 @@
                 </li>
             </ul>
             <div class="card-body">
-                <div class="card ">
+                <div class="card " style="background-color:#F2F2F2; ">
                     <div class="container py-2">
                         <div class="row ">
                             <div class="col">
@@ -128,10 +128,10 @@
 
     </ul>
 
-    <div class="tab-content col-md-8 mx-auto" id="pills-tabContent">
+    <div class="tab-content col-md-8 mx-auto" id="pills-tabContent" style="background-color:#F2F2F2; ">
         <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
             @foreach($jobs as $id => $job)
-            <div class="card">
+            <div class="card" style="background-color:#F2F2F2; ">
                 <div>
                     <div class="container py-2">
                         <div class="row">
@@ -162,7 +162,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-5">
                                         <label for="fk_typetask">{{ trans('cruds.job.fields.task_name') }}</label>
                                         <select name="fk_typetask[]" id="fk_typetask" class="form-control select2"
                                             required>
@@ -174,7 +174,7 @@
 
                                         </select>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-5">
                                         <label for="default-picker">{{ trans('cruds.job.fields.performed_singular') }}</label>
                                         <select id="fk_user[]" name="fk_user[]" class="form-control select2 ">
                                             @foreach($user_all as $users)
@@ -184,6 +184,18 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    <div class="col-md-2"> <label
+                                                for="paid_job">{{ trans('cruds.job.fields.paid') }}</label>
+                                                <select id="paid_job[]" name="paid_job[]" class="form-control select2">
+                                                    @if($job->paid_job==1)
+                                                    <option value="{{$job->paid}}">{{ trans('global.free') }}</option>
+                                                    @else
+                                                    <option value="{{$job->paid}}">{{ trans('global.paid') }}</option>
+                                                    @endif
+                                                    <option value="1">{{ trans('global.free') }}</option>
+                                                    <option value="2">{{ trans('global.paid') }}</option>
+                                                </select>
+                                        </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
@@ -216,7 +228,7 @@
             <div class="resultbody "></div>
         </div>
         <div class="tab-pane fade" id="pills-uwagi" role="tabpanel" aria-labelledby="pills-uwagi-tab">
-            <div class="card">
+            <div class="card" style="background-color:#F2F2F2; ">
                 <div>
                     <div class="container">
                         <div class="row">
@@ -250,7 +262,7 @@
 
         <div class="tab-pane fade" id="pills-towary" role="tabpanel" aria-labelledby="pills-towary-tab">
             @foreach($jobs_towary as $id => $jobs_towarys)
-            <div class="card mx-auto">
+            <div class="card mx-auto" style="background-color:#F2F2F2; ">
                 <div>
                     <div class="container py-2">
                         <div class="row">
@@ -272,10 +284,27 @@
                                         <label for="default-picker">{{ trans('cruds.confirm_system.fields.goods_left') }}</label>
                                         <input name="id_towar[]" hidden class="form-control"
                                             value="{{ old('id', isset($jobs_towarys) ? $jobs_towarys->id : '') }}">
-                                        <textarea class="form-control" name="description_goods[]"
+                                        <input class="form-control" name="description_goods[]" value="{{$jobs_towarys->description_goods}}"
                                             id="description_goods[]"
-                                            rows="3">{{$jobs_towarys->description_goods}}</textarea>
+                                            rows="3"></input>
                                     </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="value_goods">{{ trans('cruds.job.fields.value_goods') }}</label>
+                                            <input type="value_goods" name="value_goods[]" value="{{$jobs_towarys->value_goods}}" class="form-control">
+                                        </div>
+                                        <div class="col-md-6"> <label
+                                                for="paid_goods">{{ trans('cruds.job.fields.paid') }}</label>
+                                                <select id="paid_goods[]" name="paid_goods[]" class="form-control select2">
+                                                    @if($jobs_towarys->paid_goods==1)
+                                                    <option value="{{$job->paid}}">{{ trans('global.free') }}</option>
+                                                    @else
+                                                    <option value="{{$job->paid}}">{{ trans('global.paid') }}</option>
+                                                    @endif
+                                                    <option value="1">{{ trans('global.free') }}</option>
+                                                    <option value="2">{{ trans('global.paid') }}</option>
+                                                </select>
+                                        </div>
+                                 
 
                                 </div>
                             </div>
@@ -298,7 +327,7 @@
 
         <div class="tab-pane fade" id="pills-equipment" role="tabpanel" aria-labelledby="pills-equipment-tab">
             @foreach($jobs_sprzetzast as $id => $jobs_sprzetzasts)
-            <div class="card mx-auto">
+            <div class="card mx-auto" style="background-color:#F2F2F2; ">
 
                 <div>
                     <div class="container py-2">
@@ -316,23 +345,30 @@
                             </div>
                             <div class="col-md-11">
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <label for="description">{{ trans('cruds.confirm_system.fields.rep_eq_left') }}</label>
                                         <input name="id_sprzet[]" id="id_sprzet[]" hidden class="form-control"
-                                            value="{{ old('id', isset($jobs_sprzetzasts) ? $jobs_sprzetzasts->id : '') }}">
+                                            value="{{ old('id', isset($jobs_sprzetzasts) ? $jobs_sprzetzasts->id : '') }}">                                        
                                         <select name="fk_rep_eq[]" id="fk_rep_eq[]" required disabled
                                             class="form-control select2" required>
-
                                             @foreach($repEquipment as $repEquipments)
-
                                             <option value="{{ $repEquipments->id }}" disabled @if($repEquipments->id ==
                                                 $jobs_sprzetzasts->fk_rep_eq)
                                                 selected="selected" @endif>{{ $repEquipments -> eq_number }}
                                                 {{ $repEquipments -> eq_name }}</option>
-
                                             @endforeach
                                         </select>
                                     </div>
+                                    <div class="col-md-6"> <label
+                                                for="paid_goods">{{ trans('cruds.job.fields.paid') }}</label>
+                                                <select id="paid_goods[]" name="paid_goods[]" disabled class="form-control select2">
+                                                    @if($jobs_sprzetzasts->paid_eq==1)
+                                                    <option value="{{$job->paid}}">{{ trans('global.free') }}</option>
+                                                    @else
+                                                    <option value="{{$job->paid}}">{{ trans('global.paid') }}</option>
+                                                    @endif
+                                                </select>
+                                        </div>
                                     <div class="col-md-12">
                                         <label for="description">{{ trans('cruds.job.fields.description') }}</label>
                                         <textarea required class="form-control" required disabled
@@ -361,7 +397,7 @@
 
 
         <div class="tab-pane fade" id="pills-equipment_loan" role="tabpanel" aria-labelledby="pills-equipment_loan-tab">
-            <table class=" table table-bordered table-hover datatable" id="example">
+            <table class=" table table-bordered table-hover datatable" id="example" >
                 <thead>
                     <tr>
 
@@ -474,7 +510,7 @@ $(function() {
     $('.add').click(function() {
         var n = ($('.resultbody'));
         var tr =        
-        '<div class="card">'+
+        '<div class="card" style="background-color:#F2F2F2; ">'+
                 '<div>'+
                     '<div class="container">'+
                         '<div class="row">'+
@@ -501,7 +537,7 @@ $(function() {
                                     '</div>'+
                                 '</div>'+
                                 '<div class="row">'+
-                                    '<div class="col-md-6">'+
+                                    '<div class="col-md-5">'+
                                         '<label for="fk_typetask">{{ trans('cruds.job.fields.task_name') }}</label>'+
                                         '<select name="fk_typetask[]" id="fk_typetask" class="form-control select2" required>'+
                                             '@foreach($TypeTask as $TypeTasks)'+
@@ -509,7 +545,7 @@ $(function() {
                                             '@endforeach'+
                                         '</select>'+
                                     '</div>'+
-                                    '<div class="col-md-6">'+
+                                    '<div class="col-md-5">'+
                                         '<label for="default-picker">{{ trans('cruds.job.fields.performed_singular') }}</label>'+
                                         '<select id="fk_user" name="fk_user[]" class="form-control select2">'+
                                             '<option value="{{ $user->id}}">{{ $user->name }} {{ $user->surname }}'+
@@ -520,6 +556,12 @@ $(function() {
                                             '@endforeach'+
                                         '</select>'+
                                     '</div>'+
+                                    '<div class="col-md-2"> <label for="paid_job">{{ trans('cruds.job.fields.paid') }}</label>'+
+                                            '<select id="paid_job[]" name="paid_job[]" class="form-control ">'+
+                                                '<option value="1">{{ trans('global.free') }}</option>'+
+                                                '<option value="2">{{ trans('global.paid') }}</option>'+
+                                            '</select>'+
+                                        '</div>'+
                                 '</div>'+
                                 '<div class="row">'+
                                     '<div class="col-md-12">'+
@@ -531,9 +573,10 @@ $(function() {
                         '</div>'+
                     '</div>'+
                 '</div>'+
-                '<button type="button" style="margin-left:90%;" class="btn btn-dark float-right btn-sm col-md-1 delete">'+
-                '{{ trans('global.cancel') }}</i>'+
-                    '</button>'+  
+                '<div class="container">'+
+                '<button type="button" class="btn btn-dark float-right delete">{{ trans('global.cancel') }}</button>'+
+                '<button class="btn btn-success float-right" type="submit">{{ trans('global.save') }}</button>'+
+                '</div>'+
             '</div>';
 
 
@@ -541,7 +584,7 @@ $(function() {
         $('.resultbody').append(tr);
     });
     $('.resultbody').delegate('.delete', 'click', function() {
-        $(this).parent().remove();
+        $(this).closest('.card').remove();
     });
 });
 </script>
@@ -552,10 +595,10 @@ $(function() {
     $('.addtowar').click(function() {
         var n = ($('.resultbody_towar'));
         var tr =       
-        '<div class="card">'+
+        '<div class="card" style="background-color:#F2F2F2; ">'+
                 '<div>'+
                     '<div class="container">'+
-                        '<div class="row">'+
+                    '<div class="row">'+
                             '<div class="col-md-1 bg-danger">'+
                                 '<p style="text-align:center;">'+
                                     '<span></span><br>'+
@@ -568,20 +611,29 @@ $(function() {
                                 '</p>'+
                             '</div>'+
                             '<div class="col-md-11">'+
-                                '<div class="col-md-11 py-2">'+
-                                    '<div>'+
-                                        '<div>'+
+                            '<div class="form-row ">'+
                                             '<label for="description_goods">{{ trans('cruds.confirm_system.fields.goods_left') }}</label>'+
-                                            '<textarea class="form-control" name="description_goods[]"  id="description_goods[]" rows="3"></textarea>'+
+                                            '<input class="form-control" name="description_goods[]"  id="description_goods[]" rows="3"></input>'+
+                                '</div>'+
+                                '<div class="form-row">'+
+                                        '<div class="form-group col-md-6">'+
+                                            '<label for="value_goods">{{ trans('cruds.job.fields.value_goods') }}</label>'+
+                                            '<input type="number" name="value_goods[]" class="form-control">'+
                                         '</div>'+
-                                    '</div>'+
+                                        '<div class="col-md-6"> <label for="paid_goods">{{ trans('cruds.job.fields.paid') }}</label>'+
+                                            '<select id="paid_goods[]" name="paid_goods[]" class="form-control ">'+
+                                                '<option value="2">{{ trans('global.paid') }}</option>'+
+                                                '<option value="1">{{ trans('global.free') }}</option>'+
+                                            '</select>'+
+                                        '</div>'+
                                 '</div>'+
                            '</div>'+
                         '</div>'+
                     '</div>'+
-                    '<button type="button" style="margin-left:95%;" class="btn btn-dark float-right btn-sm col-md-1 delete_towar">'+
-                    '{{ trans('global.cancel') }}</i>'+
-                    '</button>'+  
+                    '<div class="container">'+
+                '<button type="button" class="btn btn-dark float-right delete">{{ trans('global.cancel') }}</button>'+
+                '<button class="btn btn-success float-right" type="submit">{{ trans('global.save') }}</button>'+
+                '</div>'+
                 '</div>'+
             '</div>'+
         '</div>';
@@ -598,10 +650,10 @@ $(function() {
     $('.addsprzet').click(function() {
         var n = ($('.resultbody_sprzet'));
         var tr =       
-        '<div class="card">'+
+        '<div class="card" style="background-color:#F2F2F2; ">'+
                 '<div>'+
                     '<div class="container">'+
-                        '<div class="row">'+
+                    '<div class="row">'+
                             '<div class="col-md-1 bg-primary">'+
                                 '<p style="text-align:center;">'+
                                     '<span></span><br>'+
@@ -614,8 +666,8 @@ $(function() {
                                 '</p>'+
                             '</div>'+
                             '<div class="col-md-11 py-2">'+
-                                '<div>'+
-                                    '<div>'+
+                                    '<div class="form-row">'+
+                                        '<div class="form-group col-md-6">'+
                                         '<label for="description">{{ trans('cruds.confirm_system.fields.rep_eq_left') }}</label>'+
                                         '<select name="fk_rep_eq[]" id="fk_rep_eq[]" class="form-control select2"required>'+
                                             '<option value=""></option>'+
@@ -624,18 +676,25 @@ $(function() {
                                                 '{{ $repEquipments -> eq_name }}</option>'+
                                             '@endforeach'+
                                         '</select>'+
-                                    '</div>'+
+                                        '</div>'+
+                                        '<div class="col-md-6"> <label for="paid_eq">{{ trans('cruds.job.fields.paid') }}</label>'+
+                                            '<select id="paid_eq[]" name="paid_eq[]" class="form-control ">'+
+                                                '<option value="1">{{ trans('global.free') }}</option>'+
+                                                '<option value="2">{{ trans('global.paid') }}</option>'+
+                                            '</select>'+
+                                        '</div>'+
+                                '</div>'+
                                     '<div>'+
                                         '<label for="description">{{ trans('cruds.job.fields.description') }}</label>'+
                                         '<textarea class="form-control" name="description_eq[]" id="description_eq[]" rows="3"></textarea>'+
                                     '</div>'+
                                 '</div>'+
-                            '</div>'+
                         '</div>'+
                     '</div>'+
-                    '<button type="button" style="margin-left:95%;" class="btn btn-dark float-right btn-sm col-md-1 delete3">'+
-                    '{{ trans('global.cancel') }}</i>'+
-                    '</button>'+  
+                    '<div class="container">'+
+                '<button type="button" class="btn btn-dark float-right delete">{{ trans('global.cancel') }}</button>'+
+                '<button class="btn btn-success float-right" type="submit">{{ trans('global.save') }}</button>'+
+                '</div>'+
                 '</div>'+
             '</div>';
         $('.resultbody_sprzet').append(tr);
@@ -678,5 +737,6 @@ $('.addsprzet_pill').click(function(){
 });
 </script>
 
+<script>
 
 @endsection

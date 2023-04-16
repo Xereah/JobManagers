@@ -266,8 +266,9 @@ return [
             'comments'                                => 'Uwagi',
             'performer'                                => 'Wykonujący',
             'contracts' =>              "Umowa",
-            'filtrs' => 'Filtry',
-            'choose' => 'Wybierz',
+            'filtrs' =>                 'Filtry',
+            'choose' =>                 'Wybierz',
+            'value_goods' =>            'Ilość',
         ],
     ],
 

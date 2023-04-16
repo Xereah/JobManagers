@@ -141,7 +141,7 @@ class ConfirmSystemController extends Controller
                     'start_date' => $request->start_date,
                     'end_date' => $request->start_date,
                     'start' =>$request->start[$key],
-                    'fk_tasktype' =>  $usługi,
+                    'fk_tasktype' => $request->fk_typetask[$key],
                     'end' => $request->end[$key],
                     'fk_typetask' =>  $request->fk_typetask[$key],
                     'fk_user' =>  $request->fk_user[$key],
@@ -150,65 +150,64 @@ class ConfirmSystemController extends Controller
                     'time' => $diff2,
                     'order' =>'SRW/'. $number_order. '/'. $year,
                     'description' =>$request->description[$key],
+                    'paid_job'=>$request->paid_job[$key],
                     'comments' => $comments1,                
                 );  
-               
-
-                if (!empty($description_goods[$key])){
-                    foreach ($description_goods as $key => $value) {
-                    $data1 = array(    
+                $created = Job::insert($data);                      
+            };
+                        
+                foreach ($description_goods as $key => $value) {
+                    $data1 = array(
                         'fk_company' => $request->fk_company,
                         'fk_car' => $request->fk_car,
-                        'start_car' =>$request->start_car,
+                        'start_car' => $request->start_car,
                         'end_car' => $request->start_car,
                         'paid' => $request->paid,
                         'start_date' => $request->start_date,
                         'end_date' => $request->start_date,
-                        'fk_tasktype' =>  $towary,
-                        'fk_typetask' =>  $slugi_typ,
-                        'fk_contract' =>  $contract,
-                        'fk_user' =>  $request->fk_user[$key],
-                        'order' =>'SRW/'. $number_order. '/'. $year,
-                        'description_goods' =>$description_goods[$key],
-                    ); 
-                   
-                    $created = Job::insert($data1); 
-                }
-            }
-                
-                if (!empty($fk_rep_eq[$key])){
-                    foreach ($fk_rep_eq as $key => $value) {
-                $data2 = array(    
-                    'fk_company' => $request->fk_company,
-                    'fk_car' => $request->fk_car,
-                    'start_car' =>$request->start_car,
-                    'end_car' => $request->start_car,
-                    'paid' => $request->paid,
-                    'start_date' => $request->start_date,
-                    'end_date' => $request->start_date,
-                    'fk_tasktype' =>  $sprzęt_zast,
-                    'fk_contract' =>  $contract,
-                    'fk_typetask' =>  $slugi_typ,
-                    'fk_user' =>  $request->fk_user[$key],
-                    'order' =>'SRW/'. $number_order. '/'. $year,
-                    'fk_rep_eq' =>$fk_rep_eq[$key],
-                    'description_eq'=>$description_eq[$key],
-                ); 
-              
-                 $created = Job::insert($data2); 
+                        'fk_tasktype' => $towary,
+                        'fk_typetask' => $slugi_typ,
+                        'fk_contract' => $contract,
+                        'fk_user' => $user_auth->id,
+                        'order' => 'SRW/' . $number_order . '/' . $year,
+                        'description_goods' => $description_goods[$key],
+                        'paid_goods' => $request->paid_goods[$key],
+                        'value_goods' => $request->value_goods[$key],
+                    );                
+                    $created = Job::insert($data1);
+                     };
 
-                 $data3 =array(
-                    'entry_date' => $now,
-                    'comments' => $description_eq[$key],
-                    'company_place' =>$request->fk_company,
-                    'is_loan' =>1,
-                 );
-                 $created = RepEquipment::where('id',$fk_rep_eq[$key])->update($data3);                 
-            }      
-        }    
-        if (!empty($request->comments[$key])) {
-            $comments = explode("\n", $request->comments[$key]);
-            foreach ($comments as $comment) {
+                   foreach ($fk_rep_eq as $key => $value){
+                        $data2 = array(
+                            'fk_company' => $request->fk_company,
+                            'fk_car' => $request->fk_car,
+                            'start_car' => $request->start_car,
+                            'end_car' => $request->start_car,
+                            'paid' => $request->paid,
+                            'start_date' => $request->start_date,
+                            'end_date' => $request->start_date,
+                            'fk_tasktype' => $sprzęt_zast,
+                            'fk_contract' => $contract,
+                            'fk_typetask' => $slugi_typ,
+                            'fk_user' => $user_auth->id,
+                            'order' => 'SRW/' . $number_order . '/' . $year,
+                            'fk_rep_eq' => $fk_rep_eq[$key],
+                            'description_eq' => $description_eq[$key],
+                            'paid_eq' => $request->paid_eq[$key],
+                        );                
+                        $created = Job::insert($data2);                
+                        $data3 = array(
+                            'entry_date' => $now,
+                            'comments' => $description_eq[$key],
+                            'company_place' => $request->fk_company,
+                            'is_loan' => 1,
+                        );                
+                        $created = RepEquipment::where('id', $fk_rep_eq[$key])->update($data3);
+                    };
+                
+            if (!empty($request->comments[$key])) {
+                $comments = explode("\n", $request->comments[$key]);
+                foreach ($comments as $comment) {
                 $data4 = array(
                     'fk_user' =>  $user_auth->id,
                     'fk_company' => $request->fk_company,
@@ -221,9 +220,7 @@ class ConfirmSystemController extends Controller
                
                 $created = Task::insert($data4);
             }
-        }     
-                $created = Job::insert($data);                      
-            };
+                };
              
             $last_id = DB::table('jobs')->whereNull('deleted_at')->pluck('id')->last();
 
@@ -377,8 +374,8 @@ class ConfirmSystemController extends Controller
                 'order' => $order,
                 'fk_user' =>  $request->fk_user[$key],
                 'description' =>$request->description[$key],
-                'comments' =>  $comments1, 
-                                
+                'paid_job'=>$request->paid_job[$key],
+                'comments' =>  $comments1,                                 
             ); 
             
            
@@ -442,6 +439,8 @@ class ConfirmSystemController extends Controller
                 'order' => $order,
                 'fk_user' => $user_order,
                 'description_goods' =>$description_goods[$key],
+                'paid_goods' =>$request->paid_goods[$key],
+                'value_goods' =>$request->value_goods[$key],
             );  
 
            
@@ -476,6 +475,7 @@ class ConfirmSystemController extends Controller
                 'fk_user' => $user_order,
                 'fk_rep_eq' =>$fk_rep_eq[$key],
                 'description_eq'=>$description_equipment[$key],
+                'paid_eq'=>$request->paid_eq[$key],
             );
             // możliwość dodania nowych rekordów
                 $created = Job::create($data2); 

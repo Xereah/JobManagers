@@ -9,10 +9,10 @@
         /* Zastosuj obramowania dla elementów */
         hr,
         {
-            border: 2px solid black !important;
+            border: 0.1cm solid black !important;
         }
         .obramowanie {
-            border: 1rem solid;
+            border: 0.1cm solid;
         }
 
 
@@ -132,7 +132,8 @@
                     <th>{{ trans('cruds.job.fields.task_name') }}</th>
                     <th>{{ trans('cruds.job.fields.description') }}</th>
                     <th>{{ trans('cruds.job.fields.performed') }}</th>
-                    <th>Jm</th>
+                    <th>{{ trans('cruds.job.fields.value_goods') }}</th>
+                    <th>{{ trans('cruds.job.fields.time') }}</th>
                     <th>RR.</th>
                 </tr>
             </thead>
@@ -151,6 +152,7 @@
                         $firstLetter2 = substr($zmienna2, 0, 1);
                         ?>
                     <td align="center"> {{ $firstLetter1 }} {{  $firstLetter2  ?? '' }}</td>
+                    <td class="left"> </td>
                     <td align="center"> {{ date('G:i', strtotime($job->time)) ?? '' }} h</td>
                     @if($job->paid==1)
                     <td align="center"> B</td>
@@ -175,9 +177,9 @@
                         $firstLetter2 = substr($zmienna2, 0, 1);
                         ?>
                     <td align="center"> {{ $firstLetter1 }} {{  $firstLetter2  ?? '' }}</td>
-                    </td>
-                    <td>szt.</td>
-                    @if($job->paid==1)
+                    <td align="center"> {{ $jobs_towarys->value_goods ?? '' }}</td>
+                    <td></td>
+                    @if($jobs_towarys->paid_goods==1)
                     <td align="center"> B</td>
                     @else
                     <td align="center"> P</td>
@@ -198,8 +200,9 @@
                         $firstLetter2 = substr($zmienna2, 0, 1);
                         ?>
                     <td align="center"> {{ $firstLetter1 }} {{  $firstLetter2  ?? '' }}</td>
-                    <td>szt.</td>
-                    @if($job->paid==1)
+                    <td align="center">1</td>
+                    <td></td>
+                    @if($jobs_sprzetzasts->paid_eq==1)
                     <td align="center"> B</td>
                     @else
                     <td align="center"> P</td>
@@ -219,6 +222,7 @@
                         ?>
                     <td align="center"> {{ $firstLetter1 }} {{  $firstLetter2  ?? '' }}</td>
                     <td> {{$company_km}} km</td>
+                    <td class="left"></td>
                     @if($job->paid==1)
                     <td align="center"> B</td>
                     @else

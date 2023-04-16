@@ -93,6 +93,7 @@
                         <th class="border"> {{ trans('cruds.job.fields.task_name') }}</th>
                         <th class="border">{{ trans('cruds.job.fields.description') }}</th>
                         <th class="border"> {{ trans('cruds.job.fields.performed') }}</th>
+                        <th class="border"> {{ trans('cruds.job.fields.value_goods') }}</th>
                         <th class="border"> {{ trans('cruds.job.fields.time') }}</th>
                         <th class="border"> RR.</th>
                     </tr>
@@ -112,6 +113,7 @@
                         $firstLetter2 = substr($zmienna2, 0, 1);
                         ?>
                         <td class="left"> {{ $firstLetter1 }} {{  $firstLetter2  ?? '' }}</td>
+                        <td class="left"> </td>
                         <td class="right"> {{ date('G:i', strtotime($job->time)) ?? '' }} h</td>
                         @if($job->paid==1)
                         <td class="right"> B</td>
@@ -136,9 +138,10 @@
                         $firstLetter2 = substr($zmienna2, 0, 1);
                         ?>
                         <td class="left"> {{ $firstLetter1 }} {{  $firstLetter2  ?? '' }}</td>
-                        </td>
+                     
+                        <td class="left"> {{ $jobs_towarys->value_goods ?? '' }}</td>
                         <td></td>
-                        @if($job->paid==1)
+                        @if($jobs_towarys->paid_goods==1)
                         <td class="right"> B</td>
                         @else
                         <td class="right"> P</td>
@@ -159,8 +162,9 @@
                         $firstLetter2 = substr($zmienna2, 0, 1);
                         ?>
                         <td class="left"> {{ $firstLetter1 }} {{  $firstLetter2  ?? '' }}</td>
+                        <td class="left">1</td>
                         <td></td>
-                        @if($job->paid==1)
+                        @if($jobs_sprzetzasts->paid_eq==1)
                         <td class="right"> B</td>
                         @else
                         <td class="right"> P</td>
@@ -169,21 +173,22 @@
                     <?php $i++ ?>
                     @endforeach
                     <tr>
-                    <td align="center">{{$i}}</td>
+                    <td align="left">{{$i}}</td>
                     <td align="left" class="strong"><b> Dojazd(DKM)</b></td>
-                    <td align="center" class=" strong">Dojazd samochodem osobowym</td>
+                    <td align="left" class=" strong">Dojazd samochodem osobowym</td>
                     <?php
                         $zmienna1=$job->user->name;
                         $zmienna2=$job->user->surname;
                         $firstLetter1 = substr($zmienna1, 0, 1);
                         $firstLetter2 = substr($zmienna2, 0, 1);
                         ?>
-                    <td align="center"> {{ $firstLetter1 }} {{  $firstLetter2  ?? '' }}</td>
+                    <td align="left"> {{ $firstLetter1 }} {{  $firstLetter2  ?? '' }}</td>
                     <td> {{$company_km}} km</td>
+                    <td class="left"></td>
                     @if($job->paid==1)
-                    <td align="center"> B</td>
+                    <td align="left"> B</td>
                     @else
-                    <td align="center"> P</td>
+                    <td align="left"> P</td>
                     @endif
                 </tr>
                 <?php $i++ ?>
