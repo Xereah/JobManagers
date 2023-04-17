@@ -403,10 +403,11 @@ class JobsController extends Controller
     public function destroy($id)
     {
         abort_if(Gate::denies('job_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $job = Job::find($id);
-      
+        $job = Job::find($id);   
+        $job_rder=$job->order; 
+        
         $job->delete();
-        return back();
+        return redirect()->route('admin.jobs.index')->with('success', 'Zlecenia zostały pomyślnie usunięte.');
     }
 
     public function massDestroy(MassDestroyJobRequest $request)

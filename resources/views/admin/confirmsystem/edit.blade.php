@@ -631,7 +631,7 @@ $(function() {
                         '</div>'+
                     '</div>'+
                     '<div class="container">'+
-                '<button type="button" class="btn btn-dark float-right delete">{{ trans('global.cancel') }}</button>'+
+                '<button type="button" class="btn btn-dark float-right delete_towar">{{ trans('global.cancel') }}</button>'+
                 '<button class="btn btn-success float-right" type="submit">{{ trans('global.save') }}</button>'+
                 '</div>'+
                 '</div>'+
@@ -692,7 +692,7 @@ $(function() {
                         '</div>'+
                     '</div>'+
                     '<div class="container">'+
-                '<button type="button" class="btn btn-dark float-right delete">{{ trans('global.cancel') }}</button>'+
+                '<button type="button" class="btn btn-dark float-right delete3">{{ trans('global.cancel') }}</button>'+
                 '<button class="btn btn-success float-right" type="submit">{{ trans('global.save') }}</button>'+
                 '</div>'+
                 '</div>'+

@@ -125,7 +125,7 @@ class RepEquipmentController extends Controller
 
          $job = Job::find($id);      
          $job->delete();
-        return back();
+         return redirect()->route('admin.jobs.index')->with('success', 'Zlecenia zostało pomyślnie usunięte.');
     }
 
     /**

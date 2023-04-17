@@ -163,6 +163,14 @@
                                     rows="3">{{$job->description}}</textarea>
                             </div>
                         </div>
+                        <div>
+                        @can('job_delete')
+                    <a class="btn btn-xs col-md-1 float-right  btn-danger" href="{{ url('/job_delete', $job->id) }}"
+                        onclick="return confirm('{{ trans('global.areYouSure') }}');">
+                        Usuń
+                    </a>
+                    @endcan
+                </div>
                     </div>
                 </div>
                 @endforeach

@@ -29,6 +29,7 @@ Route::get('print/{job}', [App\Http\Controllers\Admin\JobsController::class, 'pr
 Route::get('/is_loan/{id}', [App\Http\Controllers\Admin\RepEquipmentController::class, 'is_loan'])->name('is_loan');
 Route::get('/is_loan_delete/{id}', [App\Http\Controllers\Admin\RepEquipmentController::class, 'is_loan_delete'])->name('is_loan_delete');
 Route::get('/eq_delete/{id}', [App\Http\Controllers\Admin\RepEquipmentController::class, 'delete'])->name('delete');
+Route::get('/job_delete/{id}', [App\Http\Controllers\Admin\JobsController::class, 'destroy'])->name('destroy');
 
 Route::get('/is_done/{id}', [App\Http\Controllers\Admin\TaskController::class, 'is_done'])->name('is_done');
 
