@@ -159,7 +159,7 @@
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <label for="description">{{ trans('cruds.job.fields.description') }}</label>
-                                <textarea class="form-control" name="description[]" id="comments[]"
+                                <textarea class="form-control" name="description[]" id="description[]"
                                     rows="3">{{$job->description}}</textarea>
                             </div>
                         </div>

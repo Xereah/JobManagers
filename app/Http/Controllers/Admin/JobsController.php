@@ -190,7 +190,30 @@ class JobsController extends Controller
     }
 
     public function store(Request $request)
-    {             
+    {    
+           $request->validate([  
+            'description.*' => 'required', 
+            'start.*' => 'required', 
+            'end.*' => 'required',
+            'start_date.*' => 'required',
+            'end_date.*' => 'required',
+            'fk_tasktype.*' => 'required',
+            'fk_typetask.*' => 'required',
+            'paid.*' => 'required',
+              ], 
+                [  
+            'description.*.required' => 'Pole Opis jest wymagane',
+            'start.*.required' => 'Pole Początek jest wymagane',
+            'end.*.required' => 'Pole Koniec jest wymagane',
+            'start_date.*.required' => 'Pole Data Początkowa jest wymagane',
+            'end_date.*.required' => 'Pole Data Końcowa jest wymagane',
+            'fk_tasktype.*.required' => 'Pole Zlecenie jest wymagane',
+            'fk_typetask.*.required' => 'Pole Nazwa Zadania jest wymagane',
+            'paid.*.required' => 'Pole Płatność jest wymagane',
+                 ]);
+        
+
+
         $year = Carbon::now()->year;
         $last = DB::table('jobs')->distinct('order')->count('order');
         if($last == 0){
@@ -291,6 +314,14 @@ class JobsController extends Controller
 
     public function update(Request $request, $id)
     {
+       
+        $request->validate([  
+            'description.*.*' => 'required|string|min:3|max:255',
+              ], 
+                [  
+            'description.*.required' => 'Pole Opis jest wymagane',
+            ]);  
+            
     $company = $request->fk_company;
     $description = $request->input('description',[]); 
     $id_opis = $request->input('id_opis',[]);
@@ -356,6 +387,7 @@ class JobsController extends Controller
         );
        
         if (!empty($request->description_new[$key])) {
+          
         $created = Job::insert($data);
         
     }   

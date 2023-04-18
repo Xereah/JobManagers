@@ -86,13 +86,13 @@
                 <div class="form-row ">
                     <div class="form-group col-md-4">
                         <label for="start_date">{{ trans('cruds.job.fields.startdate') }}</label>
-                        <input type='date' id="start_date[]" name="start_date[]" class="form-control input-group-addon"
+                        <input type='date' id="start_date[]" name="start_date[]" required class="form-control input-group-addon"
                             value="{{ date("Y-m-d") }}" />
                         </span>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="end_date">{{ trans('cruds.job.fields.enddate') }}</label>
-                        <input type='date' id="end_date[]" name="end_date[]" class="form-control input-group-addon"
+                        <input type='date' id="end_date[]" name="end_date[]" required class="form-control input-group-addon"
                             value="{{ date("Y-m-d") }}" />
                         @if($errors->has('end_date'))
                         <span class="text-danger">{{ $errors->first('end_date') }}</span>
@@ -105,15 +105,15 @@
                     </div>
                     <div class="form-group col-md-4">
                         <label for="default-picker">{{ trans('cruds.job.fields.start') }}</label>
-                        <input type="time" id="start[]" name="start[]" class="form-control" placeholder="Select time">
+                        <input type="time" id="start[]" name="start[]" class="form-control" required>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="default-picker">{{ trans('cruds.job.fields.end') }}</label>
-                        <input type="time" id="end[]" name="end[]" class="form-control" placeholder="Select time">
+                        <input type="time" id="end[]" name="end[]" class="form-control" required>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="paid">{{ trans('cruds.job.fields.paid') }}</label>
-                        <select id="paid" name="paid[]" class="form-control ">
+                        <select id="paid" name="paid[]" class="form-control " required>
                             <option value="1">{{ trans('global.free') }}</option>
                             <option value="2">{{ trans('global.paid') }}</option>
                         </select>
@@ -142,7 +142,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-12">
                         <label for="description">{{ trans('cruds.job.fields.description') }}</label>
-                        <textarea class="form-control" name="description[]" id="comments[]" rows="3"></textarea>
+                        <textarea class="form-control" name="description[]" id="comments[]" rows="3" required></textarea>
                     </div>
                 </div>
             </div>
@@ -225,12 +225,12 @@ $(document).ready(function() {
                 '<div class="form-row ">'+
                     '<div class="form-group col-md-4">'+
                         '<label for="start_date">{{ trans('cruds.job.fields.startdate') }}</label>'+
-                        '<input type="date" id="start_date[]" name="start_date[]" class="form-control input-group-addon" value="{{ date("Y-m-d") }}" />'+
+                        '<input type="date" id="start_date[]" name="start_date[]" class="form-control input-group-addon" required value="{{ date("Y-m-d") }}" />'+
                         '</span>'+
                     '</div>'+
                     '<div class="form-group col-md-4">'+
                         '<label for="end_date">{{ trans('cruds.job.fields.enddate') }}</label>'+
-                        '<input type="date" id="end_date[]" name="end_date[]" class="form-control input-group-addon" value="{{ date("Y-m-d") }}" />'+
+                        '<input type="date" id="end_date[]" name="end_date[]" class="form-control input-group-addon" required value="{{ date("Y-m-d") }}" />'+
                         '@if($errors->has("end_date"))'+
                         '<span class="text-danger">{{ $errors->first("end_date") }}</span>'+
                         '@endif'+
@@ -242,15 +242,15 @@ $(document).ready(function() {
                     '</div>'+
                     '<div class="form-group col-md-4">'+
                         '<label for="default-picker">{{ trans('cruds.job.fields.start') }}</label>'+
-                        '<input type="time" id="start[]" name="start[]" class="form-control" placeholder="Select time">'+
+                        '<input type="time" id="start[]" name="start[]" class="form-control" required>'+
                     '</div>'+
                     '<div class="form-group col-md-4">'+
                         '<label for="default-picker">{{ trans('cruds.job.fields.end') }}</label>'+
-                        '<input type="time" id="end[]" name="end[]" class="form-control" placeholder="Select time">'+
+                        '<input type="time" id="end[]" name="end[]" class="form-control" required>'+
                     '</div>'+
                     '<div class="form-group col-md-4">'+
                         '<label for="paid">{{ trans('cruds.job.fields.paid') }}</label>'+
-                        '<select id="paid" name="paid[]" class="form-control ">'+
+                        '<select id="paid" name="paid[]" class="form-control " required>'+
                             '<option value="1">{{ trans('global.free') }}</option>'+
                             '<option value="2">{{ trans('global.paid') }}</option>'+
                         '</select>'+
@@ -278,7 +278,7 @@ $(document).ready(function() {
                 '<div class="form-row">'+
                     '<div class="form-group col-md-12">'+
                         '<label for="description">{{ trans('cruds.job.fields.description') }}</label>'+
-                        '<textarea class="form-control" name="description[]" id="comments[]" rows="3"></textarea>'+
+                        '<textarea class="form-control" name="description[]" id="comments[]" rows="3" required></textarea>'+
                     '</div>'+
                 '</div>'+
             '</div>';
@@ -313,5 +313,10 @@ $(document).ready(function() {
 
     });
 </script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script>
+    $('form').validate();
+</script>
+
 
 @endsection
