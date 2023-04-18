@@ -29,6 +29,7 @@
 
 body{
     font-size: 16px;
+    
 }
 @media print {
 

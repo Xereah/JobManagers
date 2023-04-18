@@ -217,7 +217,7 @@
                 </div>
                 <div>
                     @can('job_delete')
-                    <a class="btn btn-xs col-md-1 float-right  btn-danger" href="{{ url('/eq_delete', $job->id) }}"
+                    <a class="btn col-md-1 float-right  btn-danger" href="{{ url('/eq_delete', $job->id) }}"
                         onclick="return confirm('{{ trans('global.areYouSure') }}');">
                         Usuń
                     </a>
@@ -313,7 +313,7 @@
                 </div>
                 <div>
                     @can('job_delete')
-                    <a class="btn btn-xs col-md-1 float-right  btn-danger"
+                    <a class="btn col-md-1 float-right  btn-danger"
                         href="{{ url('/eq_delete', $jobs_towarys->id) }}"
                         onclick="return confirm('{{ trans('global.areYouSure') }}');">
                         Usuń
@@ -382,7 +382,7 @@
                 </div>
                 <div>
                     @can('job_delete')
-                    <a class="btn btn-xs col-md-1 float-right  btn-danger"
+                    <a class="btn col-md-1 float-right  btn-danger"
                         href="{{ url('/is_loan_delete', $jobs_sprzetzasts->id) }}"
                         onclick="return confirm('{{ trans('global.areYouSure') }}');">
                         Usuń
@@ -737,6 +737,8 @@ $('.addsprzet_pill').click(function(){
 });
 </script>
 
-<script>
+<script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
+
+{!! JsValidator::formRequest('App\Http\Requests\StoreConfirmSystem') !!}
 
 @endsection

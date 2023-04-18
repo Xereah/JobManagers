@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Auth;
 use DB;
+use Validator;
 use Carbon\Carbon;
 use Yajra\Datatables\Datatables;
 class JobsController extends Controller
@@ -315,15 +316,15 @@ class JobsController extends Controller
     public function update(Request $request, $id)
     {
        
-        $request->validate([  
-            'description.*.*' => 'required|string|min:3|max:255',
-              ], 
-                [  
-            'description.*.required' => 'Pole Opis jest wymagane',
-            ]);  
-            
+        // $request->validate([  
+        //     'description.*' => 'required|string|min:3|max:255',
+        //       ], 
+        //         [  
+        //     'description.*.required' => 'Pole Opis jest wymagane',
+        //     ]);  
+
+    $description = $request->input('description',[]);             
     $company = $request->fk_company;
-    $description = $request->input('description',[]); 
     $id_opis = $request->input('id_opis',[]);
     $contract = DB::table('companies')->where('id',  $company)->pluck('fk_contract')->first();
     foreach ($description as $key => $value) {

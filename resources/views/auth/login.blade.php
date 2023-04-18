@@ -11,6 +11,9 @@
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
 }
+body{
+    font-family:serif;
+}
 #ukryty-tekst {
   display: none;
 }
@@ -116,7 +119,8 @@
             </div>
             <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
                 <div class="text-white px-3 py-4 p-md-5 mx-md-4">
-                <button class="smiley-button float-right" id="pokaz-ukryj">😊</button>   <h2 class="mb-4" align="center" >Wiedza jest w firmie </h2>
+                <!-- <button class="smiley-button float-right" id="pokaz-ukryj">😊</button>    -->
+                <h1 class="mb-4"  style="font-family:Serif;" align="center" >Wiedza jest w firmie </h1>
                    
                     <div id="ukryty-tekst"> <h2 class="mb-4" align="center" >Ale nikt nie chce się nią podzielić</h2></div>
                 </div>

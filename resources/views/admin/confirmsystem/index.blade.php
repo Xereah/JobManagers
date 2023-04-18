@@ -128,6 +128,11 @@
                                         <label for="default-picker">{{ trans('cruds.job.fields.end') }}</label>
                                         <input type="time" id="end[]" name="end[]" class="form-control"
                                             placeholder="Select time" required>
+                                            @if ($errors->has('end[]'))
+                                                <span class="help-block">
+                                                    <strong>{{ $errors->first('end[]') }}</strong>
+                                                </span>
+                                            @endif
                                     </div>
                                   
                                 </div>
@@ -140,6 +145,11 @@
                                             <option value="{{ $TypeTasks->id }}">{{ $TypeTasks -> name }}</option>
                                             @endforeach
                                         </select>
+                                            @if ($errors->has('fk_typetask[]'))
+                                                <span class="help-block">
+                                                    <strong>{{ $errors->first('fk_typetask[]') }}</strong>
+                                                </span>
+                                            @endif
                                     </div>
                                     <div class="col-md-5">
                                         <label
@@ -152,6 +162,11 @@
                                             </option>
                                             @endforeach
                                         </select>
+                                            @if ($errors->has('fk_user[]'))
+                                                <span class="help-block">
+                                                    <strong>{{ $errors->first('fk_user[]') }}</strong>
+                                                </span>
+                                            @endif
                                     </div>
                                     <div class="col-md-2"> <label
                                                 for="paid_job">{{ trans('cruds.job.fields.paid') }}</label>
@@ -159,7 +174,12 @@
                                                 <option value="1">{{ trans('global.free') }}</option>
                                                 <option value="2">{{ trans('global.paid') }}</option>
                                             </select>
-                                        </div>
+                                            @if ($errors->has('paid_job[]'))
+                                                <span class="help-block">
+                                                    <strong>{{ $errors->first('paid_job[]') }}</strong>
+                                                </span>
+                                            @endif
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
