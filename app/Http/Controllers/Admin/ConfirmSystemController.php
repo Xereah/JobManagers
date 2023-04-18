@@ -341,7 +341,7 @@ class ConfirmSystemController extends Controller
         $sprzęt_zast= DB::table('task_type')->where('name',  'Sprzęt zastępczy(SZ)')->pluck('id')->first();
         $order = $request->input('order');
         $user_order = $request->input('user_order');
-        $user_auth = Auth::user();
+        $user_auth = Auth::user() -> id;
 
         $time1= strtotime(implode($start));          
         $time2= strtotime(implode($end));          
@@ -444,7 +444,7 @@ class ConfirmSystemController extends Controller
                 'fk_typetask' =>  $slugi_typ,
                 'fk_contract' =>  $contract,
                 'order' => $order,
-                'fk_user' => $user_order,
+                'fk_user' => $user_auth,
                 'description_goods' =>$description_goods[$key],
                 'paid_goods' =>$request->paid_goods[$key],
                 'value_goods' =>$request->value_goods[$key],
@@ -480,7 +480,7 @@ class ConfirmSystemController extends Controller
                 'fk_contract' =>  $contract,
                 'fk_typetask' =>  $slugi_typ,
                 'order' => $order,
-                'fk_user' => $user_order,
+                'fk_user' =>  $user_auth,
                 'fk_rep_eq' =>$fk_rep_eq[$key],
                 'description_eq'=>$description_equipment[$key],
                 'paid_eq'=>$request->paid_eq[$key],
