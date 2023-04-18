@@ -7,7 +7,7 @@ use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class StoreTypeTaskRequest extends FormRequest
+class StoreRepEwRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

@@ -31,6 +31,9 @@ body{
     font-size: 16px;
     
 }
+.jsv-error {
+    color: #dc3545 !important; /* czerwony kolor tekstu dla błędów */
+}
 @media print {
 
 @page {

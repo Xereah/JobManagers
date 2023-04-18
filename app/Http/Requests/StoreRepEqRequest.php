@@ -7,7 +7,7 @@ use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class StoreUserRequest extends FormRequest
+class StoreRepEqRequest extends FormRequest
 {
     public function authorize()
     {
@@ -19,23 +19,28 @@ class StoreUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'     => [
+            'eq_number'     => [
                 'required',
             ],
-            'surname'     => [
+            'eq_name'     => [
                 'required',
             ],
-            'email'    => [
-                'required',
-                'unique:users',
-                'regex:/(.+)@(.+)\.(.+)/i',
+            'serial_number'    => [
+                'required',            
             ],
-            'password' => [
+            'entry_date' => [
                 'required',
-                'min:8',
+             
             ],
-            'roles.*'  => [
+            'comments'  => [
                 'integer',
+            ],
+            'company_place'  => [
+                'integer',
+            ],
+            'eq_category'  => [
+                'integer',
+                'required',
             ],
         ];
     }

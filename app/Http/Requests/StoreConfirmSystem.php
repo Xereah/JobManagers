@@ -29,7 +29,15 @@ class StoreConfirmSystem extends FormRequest
             'end[]' => 'after_or_equal:start[]',
             'fk_typetask' => ['required', 'exists:task_type,id'],
             'fk_user' => ['required', 'exists:users,id'],
-            'description' => 'required',            
+            'description' => 'required', 
+            
+            
+            // 'description_goods.*' => 'required',  
+            // 'value_goods.*'   => 'required',   
+            // 'paid_goods.*'   => 'required',  
+            // 'fk_rep_eq.*'   => 'required',  
+            // 'paid_eq.*'   => 'required',  
+            // 'description_eq.*'   => 'required',  
             
         ];
     }

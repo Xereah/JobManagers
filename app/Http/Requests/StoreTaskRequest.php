@@ -7,11 +7,11 @@ use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class UpdateUserRequest extends FormRequest
+class StoreTaskRequest extends FormRequest
 {
     public function authorize()
     {
-        abort_if(Gate::denies('user_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('user_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
     }
@@ -19,18 +19,14 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'     => [
+            'task_title'     => [
                 'required',
             ],
-            'surname'     => [
+            'fk_company'     => [
                 'required',
             ],
-            'email' => [
-                'required',
-                'regex:/(.+)@(.+)\.(.+)/i',
-            ],
-            'roles.*'  => [
-                'integer',
+            'fk_user'    => [
+                'required',            
             ],
         ];
     }

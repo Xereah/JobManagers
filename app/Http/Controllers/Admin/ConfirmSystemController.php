@@ -81,16 +81,16 @@ class ConfirmSystemController extends Controller
     public function store(StoreConfirmSystem $request)
     {   
 
-        $request->validate([  
-            'description.*' => 'required',
-            'start.*' => 'required',
-            'end.*' => 'required',
-              ], 
-            [  
-            'description.*.required' => 'Pole Opis jest wymagane',
-            'start.*.required' => 'Pole Początek jest wymagane',
-            'end.*.required' => 'Pole Koniec jest wymagane',
-             ]);
+        // $request->validate([  
+        //     'description.*' => 'required',
+        //     'start.*' => 'required',
+        //     'end.*' => 'required',
+        //       ], 
+        //     [  
+        //     'description.*.required' => 'Pole Opis jest wymagane',
+        //     'start.*.required' => 'Pole Początek jest wymagane',
+        //     'end.*.required' => 'Pole Koniec jest wymagane',
+        //      ]);
 
     
 
@@ -153,7 +153,9 @@ class ConfirmSystemController extends Controller
                     'paid_job'=>$request->paid_job[$key],
                     'comments' => $comments1,                
                 );  
-                $created = Job::insert($data);                      
+                if(!empty($description[$key]) && isset($request->start[$key]) && isset($request->end[$key])) { 
+                    $created = Job::insert($data); 
+                }                     
             };
                         
                 foreach ($description_goods as $key => $value) {
@@ -173,8 +175,10 @@ class ConfirmSystemController extends Controller
                         'description_goods' => $description_goods[$key],
                         'paid_goods' => $request->paid_goods[$key],
                         'value_goods' => $request->value_goods[$key],
-                    );                
-                    $created = Job::insert($data1);
+                    );  
+                    if(!empty($description_goods[$key]) && isset($request->paid_goods[$key]) && isset($request->value_goods[$key])) { 
+                        $created = Job::insert($data1); 
+                    }
                      };
 
                    foreach ($fk_rep_eq as $key => $value){
@@ -194,8 +198,10 @@ class ConfirmSystemController extends Controller
                             'fk_rep_eq' => $fk_rep_eq[$key],
                             'description_eq' => $description_eq[$key],
                             'paid_eq' => $request->paid_eq[$key],
-                        );                
-                        $created = Job::insert($data2);                
+                        );  
+                        if(!empty($fk_rep_eq[$key]) && isset($request->description_eq[$key]) && isset($request->paid_eq[$key])) {               
+                        $created = Job::insert($data2);     
+                    }           
                         $data3 = array(
                             'entry_date' => $now,
                             'comments' => $description_eq[$key],
@@ -378,8 +384,8 @@ class ConfirmSystemController extends Controller
                 'comments' =>  $comments1,                                 
             ); 
             
-           
-            
+             
+            if(!empty($description[$key]) && isset($request->start[$key]) && isset($request->end[$key])) { 
             // możliwość aktualizacji
             if(!empty($id_opis[$key]))
             {
@@ -390,6 +396,7 @@ class ConfirmSystemController extends Controller
             // możliwość dodania nowych rekordów
                 $created = Job::create($data);
             }
+        }
         };   
         
         if (!empty($comments1)) {
@@ -443,7 +450,7 @@ class ConfirmSystemController extends Controller
                 'value_goods' =>$request->value_goods[$key],
             );  
 
-           
+            if(!empty($description_goods[$key]) && isset($request->paid_goods[$key]) && isset($request->value_goods[$key])) { 
             // możliwość aktualizacji
             if(!empty($id_towar[$key]))
             {
@@ -455,6 +462,7 @@ class ConfirmSystemController extends Controller
               $created = Job::create($data1);
              
             }
+        }
         };  
         
         foreach ($fk_rep_eq as $key => $value) 
@@ -477,9 +485,10 @@ class ConfirmSystemController extends Controller
                 'description_eq'=>$description_equipment[$key],
                 'paid_eq'=>$request->paid_eq[$key],
             );
+            if(!empty($fk_rep_eq[$key]) && isset($request->description_eq[$key]) && isset($request->paid_eq[$key])) {    
             // możliwość dodania nowych rekordów
                 $created = Job::create($data2); 
-                     
+            }   
             $data3 =array(
                 'entry_date' => $now,
                 'comments' => $description_equipment[$key],

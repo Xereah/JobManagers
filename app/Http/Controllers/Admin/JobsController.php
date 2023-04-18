@@ -192,26 +192,26 @@ class JobsController extends Controller
 
     public function store(Request $request)
     {    
-           $request->validate([  
-            'description.*' => 'required', 
-            'start.*' => 'required', 
-            'end.*' => 'required',
-            'start_date.*' => 'required',
-            'end_date.*' => 'required',
-            'fk_tasktype.*' => 'required',
-            'fk_typetask.*' => 'required',
-            'paid.*' => 'required',
-              ], 
-                [  
-            'description.*.required' => 'Pole Opis jest wymagane',
-            'start.*.required' => 'Pole Początek jest wymagane',
-            'end.*.required' => 'Pole Koniec jest wymagane',
-            'start_date.*.required' => 'Pole Data Początkowa jest wymagane',
-            'end_date.*.required' => 'Pole Data Końcowa jest wymagane',
-            'fk_tasktype.*.required' => 'Pole Zlecenie jest wymagane',
-            'fk_typetask.*.required' => 'Pole Nazwa Zadania jest wymagane',
-            'paid.*.required' => 'Pole Płatność jest wymagane',
-                 ]);
+        //    $request->validate([  
+        //     'description.*' => 'required', 
+        //     'start.*' => 'required', 
+        //     'end.*' => 'required',
+        //     'start_date.*' => 'required',
+        //     'end_date.*' => 'required',
+        //     'fk_tasktype.*' => 'required',
+        //     'fk_typetask.*' => 'required',
+        //     'paid.*' => 'required',
+        //       ], 
+        //         [  
+        //     'description.*.required' => 'Pole Opis jest wymagane',
+        //     'start.*.required' => 'Pole Początek jest wymagane',
+        //     'end.*.required' => 'Pole Koniec jest wymagane',
+        //     'start_date.*.required' => 'Pole Data Początkowa jest wymagane',
+        //     'end_date.*.required' => 'Pole Data Końcowa jest wymagane',
+        //     'fk_tasktype.*.required' => 'Pole Zlecenie jest wymagane',
+        //     'fk_typetask.*.required' => 'Pole Nazwa Zadania jest wymagane',
+        //     'paid.*.required' => 'Pole Płatność jest wymagane',
+        //          ]);
         
 
 
@@ -269,8 +269,9 @@ class JobsController extends Controller
                     'end' => $request->end[$key],
                     'description' =>$request->description[$key],    
                 );
-               
+                if(!empty($description[$key]) && isset($request->start[$key]) && isset($request->end[$key])) { 
                 $created = Job::insert($data); 
+                }
              }  
          return redirect()->route('admin.jobs.index')->with('success', 'Pomyślnie dodano nowe zadanie.'); 
     }
@@ -351,9 +352,9 @@ class JobsController extends Controller
             'description' =>$request->description[$key],                          
         );     
         
-        
-
-        Job::where('id',$id_opis[$key])->update($data);       
+            if(!empty($description[$key]) && isset($request->start[$key]) && isset($request->end[$key])) { 
+            Job::where('id',$id_opis[$key])->update($data);   
+            }    
      }
 
      $description_new = $request->input('description_new',[]);
@@ -387,7 +388,7 @@ class JobsController extends Controller
             'description' =>$request->description_new[$key],
         );
        
-        if (!empty($request->description_new[$key])) {
+        if(!empty($description_new[$key]) && isset($request->start_new[$key]) && isset($request->end_new[$key])) { 
           
         $created = Job::insert($data);
         

@@ -41,13 +41,12 @@ class StoreCompanyRequest extends FormRequest
             ],
             'phonenumber' => [
                 'required',
-                'numeric',
-                
-
+                'numeric',              
             ],
             'email' => [
                 'required',
                 'regex:/(.+)@(.+)\.(.+)/i',
+                'unique:companies',
             ],
 
         ];
