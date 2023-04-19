@@ -86,7 +86,7 @@ class RepEquipmentController extends Controller
     {
         abort_if(Gate::denies('equipment_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $company_place=DB::table('companies')->where('shortcode', 'KASPERKOMPUTER')->pluck('id')->first();
+        $company_place=DB::table('kontrahenci')->where('kontrahent_kod', 'KASPERKOMPUTER')->pluck('id')->first();
         $now = Carbon::now();
         $data =array(
             'entry_date' => $now,
@@ -103,7 +103,7 @@ class RepEquipmentController extends Controller
     {
         abort_if(Gate::denies('equipment_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $company_place=DB::table('companies')->where('shortcode', 'KASPERKOMPUTER')->pluck('id')->first();
+        $company_place=DB::table('kontrahenci')->where('kontrahent_kod', 'KASPERKOMPUTER')->pluck('id')->first();
         $id_delete=DB::table('jobs')->where('id',$id)->pluck('fk_rep_eq')->last();
 
         $now = Carbon::now();
