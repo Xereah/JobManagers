@@ -35,8 +35,8 @@ class ConfirmSystemController extends Controller
     public function index()
     {
 
-        $companies = Company::orderby("shortcode","asc")
-         ->select('id','shortcode')
+        $companies = Company::orderby("kontrahent_kod","asc")
+         ->select('id','kontrahent_kod')
          ->get();
          $user = Auth::user();
          $user_all = User::all()->unique();
@@ -48,13 +48,13 @@ class ConfirmSystemController extends Controller
         return view('admin.confirmsystem.index', compact('companies','user','user_all','TypeTask','TaskType','car','repEquipment'));
     }
 
-    public function getEmployees($company=0){        
-        $empData['data'] = DB::table('companies')
-           ->select('id','name','distance', DB::raw("CONCAT(companies.location,' ',companies.street) AS adress"))        
-           ->where('id',$company)
-           ->get();   
-        return response()->json($empData);   
-      }
+    // public function getEmployees($company=0){        
+    //     $empData['data'] = DB::table('companies')
+    //        ->select('id','name','distance', DB::raw("CONCAT(companies.location,' ',companies.street) AS adress"))        
+    //        ->where('id',$company)
+    //        ->get();   
+    //     return response()->json($empData);   
+    //   }
 
       public function getTask($TypeTask=0)
       {       
@@ -110,11 +110,11 @@ class ConfirmSystemController extends Controller
             $fk_rep_eq = $request->input('fk_rep_eq',[]);
             $description_eq = $request->input('description_eq',[]);               
             $company =$request->input('fk_company');
-            $contract = DB::table('companies')->where('id',  $company)->pluck('fk_contract')->first();
+            $contract = DB::table('kontrahenci')->where('id',  $company)->pluck('kontrahent_grupa')->first();
             $usługi = DB::table('task_type')->where('name', 'Usługi(U)')->pluck('id')->first();
             $towary = DB::table('task_type')->where('name', 'Towary(T)')->pluck('id')->first();
             $slugi_typ = DB::table('type_task')->where('name', 'Serwis sprzętu komputerowego')->pluck('id')->first();
-            $location = DB::table('companies')->where('id',  $company)->pluck('id')->first();
+            $location = DB::table('kontrahenci')->where('id',  $company)->pluck('id')->first();
             $sprzęt_zast= DB::table('task_type')->where('name',  'Sprzęt zastępczy(SZ)')->pluck('id')->first();
             $user_auth = Auth::user();
             $comments1 = $request->comments[0];
@@ -260,7 +260,7 @@ class ConfirmSystemController extends Controller
         ->where('order', '==', $jobi)
         ->wherenotNull('fk_rep_eq');
         $company = $job->fk_company;
-        $company_km = DB::table('companies')->where('id',  $company)->pluck('distance')->first();
+        $company_km = DB::table('kontrahenci')->where('id',  $company)->pluck('kontrahent_odleglosc')->first();
         
         return view('admin.confirmsystem.print', compact('job','jobs','minsandsecs','jobs_towary','jobs_sprzetzast','company_km'));
     }
@@ -333,11 +333,11 @@ class ConfirmSystemController extends Controller
         $fk_rep_eq = $request->input('fk_rep_eq',[]);   
         $description_equipment = $request->input('description_eq',[]);             
         $company =$request->input('fk_company');
-        $contract = DB::table('companies')->where('id',  $company)->pluck('fk_contract')->first();
+        $contract = DB::table('kontrahenci')->where('id',  $company)->pluck('kontrahent_grupa')->first();
         $usługi = DB::table('task_type')->where('name', 'Usługi(U)')->pluck('id')->first();
         $towary = DB::table('task_type')->where('name', 'Towary(T)')->pluck('id')->first();
         $slugi_typ = DB::table('type_task')->where('name', 'Serwis sprzętu komputerowego')->pluck('id')->first();
-        $location = DB::table('companies')->where('id',  $company)->pluck('id')->first();
+        $location = DB::table('kontrahenci')->where('id',  $company)->pluck('id')->first();
         $sprzęt_zast= DB::table('task_type')->where('name',  'Sprzęt zastępczy(SZ)')->pluck('id')->first();
         $order = $request->input('order');
         $user_order = $request->input('user_order');
@@ -517,8 +517,8 @@ class ConfirmSystemController extends Controller
         $job = Job::findOrFail($id);
         $jobi = $job->order;      
         $company = $job->fk_company;
-        $company_mail = DB::table('companies')->where('id',  $company)->pluck('email')->first();
-        $company_km = DB::table('companies')->where('id',  $company)->pluck('distance')->first();
+        $company_mail = DB::table('kontrahenci')->where('id',  $company)->pluck('kontrahent_email')->first();
+        $company_km = DB::table('kontrahenci')->where('id',  $company)->pluck('kontrahent_odleglosc')->first();
         $time = Job::where('order', $jobi)->sum(DB::raw("TIME_TO_SEC(time)/60"));
         $minsandsecs = date('i:s', $time);
         $jobs = Job::where('order', $jobi)->whereNotNull('description')->get();

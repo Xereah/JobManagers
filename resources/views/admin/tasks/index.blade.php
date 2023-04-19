@@ -81,7 +81,7 @@
                             <!-- {{ $task->id }} -->
                         </td>
                         <td>
-                            {{$task->company->shortcode}}
+                            {{$task->company->kontrahent_kod}}
                            
                         </td>
                         <td style="text-align:left">

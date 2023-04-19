@@ -21,7 +21,7 @@ class CreateRepEquipmentTable extends Migration
             $table->date('entry_date');
             $table->string('comments')->nullable();
             $table->unsignedInteger('company_place')->unsigned()->nullable();
-            $table->foreign('company_place')->references('id')->on('companies')->onDelete('cascade');
+            $table->foreign('company_place')->references('id')->on('kontrahenci')->onDelete('cascade');
             $table->unsignedInteger('eq_category')->unsigned()->nullable();
             $table->boolean('is_loan')->unsigned()->nullable();
             $table->timestamps();

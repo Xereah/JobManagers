@@ -100,13 +100,13 @@
             <tbody>
                 <tr>
                     <td style="width:30%; text-align: left;">
-                        <div><strong>Akronim Klienta:</strong> {{ $job->company ->shortcode ?? '' }}</div>
-                        <div><strong>Klient:</strong> {{ $job->company -> name ?? '' }} <br>
-                            {{ $job->company -> street ?? '' }} {{ $job->company -> zipcode ?? '' }}
-                            {{ $job->company -> location ?? '' }} </div>
-                        <div><strong>Mejsce wykonania usług:</strong><br> {{ $job->company -> street ?? ''}}
-                            {{$job->company -> zipcode ?? ''}}
-                            {{$job->company -> location ?? ''}}</div>
+                        <div><strong>Akronim Klienta:</strong> {{ $job->company ->kontrahent_kod ?? '' }}</div>
+                        <div><strong>Klient:</strong> {{ $job->company -> kontrahent_nazwa1 ?? '' }} {{ $job->company -> kontrahent_nazwa2 ?? '' }} {{ $job->company -> kontrahent_nazwa3 ?? '' }} <br>
+                            {{ $job->company -> kontrahent_ulica ?? '' }} {{ $job->company -> kontrahent_kodpocztowy ?? '' }}
+                            {{ $job->company -> kontrahent_miasto ?? '' }} </div>
+                        <div><strong>Mejsce wykonania usług:</strong><br> {{ $job->company -> kontrahent_ulica ?? ''}}
+                            {{$job->company -> kontrahent_kodpocztowy ?? ''}}
+                            {{$job->company -> kontrahent_miasto ?? ''}}</div>
                     </td>
                     <td align="center" style="width:40%; visibility: hidden;">
                         ----------------------------

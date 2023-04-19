@@ -40,7 +40,7 @@
                             <option value=""></option>
                             @foreach($Company as $Companies)                           
                             <option  value="{{ $Companies->id }}" @if($Companies->id == $RepEquipment->company_place)
-                                    selected="selected" @endif>{{ $Companies -> shortcode }}</option>                        
+                                    selected="selected" @endif>{{ $Companies -> kontrahent_kod }}</option>                        
                             @endforeach
                            
                         </select>
@@ -48,7 +48,7 @@
 
             <div class="form-group {{ $errors->has('comments') ? 'has-error' : '' }}">
                 <label for="shortcode">Uwagi*</label>
-                <textarea class="form-control" name="comments" id="comments" value="{{ $RepEquipment->comments }}" rows="3"></textarea>
+                <textarea class="form-control" name="comments" id="comments" rows="3">{{ $RepEquipment->comments }}</textarea>
             </div>
 
             <div class="form-group {{ $errors->has('entry_date') ? 'has-error' : '' }}">

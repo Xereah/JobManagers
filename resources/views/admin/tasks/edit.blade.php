@@ -14,7 +14,7 @@
                             <option value=""></option>
                             @foreach($companies as $company)
                                 <option value="{{ $company->id }}" @if($company->id == $task->fk_company)
-                                    selected="selected" @endif>{{ $company -> shortcode }}</option>
+                                    selected="selected" @endif>{{ $company -> kontrahent_kod }}</option>
                                 @endforeach
                            
                         </select>

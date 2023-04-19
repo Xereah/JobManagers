@@ -19,34 +19,59 @@ class StoreCompanyRequest extends FormRequest
     public function rules()
     {
         return [
-            'shortcode' => [
+            'kontrahent_kod' => [
                 'required',
             ],
-            'name' => [
+            'kontrahent_nazwa1' => [
                 'required',
                 'min:10',
                 'max:255',
             ],
-            'street' => [
+            'kontrahent_nazwa2' => [
+                'max:255',
+            ],
+            'kontrahent_nazwa3' => [
+                'max:255',
+            ],
+            'kontrahent_ulica' => [
                 'required',
                 'min:5',
                 'max:255',
             ],
-            'zipcode' => [
+            'kontrahent_miasto' => [
+                'required',
+                'min:5',
+                'max:255',
+            ],
+            'kontrahent_kodpocztowy' => [
                 'required',
                 'regex:/^(?:\d{2}-\d{3})$/i',
             ],
-            'location' => [
+            'kontrahent_poczta' => [
                 'required',
+                'min:5',
+                'max:255',
             ],
-            'phonenumber' => [
+            'kontrahent_telefon1' => [
                 'required',
                 'numeric',              
             ],
-            'email' => [
+            'kontrahent_email' => [
                 'required',
                 'regex:/(.+)@(.+)\.(.+)/i',
-                'unique:companies',
+                
+            ],
+            'kontrahent_odleglosc' => [
+                'required',
+            ],
+            'kontrahent_grupa' => [
+                'required',
+            ],
+            'kontrahent_nip' => [
+                'required',
+                'min:5',
+                'max:14',
+                'unique:kontrahenci',
             ],
 
         ];

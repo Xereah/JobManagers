@@ -32,9 +32,6 @@ class StoreRepEqRequest extends FormRequest
                 'required',
              
             ],
-            'comments'  => [
-                'integer',
-            ],
             'company_place'  => [
                 'integer',
             ],

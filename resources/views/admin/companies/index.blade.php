@@ -75,31 +75,31 @@
 
                             </td>                            
                             <td>
-                                {{ $company->shortcode ?? '' }}
+                                {{ $company->kontrahent_kod ?? '' }}
                             </td>
                             <td>
-                                {{ $company->name ?? '' }}
+                                {{ $company->kontrahent_nazwa1 ?? '' }}  {{ $company->kontrahent_nazwa2 ?? '' }}  {{ $company->kontrahent_nazwa3 ?? '' }}
                             </td>
                             <td>
-                                {{ $company->street ?? '' }}
+                                {{ $company->kontrahent_ulica ?? '' }}
                             </td>    
                             <td>
                                 {{ $company->contract->contract_name ?? '' }}
                             </td>               
                             <td>
-                                {{ $company->zipcode ?? '' }}
+                                {{ $company->kontrahent_poczta ?? '' }}
                             </td> 
                             <td>
-                                {{ $company->location ?? '' }}
+                                {{ $company->kontrahent_miasto ?? '' }}
                             </td>  
                             <td>
-                                {{ $company->phonenumber ?? '' }}
+                                {{ $company->kontrahent_telefon1 ?? '' }} <br> {{ $company->kontrahent_telefon2 ?? '' }}
                             </td>   
                             <td>
-                                {{ $company->email ?? '' }}
+                                {{ $company->kontrahent_email ?? '' }}
                             </td>  
                             <td>
-                                {{ $company->distance ?? '' }}
+                                {{ $company->kontrahent_odleglosc ?? '' }}
                             </td> 
                             <td width="10">
                                 <div class="btn-group" role="group">

@@ -10,7 +10,7 @@ class Company extends Model
 {
     use SoftDeletes;
 
-    public $table = 'companies';
+    public $table = 'kontrahenci';
 
   
 
@@ -21,21 +21,27 @@ class Company extends Model
     ];
 
     protected $fillable = [
-        'shortcode',
-        'name',
-        'street',
-        'zipcode',
-        'location',
-        'phonenumber',
-        'email',
-        'distance',
-        'fk_contract',
+        'kontrahent_kod',
+        'kontrahent_nazwa1',
+        'kontrahent_nazwa2',
+        'kontrahent_nazwa3',
+        'kontrahent_ulica',
+        'kontrahent_nrdomu',
+        'kontrahent_nrlokalu',
+        'kontrahent_miasto',
+        'kontrahent_kodpocztowy',
+        'kontrahent_poczta',
+        'kontrahent_nip',
+        'kontrahent_telefon1',
+        'kontrahent_telefon2',
+        'kontrahent_email',
+        'kontrahent_odleglosc',
+        'kontrahent_grupa',
         'created_at',
         'updated_at',
         'deleted_at',
     ];
 
-   
     // public function jobs()
     // {
     //     return $this->hasMany(Job::class, 'company_id', 'id');
@@ -47,7 +53,7 @@ class Company extends Model
      }
      public function contract()
      {
-         return $this->belongsTo('App\Models\Contracts','fk_contract')->withTrashed();
+         return $this->belongsTo('App\Models\Contracts','kontrahent_grupa')->withTrashed();
      }
 
      public function location()

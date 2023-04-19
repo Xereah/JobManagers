@@ -36,6 +36,7 @@ class CompaniesController extends Controller
     public function store(StoreCompanyRequest $request)
     {
         $company = Company::create($request->all());
+    
         return redirect()->route('admin.companies.index')->with('success', 'Pomyślnie dodano nowego kontrahenta.');
     }
 

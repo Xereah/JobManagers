@@ -37,7 +37,7 @@
                             <select name="fk_company" id="fk_company" class="form-control select2" required>
                                 <option value=""></option>
                                 @foreach($companies as $company)
-                                <option value="{{ $company->id }}">{{ $company -> shortcode }}</option>
+                                <option value="{{ $company->id }}">{{ $company -> kontrahent_kod }}</option>
                                 @endforeach
                             </select>
                         </div>

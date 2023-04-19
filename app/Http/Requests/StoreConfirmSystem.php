@@ -19,7 +19,7 @@ class StoreConfirmSystem extends FormRequest
     public function rules()
     {
         return [
-            'fk_company' => ['required', 'exists:companies,id'],
+            'fk_company' => ['required', 'exists:kontrahenci,id'],
             'fk_car' => ['required', 'exists:cars,id'],
             'start_car' => 'required|before_or_equal:end_car',
             'end_car' => 'required|after_or_equal:start_car',

@@ -79,8 +79,8 @@
                             {{$RepEquipments->serial_number}}
                         </td>
                         <td>
-                            @if(!empty($RepEquipments->company->shortcode))
-                            {{$RepEquipments->company->shortcode}}
+                            @if(!empty($RepEquipments->company->kontrahent_kod))
+                            {{$RepEquipments->company->kontrahent_kod}}
                             @else
                             @endif
                         </td>

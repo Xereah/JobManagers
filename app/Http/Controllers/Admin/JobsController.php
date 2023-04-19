@@ -113,7 +113,7 @@ class JobsController extends Controller
                 return  '';
             })
             ->editColumn('fk_company', function ($job) {
-                return  $job->company->shortcode;
+                return  $job->company->kontrahent_kod;
             })
             ->editColumn('comments', function ($job) {
                 return  $job->comments;
@@ -144,7 +144,7 @@ class JobsController extends Controller
         
         $filter_typetask = TypeTask::all()->pluck('name')->unique();
         $filter_tasktype = TaskType::all()->pluck('name')->unique();
-        $filter_company = Company::all()->pluck('shortcode')->unique();
+        $filter_company = Company::all()->pluck('kontrahent_kod')->unique();
         $filter_contract = Contracts::all()->pluck('contract_name')->unique();
         $filter_user = User::all();     
         $user_all = User::all();
@@ -235,7 +235,7 @@ class JobsController extends Controller
             $comments = $request->input('comments',[]);
             $value = $request->input('value',[]);
             $company =$request->input('fk_company');
-            $contract = DB::table('companies')->where('id',  $company)->pluck('fk_contract')->first();
+            $contract = DB::table('kontrahenci')->where('id',  $company)->pluck('kontrahent_grupa')->first();
 
             $time1= strtotime(implode($start));          
             $time2= strtotime(implode($end));          
