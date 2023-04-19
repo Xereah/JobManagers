@@ -15,7 +15,26 @@ class StoreConfirmSystem extends FormRequest
 
         return true;
     }
+    public function messages()
+    {
+    return [
+        'description.required' => 'Pole Opis jest wymagane',
+        'fk_user.required' => 'Pole Odpowiedzialny jest wymagane',
+        'fk_typetask.required' => 'Pole Nazwa Zadania jest wymagane',
+        'start[].required' => 'Pole Początek jest wymagane',
+        'end[].required' => 'Pole Koniec jest wymagane',
+        'end[].after_or_equal' => 'Koniec nie może być wcześniejszy niż koniec',
+        'start[].before_or_equal' => 'Początek nie może być późniejszy niż koniec',
+        'start_date.required' => 'Pole Data Usługi jest wymagane',
+        'start_car.required' => 'Pole Wyjazd jest wymagane',
+        'start_car.before_or_equal' => 'Godzina wyjazdu nie może być późniejsza niż przyjazdu',
+        'end_car.required' => 'Pole Przyjazd jest wymagane',
+        'end_car.after_or_equal' => 'Godzina przyjazdu nie może być wcześniejsza niż wyjazdu',
+        'fk_car.required' => 'Pole Samochód jest wymagane',
+        'fk_company.required' => 'Pole Firma jest wymagane',
 
+    ];
+    }
     public function rules()
     {
         return [

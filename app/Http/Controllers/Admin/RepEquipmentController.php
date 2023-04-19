@@ -116,7 +116,7 @@ class RepEquipmentController extends Controller
          $created = RepEquipment::where('id',$id_delete)->update($data); 
          $job = Job::find($id);      
          $job->delete();
-        return back() ->with('success', 'Pomyślnie dokonano zwrotu sprzętu na serwis.'); 
+         return redirect()->route('admin.jobs.index')->with('success', 'Pomyślnie dokonano zwrotu sprzętu na serwis.');
     }
 
     public function delete($id)
