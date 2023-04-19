@@ -51,7 +51,7 @@ class StoreConfirmSystem extends FormRequest
             'description' => 'required', 
             
             
-            // 'description_goods.*' => 'required',  
+            
             // 'value_goods.*'   => 'required',   
             // 'paid_goods.*'   => 'required',  
             // 'fk_rep_eq.*'   => 'required',  
