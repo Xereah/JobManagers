@@ -104,7 +104,7 @@
                     @foreach($jobs as $key => $job)
                     <tr>
                         <td class="center">{{$i}}</td>
-                        <td class="left strong"><b> {{ $job->task_type->name ?? '' }}</b></td>
+                        <td class="left strong"><b> {{ $job->type_task->name ?? '' }}</b></td>
                         <td></td>
                         <?php
                         $zmienna1=$job->user->name;

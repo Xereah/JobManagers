@@ -247,16 +247,13 @@
                          ?>
                         
                             @if($pos === false)
-                                <a class="text-success" data-toggle="modal" id="mediumButton" data-target="#mediumModal"
-                                data-attr="{{ url('/job/editone', $job->id) }}">
+                                <a class="text-success" href="{{ route('admin.jobs.edit', $job->id) }}">
                                 {{ $job->type_task->name ?? '' }}
-                            </a>
-                                
+                            </a>                                
                                 @else 
                                     <a class="text-info" href="{{ route('admin.ConfirmSystem.edit', $job->id) }}" class="nav-link">
                                 {{ $job->type_task->name ?? '' }}
-                            </a>
-                                
+                            </a>                                
                             @endif
 
                         </td>
@@ -266,8 +263,7 @@
                         </td>
                         <td>
                         @if($pos === false)
-                            <a class="text-success" data-toggle="modal" id="mediumButton" data-target="#mediumModal"
-                                data-attr="{{ route('admin.jobs.edit', $job->id) }}">
+                            <a class="text-success" href="{{ route('admin.jobs.edit', $job->id) }}">
                                 {{ $job->order ?? '' }}
                             </a>
                             @else 
@@ -277,7 +273,7 @@
                             @endif
                         </td>
                         <td>
-                            {{ $job->company -> shortcode ?? '' }}
+                            {{ $job->company -> kontrahent_kod ?? '' }}
 
                         </td>
                         <td>
