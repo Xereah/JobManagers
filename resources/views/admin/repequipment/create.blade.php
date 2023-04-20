@@ -63,7 +63,7 @@
                         <select name="company_place" id="company_place" class="form-control select2" >
                             <option value=""></option>
                             @foreach($Company as $Companies)                           
-                            <option  value="{{ $Companies->id }}">{{ $Companies -> kontrahent_kod }}</option>                        
+                            <option  value="{{ $Companies->kontrahent_id }}">{{ $Companies -> kontrahent_kod }}</option>                        
                             @endforeach
                            
                         </select>

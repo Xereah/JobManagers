@@ -9,7 +9,7 @@ class CreateCompaniesTable extends Migration
     public function up()
     {
         Schema::create('kontrahenci', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('kontrahent_id');
             $table->string('kontrahent_kod', )->nullable();   
             $table->string('kontrahent_nazwa1',50)->nullable();
             $table->string('kontrahent_nazwa2',50)->nullable();

@@ -7,7 +7,7 @@
 
 <div class="card col-md-6 mx-auto">
     <div class="card-body">
-    <form action="{{ route("admin.companies.update", [$company->id]) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route("admin.companies.update", [$company->kontrahent_id]) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 

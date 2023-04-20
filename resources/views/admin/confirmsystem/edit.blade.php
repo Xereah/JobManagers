@@ -37,7 +37,7 @@
                                 <label for="fk_company">{{ trans('cruds.job.fields.company') }}</label>
                                 <select name="fk_company" id="fk_company" class="form-control select2" required>
                                     @foreach($companies as $company)
-                                    <option value="{{ $company->id }}" @if($company->id == $job->fk_company)
+                                    <option value="{{ $company->kontrahent_id }}" @if($company->kontrahent_id == $job->fk_company)
                                         selected="selected" @endif>{{ $company -> kontrahent_kod }}</option>
                                     @endforeach
                                 </select>

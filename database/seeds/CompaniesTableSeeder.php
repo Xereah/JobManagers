@@ -17,7 +17,7 @@ class CompaniesTableSeeder extends Seeder
 
         $companies = [
 
-            ['id' => 1, 
+            ['kontrahent_id' => 1, 
             'kontrahent_kod' => 'KASPERKOMPUTER', 
             'kontrahent_nazwa1' => 'KASPER KOMPUTER SP Z.O.O',
             'kontrahent_ulica'=>'Podmiejska', 
@@ -31,7 +31,7 @@ class CompaniesTableSeeder extends Seeder
             'kontrahent_grupa' => '7'],    
 
 
-            ['id' => 2, 
+            ['kontrahent_id' => 2, 
             'kontrahent_kod' => 'MEDKALMEDIX', 
             'kontrahent_nazwa1' => 'KALISKA AGENCJA MEDYCZNA MEDIX SP Z.O.O',
             'kontrahent_ulica'=>'Majkowska 13A', 
@@ -44,7 +44,7 @@ class CompaniesTableSeeder extends Seeder
             'kontrahent_email'=>'rejestracja@medix.kalisz.pl',
             'kontrahent_grupa' => '6'],   
             
-            ['id' => 3, 
+            ['kontrahent_id' => 3, 
             'kontrahent_kod' => 'MEDSIETRESMED', 
             'kontrahent_nazwa1' => 'TRES MED SP Z.O.O',
             'kontrahent_ulica'=>'Krakowskie Przedmieście ', 
@@ -57,7 +57,7 @@ class CompaniesTableSeeder extends Seeder
             'kontrahent_email'=>'tresmed@op.pl',
             'kontrahent_grupa' => '6'],  
 
-            ['id' => 4, 
+            ['kontrahent_id' => 4, 
             'kontrahent_kod' => 'HAFT', 
             'kontrahent_nazwa1' => 'FABRYKA FIRANEK I KORONEK HAFT S.A ',
             'kontrahent_ulica'=>'Złota', 
@@ -70,7 +70,7 @@ class CompaniesTableSeeder extends Seeder
             'kontrahent_email'=>'haft@wp.pl',
             'kontrahent_grupa' => '7'],  
 
-            ['id' => 5, 
+            ['kontrahent_id' => 5, 
             'kontrahent_kod' => 'APWRÓZDRÓWKO', 
             'kontrahent_nazwa1' => 'Apteka Zdrówko ',
             'kontrahent_ulica'=>'', 
@@ -83,7 +83,7 @@ class CompaniesTableSeeder extends Seeder
             'kontrahent_email'=>'apteka@wp.pl',
             'kontrahent_grupa' => '3'], 
             
-            ['id' => 6, 
+            ['kontrahent_id' => 6, 
             'kontrahent_kod' => 'APWRÓARNIKA', 
             'kontrahent_nazwa1' => 'Apteka Arnika ',
             'kontrahent_ulica'=>'', 
@@ -103,7 +103,7 @@ class CompaniesTableSeeder extends Seeder
 
         foreach ($companies as $company) {
             DB::table('kontrahenci')->insert([
-                'id' => $company['id'],               
+                'kontrahent_id' => $company['kontrahent_id'],               
                 'kontrahent_kod' => $company['kontrahent_kod'],
                 'kontrahent_nazwa1' => $company['kontrahent_nazwa1'],
                 'kontrahent_ulica' => $company['kontrahent_ulica'],

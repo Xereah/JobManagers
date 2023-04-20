@@ -12,7 +12,7 @@ class CreateJobsTable extends Migration
             $table->increments('id');
 
             $table->unsignedInteger('fk_company')->unsigned()->nullable();
-            $table->foreign('fk_company')->references('id')->on('kontrahenci')->onDelete('cascade');
+            $table->foreign('fk_company')->references('kontrahent_id')->on('kontrahenci')->onDelete('cascade');
 
             $table->integer('rns')->nullable();
 

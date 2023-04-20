@@ -19,8 +19,9 @@ class Company extends Model
         'updated_at',
         'deleted_at',
     ];
-
+    protected $primaryKey = 'kontrahent_id';
     protected $fillable = [
+        'kontrahent_id',
         'kontrahent_kod',
         'kontrahent_nazwa1',
         'kontrahent_nazwa2',

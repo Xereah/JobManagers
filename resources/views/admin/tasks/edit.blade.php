@@ -13,7 +13,7 @@
                         <select name="fk_company" id="fk_company" class="form-control select2" required>
                             <option value=""></option>
                             @foreach($companies as $company)
-                                <option value="{{ $company->id }}" @if($company->id == $task->fk_company)
+                                <option value="{{ $company->kontrahent_id }}" @if($company->kontrahent_id == $task->fk_company)
                                     selected="selected" @endif>{{ $company -> kontrahent_kod }}</option>
                                 @endforeach
                            

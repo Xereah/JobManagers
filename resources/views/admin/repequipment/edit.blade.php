@@ -39,7 +39,7 @@
                         <select name="company_place" id="company_place" class="form-control select2" >
                             <option value=""></option>
                             @foreach($Company as $Companies)                           
-                            <option  value="{{ $Companies->id }}" @if($Companies->id == $RepEquipment->company_place)
+                            <option  value="{{ $Companies->kontrahent_id }}" @if($Companies->kontrahent_id == $RepEquipment->company_place)
                                     selected="selected" @endif>{{ $Companies -> kontrahent_kod }}</option>                        
                             @endforeach
                            

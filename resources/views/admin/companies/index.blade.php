@@ -104,12 +104,12 @@
                             <td width="10">
                                 <div class="btn-group" role="group">
                                 @can('company_edit')
-                                    <a class="btn  btn-info" href="{{ route('admin.companies.edit', $company->id) }}" title="{{ trans('global.edit') }}">
+                                    <a class="btn  btn-info" href="{{ route('admin.companies.edit', $company->kontrahent_id) }}" title="{{ trans('global.edit') }}">
                                     <i class="fas fa-edit"></i>
                                     </a>
                                 @endcan
                                 @can('company_delete')
-                                <form action="{{ route('admin.companies.destroy', $company->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                <form action="{{ route('admin.companies.destroy', $company->kontrahent_id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                     <input type="hidden" name="_method" value="DELETE">
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     <button type="submit" class="btn  btn-danger" title="{{ trans('global.delete') }}">

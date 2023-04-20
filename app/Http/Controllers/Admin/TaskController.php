@@ -45,7 +45,7 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         $company =$request->input('fk_company');
-        $contract = DB::table('kontrahenci')->where('id',  $company)->pluck('kontrahent_grupa')->first();
+        $contract = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_grupa')->first();
         $now = Carbon::now();
         $data = array(     
             'task_title' => $request->task_title,
@@ -101,7 +101,7 @@ class TaskController extends Controller
         $task = Task::findOrFail($id);
         // $task->update($request->all());
         $company =$request->input('fk_company');
-        $contract = DB::table('kontrahenci')->where('id',  $company)->pluck('kontrahent_grupa')->first();
+        $contract = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_grupa')->first();
         $now = Carbon::now();
 
         $data = array(     
