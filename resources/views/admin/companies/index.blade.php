@@ -84,7 +84,7 @@
                                 {{ $company->kontrahent_ulica ?? '' }}
                             </td>    
                             <td>
-                                {{ $company->contract->contract_name ?? '' }}
+                                {{ $company->kontrahent_grupa ?? '' }}
                             </td>               
                             <td>
                                 {{ $company->kontrahent_poczta ?? '' }}

@@ -35,7 +35,7 @@
     <select class="form-control" style="display: inline-block;" id="filtr_umow">
         <option value="">-------- {{ trans('cruds.job.fields.contracts') }} --------</option>
         @foreach($filter_contracts as $contracts)
-        <option value="{{ $contracts ->id }}" style="text-align: center;">{{ $contracts-> contract_name }} </option>
+        <option value="{{ $contracts ->contract_name }}" style="text-align: center;">{{ $contracts-> contract_name }} </option>
         @endforeach
     </select>
 </div>
@@ -105,7 +105,7 @@
                                     name="contract_filter">
                                     <option value="">-----{{ trans('cruds.job.fields.choose') }}-----</option>
                                     @foreach($filter_contracts as $contracts)
-                                    <option value="{{ $contracts ->id }}">{{ $contracts-> contract_name }} </option>
+                                    <option value="{{ $contracts ->contract_name }}">{{ $contracts-> contract_name }} </option>
                                     @endforeach
                                 </select></div>
                         </div>

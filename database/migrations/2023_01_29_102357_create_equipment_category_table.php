@@ -15,7 +15,7 @@ class CreateEquipmentCategoryTable extends Migration
     {
         Schema::create('equipment_category', function (Blueprint $table) {
             $table->id();
-            $table->string('category_name');
+            $table->string('category_name')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

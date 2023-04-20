@@ -20,12 +20,12 @@ class CreateCompaniesTable extends Migration
             $table->string('kontrahent_miasto',40)->nullable();    
             $table->string('kontrahent_kodpocztowy', 10)->nullable();
             $table->string('kontrahent_poczta',40)->nullable();
-            $table->string('kontrahent_nip', 10)->unique()->nullable();       
-            $table->string('kontrahent_telefon1',20)->unique()->nullable();
-            $table->string('kontrahent_telefon2',20)->unique()->nullable();
+            $table->string('kontrahent_nip', 10)->nullable();       
+            $table->string('kontrahent_telefon1',20)->nullable();
+            $table->string('kontrahent_telefon2',20)->nullable();
             $table->string('kontrahent_odleglosc',100)->nullable();
             $table->string('kontrahent_email', 100)->nullable();
-            $table->string('kontrahent_grupa',20)->nullable();
+            $table->string('kontrahent_grupa',50)->nullable();
     
             $table->timestamps();
     

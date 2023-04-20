@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
             PermissionRoleTableSeeder::class,
             UsersTableSeeder::class,
             RoleUserTableSeeder::class,
-            CompaniesTableSeeder::class,
+           // CompaniesTableSeeder::class,
             TaskTypeTableSeeder::class,
             TypeTaskTableSeeder::class,
             TaskType_PivotSeeder::class,

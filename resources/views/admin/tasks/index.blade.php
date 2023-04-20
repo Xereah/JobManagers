@@ -9,13 +9,13 @@
             </a>
         @endcan
         <div class="form-check p-1 float-right" id="filtr_kontrahent">
-            <input class="form-check-input" type="checkbox" id="medycyna-checkbox" value="[5,6]" style="margin-right: 10px;">
+            <input class="form-check-input" type="checkbox" id="medycyna-checkbox" value="Medycyna" style="margin-right: 10px;">
             <label class="form-check-label" for="medycyna-checkbox" style="padding-right: 30px;">Medycyna</label>
             
-            <input class="form-check-input" type="checkbox" id="farmacja-checkbox" value="[2,3]" style="margin-right: 10px;">
+            <input class="form-check-input" type="checkbox" id="farmacja-checkbox" value="Farmacja" style="margin-right: 10px;">
             <label class="form-check-label" for="farmacja-checkbox" style="padding-right: 30px;">Farmacja</label>
             
-            <input class="form-check-input" type="checkbox" id="przedsiebiorstwa-checkbox" value="[7,8]" style="margin-right: 10px;">
+            <input class="form-check-input" type="checkbox" id="przedsiebiorstwa-checkbox" value="Przedsiębiorstwa" style="margin-right: 10px;">
             <label class="form-check-label" for="przedsiebiorstwa-checkbox">Przedsiębiorstwa</label>
         </div>
     </div>

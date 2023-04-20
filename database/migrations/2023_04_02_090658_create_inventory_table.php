@@ -15,9 +15,9 @@ class CreateInventoryTable extends Migration
     {
         Schema::create('inventory', function (Blueprint $table) {
             $table->id();
-            $table->string('code');
-            $table->string('mark');
-            $table->string('model');
+            $table->string('code')->nullable();
+            $table->string('mark')->nullable();
+            $table->string('model')->nullable();
             $table->string('serial_number')->nullable();
             $table->string('processor')->nullable();
             $table->integer('ram')->nullable();
@@ -25,8 +25,8 @@ class CreateInventoryTable extends Migration
             $table->string('hard_drive_capacity')->nullable();
             $table->string('hard_drive_second')->nullable();
             $table->string('hard_drive_capacity_second')->nullable();
-            $table->unsignedInteger('fk_company')->unsigned();
-            $table->unsignedInteger('eq_type')->unsigned();
+            $table->unsignedInteger('fk_company')->unsigned()->nullable();
+            $table->unsignedInteger('eq_type')->unsigned()->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

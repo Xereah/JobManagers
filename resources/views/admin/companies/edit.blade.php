@@ -27,10 +27,10 @@
                 <div class="form-group col-md-6 {{ $errors->has('kontrahent_grupa') ? 'has-error' : '' }}">
                     <label for="kontrahent_grupa">{{ trans('cruds.company.fields.contract') }}*</label>
                     <select name="kontrahent_grupa" id="kontrahent_grupa" class="form-control" required>
-                            <option value="{{$company->kontrahent_grupa}}" selected="selected">{{$company->contract->contract_name}}
+                            <option value="{{$company->kontrahent_grupa}}" selected="selected">{{$company->kontrahent_grupa}}
                             </option>
                             @foreach($contract as $contracts)
-                            <option value="{{ $contracts->id }}">{{ $contracts -> contract_name }}</option>
+                            <option value="{{ $contracts->contract_name }}">{{ $contracts -> contract_name }}</option>
                             @endforeach
                         </select>
                     <p class="helper-block">

@@ -39,9 +39,8 @@ class UpdateCompanyRequest extends FormRequest
                 'max:255',
             ],
             'kontrahent_miasto' => [
-                'required',
-                'min:5',
-                'max:255',
+                'required',                
+                'max:50',
             ],
             'kontrahent_kodpocztowy' => [
                 'required',
@@ -49,20 +48,12 @@ class UpdateCompanyRequest extends FormRequest
             ],
             'kontrahent_poczta' => [
                 'required',
-                'min:5',
-                'max:255',
-            ],
-            'kontrahent_telefon1' => [
-                'required',
-                'numeric',              
+                'max:50',
             ],
             'kontrahent_email' => [
                 'required',
                 'regex:/(.+)@(.+)\.(.+)/i',
                 
-            ],
-            'kontrahent_odleglosc' => [
-                'required',
             ],
             'kontrahent_grupa' => [
                 'required',

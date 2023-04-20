@@ -24,7 +24,7 @@ class StoreCompanyRequest extends FormRequest
             ],
             'kontrahent_nazwa1' => [
                 'required',
-                'min:10',
+                'min:5',
                 'max:255',
             ],
             'kontrahent_nazwa2' => [
@@ -39,9 +39,8 @@ class StoreCompanyRequest extends FormRequest
                 'max:255',
             ],
             'kontrahent_miasto' => [
-                'required',
-                'min:5',
-                'max:255',
+                'required',                
+                'max:50',
             ],
             'kontrahent_kodpocztowy' => [
                 'required',
@@ -49,20 +48,12 @@ class StoreCompanyRequest extends FormRequest
             ],
             'kontrahent_poczta' => [
                 'required',
-                'min:5',
-                'max:255',
-            ],
-            'kontrahent_telefon1' => [
-                'required',
-                'numeric',              
+                'max:50',
             ],
             'kontrahent_email' => [
                 'required',
                 'regex:/(.+)@(.+)\.(.+)/i',
                 
-            ],
-            'kontrahent_odleglosc' => [
-                'required',
             ],
             'kontrahent_grupa' => [
                 'required',
@@ -71,7 +62,6 @@ class StoreCompanyRequest extends FormRequest
                 'required',
                 'min:5',
                 'max:14',
-                'unique:kontrahenci',
             ],
 
         ];

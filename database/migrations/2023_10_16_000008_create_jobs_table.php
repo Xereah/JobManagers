@@ -12,19 +12,19 @@ class CreateJobsTable extends Migration
             $table->increments('id');
 
             $table->unsignedInteger('fk_company')->unsigned()->nullable();
-            $table->foreign('fk_company')->references('kontrahent_id')->on('kontrahenci')->onDelete('cascade');
+           // $table->foreign('fk_company')->references('kontrahent_id')->on('kontrahenci')->onDelete('cascade');
 
             $table->integer('rns')->nullable();
 
             $table->unsignedInteger('fk_tasktype')->unsigned()->nullable();
-            $table->foreign('fk_tasktype')->references('id')->on('task_type')->onDelete('cascade');
+           // $table->foreign('fk_tasktype')->references('id')->on('task_type')->onDelete('cascade');
 
             $table->string('paid')->nullable();
 
             $table->char('order')->nullable();
 
             $table->unsignedInteger('fk_user')->unsigned()->nullable();
-            $table->foreign('fk_user')->references('id')->on('users')->onDelete('cascade');
+            //$table->foreign('fk_user')->references('id')->on('users')->onDelete('cascade');
 
             $table->date('start_date')->nullable();
 
@@ -37,7 +37,7 @@ class CreateJobsTable extends Migration
             $table->time("time")->nullable();
 
             $table->unsignedInteger('fk_typetask')->nullable();
-            $table->foreign('fk_typetask')->references('id')->on('type_task')->onDelete('cascade');
+           // $table->foreign('fk_typetask')->references('id')->on('type_task')->onDelete('cascade');
 
             $table->text('description')->nullable();
 
@@ -47,8 +47,8 @@ class CreateJobsTable extends Migration
 
             $table->bigInteger('location')->unsigned()->nullable();
 
-            $table->unsignedInteger('fk_contract')->unsigned()->nullable();
-            $table->foreign('fk_contract')->references('id')->on('contracts')->onDelete('cascade');
+            $table->string('fk_contract')->nullable();
+           // $table->foreign('fk_contract')->references('id')->on('contracts')->onDelete('cascade');
 
             $table->unsignedInteger('fk_car')->unsigned()->nullable();
             $table->time('start_car')->nullable();

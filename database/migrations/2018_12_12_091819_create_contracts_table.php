@@ -15,7 +15,7 @@ class CreateContractsTable extends Migration
     {
         Schema::create('contracts', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('contract_name');
+            $table->string('contract_name')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
