@@ -236,7 +236,7 @@ class JobsController extends Controller
             $value = $request->input('value',[]);
             $company =$request->input('fk_company');
             $contract = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_grupa')->first();
-
+            $company_place=DB::table('kontrahenci')->where('kontrahent_kod', 'KASPERKOMPUTERSPZOO')->pluck('kontrahent_id')->first();
             $time1= strtotime(implode($start));          
             $time2= strtotime(implode($end));          
             $diff = $time2-$time1;
@@ -257,7 +257,7 @@ class JobsController extends Controller
                     'rns' => $request->rns[$key],
                     'fk_tasktype' => $request->fk_tasktype[$key],
                     'paid' => $request->paid[$key],
-                    'location' => 1,
+                    'location' => $company_place,
                     'fk_contract' =>  $contract,
                     'time' => $diff2,
                     'order' =>'CZK/'. $number_order. '/'. $year,

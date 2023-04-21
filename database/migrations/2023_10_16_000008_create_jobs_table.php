@@ -43,8 +43,6 @@ class CreateJobsTable extends Migration
 
             $table->text('comments')->nullable();
 
-            $table->integer('value')->nullable();
-
             $table->bigInteger('location')->unsigned()->nullable();
 
             $table->string('fk_contract')->nullable();

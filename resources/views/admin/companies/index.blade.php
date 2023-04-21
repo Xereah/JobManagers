@@ -3,11 +3,11 @@
 <div class="card">
     <div class="card-header bg-dark">
     {{ trans('global.list') }} {{ trans('cruds.company.title_plural') }}
-        @can('company_create')
+        <!-- @can('company_create')
         <a class="btn btn-dark float-right" href="{{ route("admin.companies.create") }}">
         <i class="fa fa-plus"></i> {{ trans('global.add') }} {{ trans('cruds.company.title_add') }}
             </a>
-        @endcan
+        @endcan -->
     </div>
 
     <div class="card-body">
@@ -108,7 +108,7 @@
                                     <i class="fas fa-edit"></i>
                                     </a>
                                 @endcan
-                                @can('company_delete')
+                                <!-- @can('company_delete')
                                 <form action="{{ route('admin.companies.destroy', $company->kontrahent_id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                     <input type="hidden" name="_method" value="DELETE">
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -116,7 +116,7 @@
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
-                                @endcan
+                                @endcan -->
                                 </div>
 
                             </td>
