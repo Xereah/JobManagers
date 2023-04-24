@@ -52,6 +52,13 @@ class TypeTaskController extends Controller
         return redirect()->route('admin.typetask.index')->with('success', 'Pomyślnie dodano typ zadania.');
     }
 
+    public function storeTask(StoreTypeTaskRequest $request)
+    {
+        $typetask = TypeTask::create($request->all());
+       
+        return back()->with('success', 'Pomyślnie dodano typ zadania.');
+    }
+
     /**
      * Display the specified resource.
      *

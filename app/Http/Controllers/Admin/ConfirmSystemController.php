@@ -400,23 +400,23 @@ class ConfirmSystemController extends Controller
         if (!empty($comments1)) {
             $comments = explode("\n", $comments1);
             foreach ($comments as $comment) {
-                $existingTask = Task::where('fk_user', $user_auth->id)
-                                     ->where('fk_company', $request->fk_company)
+                $existingTask = Task::
+                                     where('fk_company', $request->fk_company)
                                      ->where('task_title', trim($comment))
                                      ->first();
                 if ($existingTask) {
                     $existingTask->update([
-                        'execution_user' => $user_auth->id,
+                        'execution_user' =>  $user_auth,
                         'fk_contract' => $contract,
                         'completed' => 0,
                         'created_at' => $now,
                     ]);
                 } else {
                     $data = array(
-                        'fk_user' => $user_auth->id,
+                        'fk_user' =>  $user_auth,
                         'fk_company' => $request->fk_company,
                         'task_title' => trim($comment),
-                        'execution_user' => $user_auth->id,
+                        'execution_user' =>  $user_auth,
                         'fk_contract' => $contract,
                         'completed' => 0,
                         'created_at' => $now,

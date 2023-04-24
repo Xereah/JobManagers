@@ -62,6 +62,9 @@ Route::post('/inventory/pozostale/add', [App\Http\Controllers\Admin\InventoryCon
 
 Route::get('/getTask/{id}', [App\Http\Controllers\Admin\JobsController::class, 'getTask'])->name('getTask');
 
+Route::post('/storeTask', [App\Http\Controllers\Admin\TypeTaskController::class, 'storeTask'])->name('storeTask');
+
+
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
     Route::get('/', [App\Http\Controllers\Admin\JobsController::class, 'index'])->name('index')->middleware(['auth']);
     // Permissions

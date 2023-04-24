@@ -71,6 +71,7 @@ return [
             'updated_at_helper'        => '',
             'deleted_at'               => 'Usunięto',
             'deleted_at_helper'        => '',
+            'login'                    => 'Login',
         ],
     ],
     'category'       => [

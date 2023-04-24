@@ -49,6 +49,9 @@
                             {{ trans('cruds.user.fields.surname') }}
                         </th>
                         <th>
+                            {{ trans('cruds.user.fields.login') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.user.fields.email') }}
                         </th>
                         <th>
@@ -73,6 +76,9 @@
                             </td>
                             <td>
                                 {{ $user->surname ?? '' }}
+                            </td>
+                            <td>
+                                {{ $user->login ?? '' }}
                             </td>
                             <td>
                                 {{ $user->email ?? '' }}

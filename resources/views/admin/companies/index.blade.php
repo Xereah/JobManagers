@@ -1,5 +1,6 @@
 @extends('layouts.admin')
 @section('content')
+
 <div class="card">
     <div class="card-header bg-dark">
     {{ trans('global.list') }} {{ trans('cruds.company.title_plural') }}
@@ -14,21 +15,14 @@
         <div class="table-responsive">
             <table class=" table table-bordered table-striped table-hover datatable datatable-Company" id="example">
                 <thead>
-                <tr>
-               
+                <tr>               
                <th> <button class="btn btn-danger" id="btnSearch" name="btnSearch"><i class="fa fa-trash"></i></button></th>
                <th><input id="filtr_akronim" class="form-control" /></th>
                <th><input id="filtr_nazwa" class="form-control" /></th>
+               <th><input id="filtr_miasto" class="form-control" /></th>
                <th><input id="filtr_ulica" class="form-control" /></th>
                <th><input id="filtr_umowa" class="form-control" /></th>
-               <th><input id="filtr_kod" class="form-control" /></th>
-               <th><input id="filtr_miasto" class="form-control" /></th>
-               <th><input id="filtr_telefon" class="form-control" /></th>
-               <th><input id="filtr_email" class="form-control" /></th>
-               <th><input id="filtr_odleglosc" class="form-control" /></th>
-               <th></th>
-              
-          
+               <th><input id="filtr_email" class="form-control" /></th>          
            </tr>
                     <tr>
                         <th width="10">
@@ -42,30 +36,20 @@
                             {{ trans('cruds.company.fields.name') }}
                         </th>
                         <th>
+                            {{ trans('cruds.company.fields.location') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.company.fields.street') }}
                         </th>
                         <th>
                             {{ trans('cruds.company.fields.contract') }}
                         </th>
                         <th>
-                            {{ trans('cruds.company.fields.zipcode') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.company.fields.location') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.company.fields.phonenumber') }}
-                        </th>
-                        <th>
                             {{ trans('cruds.company.fields.email') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.company.fields.distance') }}
-                        </th>                          
-                        
-                        <th>
+                        </th>                       
+                        <!-- <th>
                         {{ trans('cruds.company.fields.action') }}
-                        </th>
+                        </th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -81,34 +65,26 @@
                                 {{ $company->kontrahent_nazwa1 ?? '' }}  {{ $company->kontrahent_nazwa2 ?? '' }}  {{ $company->kontrahent_nazwa3 ?? '' }}
                             </td>
                             <td>
+                                {{ $company->kontrahent_miasto ?? '' }}
+                            </td>  
+                            <td>
                                 {{ $company->kontrahent_ulica ?? '' }}
                             </td>    
                             <td>
                                 {{ $company->kontrahent_grupa ?? '' }}
-                            </td>               
-                            <td>
-                                {{ $company->kontrahent_poczta ?? '' }}
-                            </td> 
-                            <td>
-                                {{ $company->kontrahent_miasto ?? '' }}
-                            </td>  
-                            <td>
-                                {{ $company->kontrahent_telefon1 ?? '' }} <br> {{ $company->kontrahent_telefon2 ?? '' }}
-                            </td>   
+                            </td>                
                             <td>
                                 {{ $company->kontrahent_email ?? '' }}
                             </td>  
-                            <td>
-                                {{ $company->kontrahent_odleglosc ?? '' }}
-                            </td> 
-                            <td width="10">
+                        
+                            <!-- <td width="10">
                                 <div class="btn-group" role="group">
                                 @can('company_edit')
                                     <a class="btn  btn-info" href="{{ route('admin.companies.edit', $company->kontrahent_id) }}" title="{{ trans('global.edit') }}">
                                     <i class="fas fa-edit"></i>
                                     </a>
                                 @endcan
-                                <!-- @can('company_delete')
+                                @can('company_delete')
                                 <form action="{{ route('admin.companies.destroy', $company->kontrahent_id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                     <input type="hidden" name="_method" value="DELETE">
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -116,10 +92,10 @@
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
-                                @endcan -->
+                                @endcan 
                                 </div>
 
-                            </td>
+                            </td> -->
 
                         </tr>
                     @endforeach
