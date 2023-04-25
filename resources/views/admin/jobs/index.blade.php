@@ -184,7 +184,7 @@
 <!-- Body -->
     <div class="card-body ">
         <div class="table-responsive" >
-            <table class=" table yajra-datatable table-bordered table-hover datatable " style="text-align:center;"
+            <table class=" table yajra-datatable table-hover datatable " style="text-align:center;"
                 id="example" >
                 <thead >
                 <tr>

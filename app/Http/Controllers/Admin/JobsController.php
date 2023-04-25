@@ -89,7 +89,7 @@ class JobsController extends Controller
                 $poczatek = $job->start_date.' ' .$job->start;
                 if(!(is_null($job->time)))
              //   return   date('Y-m-d G:i', strtotime($poczatek)) ;
-             return  $job->start_date.'<br> ' .date('G:i', strtotime($job->start));
+             return  $job->start_date.' ' .date('G:i', strtotime($job->start));
                 else
                 return $job->start_date;              
             })
@@ -97,7 +97,7 @@ class JobsController extends Controller
                 $koniec = $job->end_date.' ' .$job->end;
                 if(!(is_null($job->time)))
                // return  date('Y-m-d G:i', strtotime($koniec)) ;
-                return  $job->end_date.'<br> ' .date('G:i', strtotime($job->end));
+                return  $job->end_date.' ' .date('G:i', strtotime($job->end));
                 else
                 return  $job->end_date;
             })

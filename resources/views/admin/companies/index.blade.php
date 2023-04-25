@@ -69,7 +69,7 @@
                                 {{ $company->kontrahent_miasto ?? '' }}
                             </td>  
                             <td>
-                                {{ $company->kontrahent_ulica ?? '' }}
+                                {{ $company->kontrahent_ulica ?? '' }}  {{ $company->kontrahent_nrdomu ?? '' }}
                             </td>    
                             <td>
                                 {{ $company->kontrahent_grupa ?? '' }}

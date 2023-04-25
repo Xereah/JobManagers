@@ -29,7 +29,12 @@
 
 body{
     font-size: 16px;
-    
+     /* line-height: 1; */
+}
+
+td{
+  padding: 0 !important;
+  margin: 0 !important;
 }
 .jsv-error {
     color: #dc3545 !important; /* czerwony kolor tekstu dla błędów */

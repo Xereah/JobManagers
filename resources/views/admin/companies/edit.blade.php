@@ -199,27 +199,12 @@
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group col-md-6 {{ $errors->has('kontrahent_email') ? 'has-error' : '' }}">
+                <div class="form-group col-md-12 {{ $errors->has('kontrahent_email') ? 'has-error' : '' }}">
                     <label for="kontrahent_email">{{ trans('cruds.company.fields.email') }}*</label>
                     <input type="text" id="kontrahent_email" disabled name="kontrahent_email" value="{{ old('kontrahent_email', isset($company) ? $company->kontrahent_email : '') }}" class="form-control">
                     @if($errors->has('kontrahent_email'))
                     <em class="invalid-feedback">
                         {{ $errors->first('kontrahent_email') }}
-                    </em>
-                    @endif
-                    <p class="helper-block">
-                        {{ trans('cruds.company.fields.name_helper') }}
-                    </p>
-                </div>
-
-
-
-                <div class="form-group col-md-6 {{ $errors->has('kontrahent_odleglosc') ? 'has-error' : '' }}">
-                    <label for="kontrahent_odleglosc">{{ trans('cruds.company.fields.distance') }}*</label>
-                    <input type="text" id="kontrahent_odleglosc" disabled name="kontrahent_odleglosc" value="{{ old('kontrahent_odleglosc', isset($company) ? $company->kontrahent_odleglosc : '') }}" class="form-control">
-                    @if($errors->has('kontrahent_odleglosc'))
-                    <em class="invalid-feedback">
-                        {{ $errors->first('kontrahent_odleglosc') }}
                     </em>
                     @endif
                     <p class="helper-block">
