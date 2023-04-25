@@ -184,7 +184,7 @@
 <!-- Body -->
     <div class="card-body ">
         <div class="table-responsive" >
-            <table class=" table yajra-datatable table-hover datatable " style="text-align:center;"
+            <table class=" table yajra-datatable table-hover datatable" style="text-align:center;widht:100%;"
                 id="example" >
                 <thead >
                 <tr>
@@ -270,7 +270,7 @@
                         <th style="width: 1%;">
                             {{ trans('cruds.job.fields.rns') }}
                         </th>
-                        <th style="width: 100%;">
+                        <th>
                             {{ trans('cruds.job.fields.description') }}
                         </th>
                         <th >

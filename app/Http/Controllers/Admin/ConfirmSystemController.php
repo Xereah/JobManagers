@@ -515,7 +515,8 @@ class ConfirmSystemController extends Controller
         $job = Job::findOrFail($id);
         $jobi = $job->order;      
         $company = $job->fk_company;
-        $company_mail = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_email')->first();
+        $company_mails = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_email')->first();
+        $company_mails = explode(';', $company_mails);
         $company_km = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_odleglosc')->first();
         $time = Job::where('order', $jobi)->sum(DB::raw("TIME_TO_SEC(time)/60"));
         $minsandsecs = date('i:s', $time);
@@ -528,24 +529,44 @@ class ConfirmSystemController extends Controller
         $output = $pdf->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->output();
     
         // Walidacja adresu e-mail
-        if (filter_var($company_mail, FILTER_VALIDATE_EMAIL)) {
-            // Adres e-mail jest poprawny, próba wysłania wiadomości
-            try {
-                Mail::send('admin.confirmsystem.sendMailHi', compact('job', 'jobs', 'minsandsecs', 'jobs_towary', 'jobs_sprzetzast','company_km'), function ($message) use ($company_mail, $fileName, $output)  {
-                    $message->to($company_mail);
-                    $message->subject('Kasper Komputer, potwierdzenie wykonania usług');
-                    $message->attachData($output, $fileName, [
-                        'mime' => 'application/pdf',
-                    ]);
-                });
-                return redirect()->back()->with('success', 'Wiadomość e-mail została wysłana.');
-            } catch (\Exception $e) {
-                // Błąd podczas wysyłania wiadomości e-mail
-                return redirect()->back()->with('error', 'Nie udało się wysłać wiadomości e-mail. ' . $e->getMessage());
+        foreach ($company_mails as $company_mail) {
+            // Walidacja adresu e-mail
+            if (filter_var($company_mail, FILTER_VALIDATE_EMAIL)) {
+                // Adres e-mail jest poprawny, próba wysłania wiadomości
+                try {
+                    Mail::send('admin.confirmsystem.sendMailHi', compact('job', 'jobs', 'minsandsecs', 'jobs_towary', 'jobs_sprzetzast','company_km'), function ($message) use ($company_mail, $fileName, $output)  {
+                        $message->to($company_mail);
+                        $message->subject('Kasper Komputer, potwierdzenie wykonania usług');
+                        $message->attachData($output, $fileName, [
+                            'mime' => 'application/pdf',
+                        ]);
+                    });
+                    $successMessage = isset($successMessage) ? $successMessage . ' ' . $company_mail : $company_mail;
+                } catch (\Exception $e) {
+                    // Błąd podczas wysyłania wiadomości e-mail
+                    $errorMessage = isset($errorMessage) ? $errorMessage . ' ' . $company_mail : $company_mail;
+                }
+            } else {
+                // Adres e-mail jest niepoprawny
+                $invalidEmails = isset($invalidEmails) ? $invalidEmails . ' ' . $company_mail : $company_mail;
             }
+        }
+        // Zwróć wiadomość informującą o wyniku operacji
+        if (isset($successMessage)) {
+            $message = 'Wiadomość e-mail została wysłana na adres(y): ' . $successMessage . '.';
+            if (isset($invalidEmails)) {
+                $message .= ' Niepoprawny adres(y) e-mail: ' . $invalidEmails . '.';
+            }
+            return redirect()->back()->with('success', $message);
         } else {
-            // Adres e-mail jest niepoprawny
-            return redirect()->back()->with('error', 'Niepoprawny adres e-mail.');
+            $message = 'Nie udało się wysłać wiadomości e-mail.';
+            if (isset($invalidEmails)) {
+                $message .= ' Niepoprawny adres(y) e-mail: ' . $invalidEmails . '.';
+            }
+            if (isset($errorMessage)) {
+                $message .= ' Błąd podczas wysyłania wiadomości e-mail na adres(y): ' . $errorMessage . '.';
+            }
+            return redirect()->back()->with('error', $message);
         }
     }
 }

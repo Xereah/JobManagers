@@ -481,7 +481,7 @@ class JobsController extends Controller
         
         $TypeTaskValue = TypeTask::where('id',$task_name)->first(); 
         $TaskTypeValue = TaskType::where('id',$task)->first(); 
-        $CompanyValue = Company::where('id',$company)->first(); 
+        $CompanyValue = Company::where('kontrahent_id',$company)->first(); 
         $UserValue = User::where('id',$users)->first(); 
         $ContractValue = Contracts::where('id',$contract)->first(); 
 

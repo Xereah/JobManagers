@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('content')
 @can('car_create')
-@endcan
+@endcan 
 <div class="card">
     <div class="card-header bg-dark">
     {{ trans('global.list') }} {{ trans('cruds.cars.title_plural') }}
@@ -14,7 +14,7 @@
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class=" table table-bordered table-hover datatable" id="example">
+            <table class=" table  table-hover datatable" id="example">
                 <thead>
                     <tr>
                         <th> <button class="btn btn-danger" id="btnSearch" name="btnSearch"><i

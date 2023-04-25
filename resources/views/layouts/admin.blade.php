@@ -9,7 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" href="{{ asset('/img/logo.png')}}">
     <title>{{ trans('panel.site_title') }}</title>
-     <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.2/css/bootstrap.min.css" rel="stylesheet" />  -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.2/css/bootstrap.min.css" rel="stylesheet" />  
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" />
@@ -23,18 +23,16 @@
    <style>
 .select2-selection {
     height: 34px !important;
+    width: 100% !important;
     border-color: #ced4da !important;
+    font-size:16px;
+
 
 }
 
 body{
     font-size: 16px;
      /* line-height: 1; */
-}
-
-td{
-  padding: 0 !important;
-  margin: 0 !important;
 }
 .jsv-error {
     color: #dc3545 !important; /* czerwony kolor tekstu dla błędów */
