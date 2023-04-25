@@ -185,12 +185,17 @@
 </div>
 <!-- /.tab-pane -->
 <div class="tab-pane" id="Uwagi">
-    Brak uwag
+@if(!empty($job->comments))
+    
+    <td>{{$job->comments}}</td>
+    @else
+    <td> Brak Uwag</td>
+    @endif
 </div>
 <!-- /.tab-pane -->
 <div class="tab-pane" id="Historia">
 
-    @if(!empty($Notification))
+    @if($Notification->isNotEmpty())
     @foreach($Notification as $Notifications)
     <td>Użytkownik {{$Notifications->NotificationUser->name}} {{$Notifications->NotificationUser->surname}}
         modyfikował rekord {{$Notifications->date}}
