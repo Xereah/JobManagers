@@ -210,13 +210,13 @@
                                 @endforeach
                             </select></th>
                     <th><input id="filtr_zlecen" class="form-control" /></th>
-                    <th><select class="form-control "  id="filtr_firm" >
+                    <th><select class="form-control select2"  id="filtr_firm" >
                         <option> </option>
                                 @foreach($filter_company as $key => $filter_companys)
                                 <?php
                                     $key =$key+1;
                                 ?>
-                                <option value="{{$key}}">{{ $filter_companys->shortcode }} </option>
+                                <option value="{{$key}}">{{ $filter_companys->kontrahent_kod }} </option>
                                 @endforeach
                             </select></th>
                     <th><select class="form-control"  id="filtr_pracownikow" >

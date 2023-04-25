@@ -108,7 +108,7 @@ class ConfirmSystemController extends Controller
             $fk_rep_eq = $request->input('fk_rep_eq',[]);
             $description_eq = $request->input('description_eq',[]);               
             $company =$request->input('fk_company');
-            $contract = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_grupa')->first();
+            $contract = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_id')->first();
             $usługi = DB::table('task_type')->where('name', 'Usługi(U)')->pluck('id')->first();
             $towary = DB::table('task_type')->where('name', 'Towary(T)')->pluck('id')->first();
             $slugi_typ = DB::table('type_task')->where('name', 'Serwis sprzętu komputerowego')->pluck('id')->first();
@@ -331,7 +331,7 @@ class ConfirmSystemController extends Controller
         $fk_rep_eq = $request->input('fk_rep_eq',[]);   
         $description_equipment = $request->input('description_eq',[]);             
         $company =$request->input('fk_company');
-        $contract = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_grupa')->first();
+        $contract = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_id')->first();
         $usługi = DB::table('task_type')->where('name', 'Usługi(U)')->pluck('id')->first();
         $towary = DB::table('task_type')->where('name', 'Towary(T)')->pluck('id')->first();
         $slugi_typ = DB::table('type_task')->where('name', 'Serwis sprzętu komputerowego')->pluck('id')->first();

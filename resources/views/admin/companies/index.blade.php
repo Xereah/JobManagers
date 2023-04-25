@@ -22,7 +22,8 @@
                <th><input id="filtr_miasto" class="form-control" /></th>
                <th><input id="filtr_ulica" class="form-control" /></th>
                <th><input id="filtr_umowa" class="form-control" /></th>
-               <th><input id="filtr_email" class="form-control" /></th>          
+               <th><input id="filtr_email" class="form-control" /></th>   
+               <th></th>       
            </tr>
                     <tr>
                         <th width="10">
@@ -47,9 +48,9 @@
                         <th>
                             {{ trans('cruds.company.fields.email') }}
                         </th>                       
-                        <!-- <th>
+                         <th>
                         {{ trans('cruds.company.fields.action') }}
-                        </th> -->
+                        </th> 
                     </tr>
                 </thead>
                 <tbody>
@@ -77,14 +78,14 @@
                                 {{ $company->kontrahent_email ?? '' }}
                             </td>  
                         
-                            <!-- <td width="10">
+                            <td width="10" align="center">
                                 <div class="btn-group" role="group">
                                 @can('company_edit')
                                     <a class="btn  btn-info" href="{{ route('admin.companies.edit', $company->kontrahent_id) }}" title="{{ trans('global.edit') }}">
                                     <i class="fas fa-edit"></i>
                                     </a>
                                 @endcan
-                                @can('company_delete')
+                                <!-- @can('company_delete')
                                 <form action="{{ route('admin.companies.destroy', $company->kontrahent_id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                     <input type="hidden" name="_method" value="DELETE">
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -92,10 +93,10 @@
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
-                                @endcan 
+                                @endcan  -->
                                 </div>
 
-                            </td> -->
+                            </td> 
 
                         </tr>
                     @endforeach
@@ -109,62 +110,11 @@
 @endsection
 @section('scripts')
 @parent
-<script>
-    $(function () {
-  let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('company_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
-  let deleteButton = {
-    text: deleteButtonTrans,
-    url: "{{ route('admin.companies.massDestroy') }}",
-    className: 'btn-danger',
-    action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
-          return $(entry).data('entry-id')
-      });
-
-      if (ids.length === 0) {
-        alert('{{ trans('global.datatables.zero_selected') }}')
-
-        return
-      }
-
-      if (confirm('{{ trans('global.areYouSure') }}')) {
-        $.ajax({
-          headers: {'x-csrf-token': _token},
-          method: 'POST',
-          url: config.url,
-          data: { ids: ids, _method: 'DELETE' }})
-          .done(function () { location.reload() })
-      }
-    }
-  }
-  dtButtons.push(deleteButton)
-@endcan
-
-  $.extend(true, $.fn.dataTable.defaults, {
-    order: [[ 1, 'desc' ]],
-    pageLength: 10,
-  });
-  $('.datatable-Company:not(.ajaxTable)').DataTable({ buttons: dtButtons })
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
-        $($.fn.dataTable.tables(true)).DataTable()
-            .columns.adjust();
-    });
-})
-
-</script>
 
 <script>
 
 $(document).ready(function() {
 $('#example').DataTable();
-minDate = new DateTime($('#min'), {
-         format: 'YYYY-MM-DD'
-        });
-maxDate = new DateTime($('#max'), {
-         format: 'YYYY-MM-DD'
-        });
 var table = $('#example').DataTable();
     $('#filtr_akronim').on( 'change', function () {      
     table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
