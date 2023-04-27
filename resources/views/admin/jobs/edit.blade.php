@@ -143,16 +143,22 @@
                                     @endforeach
                                 </select>
                             </div>
+
+                            <?php
+                            $type_task_id=$job->fk_tasktype;  
+                            $list = DB::select( DB::raw("SELECT type_task.id, type_task.name FROM task_type_type_task INNER JOIN type_task 
+                            ON task_type_type_task.type_task_id = type_task.id WHERE task_type_id = '$type_task_id'") ); 
+                            ?>
+
                             <div class="form-group col-md-6">
                                 <label for="fk_typetask">
                                     {{ trans('cruds.job.fields.task_name') }}</label>
                                 <select name="fk_typetask[]" id="fk_typetask" class="form-control " autocomplete="off" required>
                                     @foreach($list as $lists)
-                                    <option value="{{ $lists->type_task_id }}" @if($lists->type_task_id ==
-                                        $job->fk_typetask) selected="selected" @endif>{{ $lists->TaskId->name }}
+                                    <option value="{{ $lists->id }}" @if($lists->id ==
+                                        $job->fk_typetask) selected="selected" @endif>{{ $lists->name }}
                                     </option>
                                     @endforeach
-
                                 </select>
                             </div>
                         </div>
@@ -311,7 +317,7 @@ $(document).on('change', '#fk_tasktype', function() {
                             '<label for="fk_typetask">{{ trans('cruds.job.fields.task_name') }}</label>'+
                             '<select id="fk_typetask" name="fk_typetask_new[]" class="form-control" required>'+
                             '@foreach($list as $lists)'+
-                                '<option value="{{ $lists->type_task_id }}" >{{ $lists->TaskId->name }}'+
+                                '<option value="{{ $lists->id }}" >{{ $lists->name }}'+
                                 '</option>'+
                             '@endforeach'+
                             '</select>'+
