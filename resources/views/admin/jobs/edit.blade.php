@@ -135,10 +135,10 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="fk_tasktype">{{ trans('cruds.job.fields.task') }}</label>
-                                <select name="fk_tasktype[]" id="fk_tasktype" class="form-control select2" required>
+                                <select name="fk_tasktype[]" id="fk_tasktype" class="form-control " autocomplete="off" required>
 
                                     @foreach($TaskType as $id => $TaskTypes)
-                                    <option value="{{ $TaskTypes->id }}" @if($TaskTypes->id == $job->fk_tasktype)
+                                    <option value="{{ $TaskTypes->id }}"  @if($TaskTypes->id == $job->fk_tasktype)
                                         selected="selected" @endif>{{ $TaskTypes->name }}</option>
                                     @endforeach
                                 </select>
@@ -146,7 +146,7 @@
                             <div class="form-group col-md-6">
                                 <label for="fk_typetask">
                                     {{ trans('cruds.job.fields.task_name') }}</label>
-                                <select name="fk_typetask[]" id="fk_typetask" class="form-control select2" required>
+                                <select name="fk_typetask[]" id="fk_typetask" class="form-control " autocomplete="off" required>
                                     @foreach($list as $lists)
                                     <option value="{{ $lists->type_task_id }}" @if($lists->type_task_id ==
                                         $job->fk_typetask) selected="selected" @endif>{{ $lists->TaskId->name }}
@@ -159,7 +159,7 @@
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <label for="description">{{ trans('cruds.job.fields.description') }}</label>
-                                <textarea class="form-control" name="description[]" id="description[]"
+                                <textarea class="form-control" name="description[]"  id="description[]"
                                     rows="3">{{$job->description}}</textarea>
                             </div>
                         </div>
@@ -222,6 +222,42 @@
 <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
 
 {!! JsValidator::formRequest('App\Http\Requests\StoreJobRequest') !!}
+<script type='text/javascript'>
+$(document).on('change', '#fk_tasktype', function() {
+  // Department id
+  var id = $(this).val();
+
+  // Empty the dropdown
+  $(this).closest('.form-row').find('#fk_typetask').empty();
+
+  // AJAX request 
+  $.ajax({
+    url: '/jobmanager/public/getTask/' + id,
+    type: 'get',
+    dataType: 'json',
+    success: function(response) {
+      var len = 0;
+      if (response['data'] != null) {
+        len = response['data'].length;
+      }
+
+      if (len > 0) {
+        // Read data and create <option >
+        for (var i = 0; i < len; i++) {
+          var id = response['data'][i].id;
+          var name = response['data'][i].name;
+          var option = "<option value='" + id + "'>" + name + "</option>";
+          $(this).closest('.form-row').find("#fk_typetask").append(option);
+        }
+
+        // Remove selected value from localStorage
+        localStorage.removeItem('selectedTaskType');
+        localStorage.removeItem('selectedTask');
+      }
+    }.bind(this)
+  });
+});
+</script>
 
 <script>
     $(document).ready(function() {

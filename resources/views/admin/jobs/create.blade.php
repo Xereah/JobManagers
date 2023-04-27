@@ -122,7 +122,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="fk_tasktype">{{ trans('cruds.job.fields.task') }}</label>
-                        <select name="fk_tasktype[]" id="fk_tasktype" class="form-control " required>
+                        <select name="fk_tasktype[]" id="fk_tasktype" class="form-control " autocomplete="off" required>
                             @foreach($TaskType as $TaskTypes)
                             <option value='{{ $TaskTypes->id }}'>{{ $TaskTypes->name }}</option>
                             @endforeach
@@ -131,7 +131,7 @@
                     <div class="form-group col-md-6">
                         <label for="fk_typetask">
                             {{ trans('cruds.job.fields.task_name') }}</label>
-                        <select id='fk_typetask' name='fk_typetask[]' class="form-control " required>
+                        <select id='fk_typetask' name='fk_typetask[]' class="form-control " autocomplete="off" required>
                                 @foreach($list as $lists)
                                 <option value="{{ $lists->type_task_id }}" >{{ $lists->TaskId->name }}
                                 </option>
@@ -206,12 +206,12 @@ $(document).on('change', '#fk_tasktype', function() {
   });
 });
 
-// Get stored values from localStorage and set them as selected
-$(document).ready(function() {
-  var selectedTaskType = localStorage.getItem('selectedTaskType');
-  var selectedTask = localStorage.getItem('selectedTask');
-  $('#fk_tasktype').val(selectedTask).trigger('change');
-});
+// // Get stored values from localStorage and set them as selected
+// $(document).ready(function() {
+//   var selectedTaskType = localStorage.getItem('selectedTaskType');
+//   var selectedTask = localStorage.getItem('selectedTask');
+//   $('#fk_tasktype').val(selectedTask).trigger('change');
+// });
 </script>
 
 

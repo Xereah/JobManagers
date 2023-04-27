@@ -291,7 +291,7 @@ class JobsController extends Controller
        
         $type_task_id=$job->fk_tasktype;        
         $jobs = Job::all()->where('order', '==', $jobi);
-        $list=TaskType_Pivot::all()->where('task_type_id','==',$type_task_id);   
+        $list=TaskType_Pivot::all();   
 
         return view('admin.jobs.edit', compact('companies','job','TaskType','TypeTask','user_all','jobs','list','type_task_id','Notification'));
     }
