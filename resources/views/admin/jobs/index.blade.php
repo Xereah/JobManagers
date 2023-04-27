@@ -213,10 +213,8 @@
                     <th><select class="form-control select2"  id="filtr_firm" >
                         <option> </option>
                                 @foreach($filter_company as $key => $filter_companys)
-                                <?php
-                                    $key =$key+1;
-                                ?>
-                                <option value="{{$key}}">{{ $filter_companys->kontrahent_kod }} </option>
+                               
+                                <option value="{{$filter_companys->kontrahent_id}}">{{ $filter_companys->kontrahent_kod }} </option>
                                 @endforeach
                             </select></th>
                     <th><select class="form-control"  id="filtr_pracownikow" >
@@ -421,9 +419,13 @@ maxDate = new DateTime($('#max').val(), {
 });
 
 var table = $('#example').DataTable();
-   $('#btnSearch').click(function (){
-        table.columns([1,2,3,4,5,7,9,10,11,12,13]).search('').draw();
-       });
+    $('#btnSearch').click(function () {
+    $('#filtr_nazw, #filtr_zadan, #filtr_zlecen, #filtr_firm, #filtr_pracownikow, #filtr_rns, #filtr_opisu, #filtr_uwag, #filtr_umow').val('');
+    $('#min').val('').data('date', null);
+    $('#max').val('').data('date', null);
+    $('#filtr_firm').val(null).trigger('change');
+    table.columns([1, 2, 3, 4, 5, 7, 9, 10, 11, 12, 13]).search('').draw();
+    });
     $('#filtr_nazw').on( 'change', function () {      
     table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
     } );
@@ -431,16 +433,16 @@ var table = $('#example').DataTable();
     table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
     } );
     $('#filtr_zlecen').on('change', function () {
-    table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
+    table.columns($(this).parent().index() + ':visible').search('^' + this.value + '$', true, false).draw();
     } );
     $('#filtr_firm').on('change', function () {
-    table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
+    table.columns($(this).parent().index() + ':visible').search('^' + this.value + '$', true, false).draw();
     } );
     $('#filtr_pracownikow').on('change', function () {
     table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
     } );
     $('#filtr_rns').on( 'change', function () {
-    table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
+        table.columns($(this).parent().index() + ':visible').search('^' + this.value + '$', true, false).draw();
     } );
     $('#filtr_opisu').on( 'change', function () {
     table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
