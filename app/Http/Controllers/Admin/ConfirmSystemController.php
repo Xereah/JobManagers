@@ -296,10 +296,13 @@ class ConfirmSystemController extends Controller
         $jobs_sprzetzast = Job::all()
         ->where('order', '==', $jobi)
         ->wherenotNull('fk_rep_eq');
+        $company = $job->fk_company;
+        $company_mails = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_email')->first();
+        $company_mails = explode(';', $company_mails);
         
         $repEquipment_loan=RepEquipment::all()->where('company_place', '==', $jobi_loan);
         $repEquipment_loan_add=RepEquipment::all()->where('is_loan','!=',1);
-        return view('admin.confirmsystem.edit', compact('companies','job','TaskType','TypeTask','user_all','jobs','Notification','car','user','repEquipment',
+        return view('admin.confirmsystem.edit', compact('companies','company_mails','job','TaskType','TypeTask','user_all','jobs','Notification','car','user','repEquipment',
         'jobs_towary','jobs_sprzetzast','repEquipment_loan','repEquipment_loan_add'));
     }
 
@@ -510,7 +513,7 @@ class ConfirmSystemController extends Controller
     {
         //
     }
-    public function SendMail($id) 
+    public function SendMail(Request $request,$id) 
     {
         $job = Job::findOrFail($id);
         $jobi = $job->order;      
@@ -527,46 +530,27 @@ class ConfirmSystemController extends Controller
         $pdf = PDF::loadView('admin.confirmsystem.sendMail', compact('job', 'jobs', 'minsandsecs', 'jobs_towary', 'jobs_sprzetzast','company_km'));
         $fileName = 'potwierdzenie-wykonania-uslug.pdf';
         $output = $pdf->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->output();
+        $recipients = $request->input('recipients',[]);
     
-        // Walidacja adresu e-mail
-        foreach ($company_mails as $company_mail) {
-            // Walidacja adresu e-mail
-            if (filter_var($company_mail, FILTER_VALIDATE_EMAIL)) {
-                // Adres e-mail jest poprawny, próba wysłania wiadomości
-                try {
-                    Mail::send('admin.confirmsystem.sendMailHi', compact('job', 'jobs', 'minsandsecs', 'jobs_towary', 'jobs_sprzetzast','company_km'), function ($message) use ($company_mail, $fileName, $output)  {
-                        $message->to($company_mail);
-                        $message->subject('Kasper Komputer, potwierdzenie wykonania usług');
-                        $message->attachData($output, $fileName, [
-                            'mime' => 'application/pdf',
-                        ]);
-                    });
-                    $successMessage = isset($successMessage) ? $successMessage . ' ' . $company_mail : $company_mail;
-                } catch (\Exception $e) {
-                    // Błąd podczas wysyłania wiadomości e-mail
-                    $errorMessage = isset($errorMessage) ? $errorMessage . ' ' . $company_mail : $company_mail;
-                }
-            } else {
-                // Adres e-mail jest niepoprawny
-                $invalidEmails = isset($invalidEmails) ? $invalidEmails . ' ' . $company_mail : $company_mail;
-            }
+        // Walidacja adresów e-mail
+        if (empty($recipients)) {
+            return redirect()->back()->with('error', 'Nie wybrano żadnych adresów e-mail.');
         }
-        // Zwróć wiadomość informującą o wyniku operacji
-        if (isset($successMessage)) {
-            $message = 'Wiadomość e-mail została wysłana na adres(y): ' . $successMessage . '.';
-            if (isset($invalidEmails)) {
-                $message .= ' Niepoprawny adres(y) e-mail: ' . $invalidEmails . '.';
+    
+        // Adresy e-mail są poprawne, próba wysłania wiadomości
+        try {
+            Mail::send('admin.confirmsystem.sendMailHi', compact('job', 'jobs', 'minsandsecs', 'jobs_towary', 'jobs_sprzetzast','company_km'), function ($message) use ($recipients, $fileName, $output)  {
+                $message->to($recipients);
+                $message->subject('Kasper Komputer, potwierdzenie wykonania usług');
+                $message->attachData($output, $fileName, [
+                    'mime' => 'application/pdf',
+                ]);
+            });
+            return redirect()->back()->with('success', 'Wiadomość e-mail została wysłana');
+            } catch (\Exception $e) {
+                // Błąd podczas wysyłania wiadomości e-mail
+                return redirect()->back()->with('error', 'Nie udało się wysłać wiadomości e-mail. ' . $e->getMessage());
             }
-            return redirect()->back()->with('success', $message);
-        } else {
-            $message = 'Nie udało się wysłać wiadomości e-mail.';
-            if (isset($invalidEmails)) {
-                $message .= ' Niepoprawny adres(y) e-mail: ' . $invalidEmails . '.';
-            }
-            if (isset($errorMessage)) {
-                $message .= ' Błąd podczas wysyłania wiadomości e-mail na adres(y): ' . $errorMessage . '.';
-            }
-            return redirect()->back()->with('error', $message);
-        }
+       
     }
 }

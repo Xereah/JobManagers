@@ -91,14 +91,17 @@
         <div class="d-grid gap-2 d-md-flex justify-content-md-end py-2">
           
 
-            <a href="{{ url('/SendMail', [$job->id]) }}">
+            <!-- <a href="{{ url('/SendMail', [$job->id]) }}">
                 <input class="btn bg-dark  float-right" onclick="return confirm('{{ trans('global.areYouSure') }}');"
-                    type="button" value="{{ trans('global.send') }} {{ trans('global.email') }}"></a>
+                    type="button" value="{{ trans('global.send') }} {{ trans('global.email') }}"></a> -->
 
             <a href="{{ route('admin.ConfirmSystem.show', $job->id) }}">
                 <input class="btn bg-success  float-right" type="button" value="{{ trans('global.datatables.print') }}">
 
             </a>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#emailModal">
+            {{ trans('global.send') }} {{ trans('global.email') }}
+            </button>
         </div>
 
     </div>
@@ -459,7 +462,36 @@
             </table>
         </div>
 </form>
-
+<div class="modal fade" id="emailModal" tabindex="-1" role="dialog" aria-labelledby="emailModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="emailModalLabel">Wybierz odbiorców</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <form  action="{{ url('/SendMail', [$job->id]) }}"  id="emailForm">
+          @csrf          
+          <input type="hidden" name="job_id" value="{{ $job->id }}">
+          <div class="form-group">
+  <label>Odbiorcy:</label>
+  @foreach ($company_mails as $company_mail)
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" name="recipients[]" value="{{ $company_mail }}">
+      <label class="form-check-label">{{ $company_mail }}</label>
+    </div>
+  @endforeach
+</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"> {{ trans('global.close') }}</button>
+        <button type="submit" form="emailForm" class="btn btn-primary"> {{ trans('global.send') }}</button>
+      </div>
+     
+    </div>
+  </div>
+</div>
 @endsection
 
 
