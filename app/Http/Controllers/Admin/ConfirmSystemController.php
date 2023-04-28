@@ -18,6 +18,7 @@ use DB;
 use Auth;
 use Gate;
 use PDF;
+use DateTime;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Mail;
@@ -241,7 +242,12 @@ class ConfirmSystemController extends Controller
     {
         abort_if(Gate::denies('job_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $job = Job::findOrFail($id);
-        $jobi=$job->order;      
+        $jobi=$job->order;   
+        
+        $start1 = new DateTime($job->start_car);       
+        $end1 = new DateTime($job->end_car);
+        $travel = $start1->diff($end1);
+        $travel_string = $travel->format('%H:%I'); // np. 02:30
        
         $time = Job::where('order', $jobi)->sum(DB::raw("TIME_TO_SEC(time)/60"));
         $minsandsecs = date('i:s',$time);
@@ -260,7 +266,7 @@ class ConfirmSystemController extends Controller
         $company = $job->fk_company;
         $company_km = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_odleglosc')->first();
         
-        return view('admin.confirmsystem.print', compact('job','jobs','minsandsecs','jobs_towary','jobs_sprzetzast','company_km'));
+        return view('admin.confirmsystem.print', compact('job','travel_string','jobs','minsandsecs','jobs_towary','jobs_sprzetzast','company_km'));
     }
 
     /**
@@ -367,7 +373,7 @@ class ConfirmSystemController extends Controller
                 'fk_company' => $request->fk_company,
                 'fk_car' => $request->fk_car,
                 'start_car' =>$request->start_car,
-                'end_car' => $request->start_car,
+                'end_car' => $request->end_car,
                 'paid' => $request->paid,
                 'start_date' => $request->start_date,
                 'end_date' => $request->start_date,
@@ -523,11 +529,15 @@ class ConfirmSystemController extends Controller
         $company_km = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_odleglosc')->first();
         $time = Job::where('order', $jobi)->sum(DB::raw("TIME_TO_SEC(time)/60"));
         $minsandsecs = date('i:s', $time);
+        $start1 = new DateTime($job->start_car);       
+        $end1 = new DateTime($job->end_car);
+        $travel = $start1->diff($end1);
+        $travel_string = $travel->format('%H:%I'); // np. 02:30
         $jobs = Job::where('order', $jobi)->whereNotNull('description')->get();
         $jobs_towary = Job::where('order', $jobi)->whereNotNull('description_goods')->get();
         $jobs_sprzetzast = Job::where('order', $jobi)->whereNotNull('fk_rep_eq')->get();
         $data["title"] = "Potwierdzenie wykonania usługi";
-        $pdf = PDF::loadView('admin.confirmsystem.sendMail', compact('job', 'jobs', 'minsandsecs', 'jobs_towary', 'jobs_sprzetzast','company_km'));
+        $pdf = PDF::loadView('admin.confirmsystem.sendMail', compact('job', 'jobs', 'minsandsecs', 'jobs_towary', 'jobs_sprzetzast','company_km','travel_string'  ));
         $fileName = 'potwierdzenie-wykonania-uslug.pdf';
         $output = $pdf->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->output();
         $recipients = $request->input('recipients',[]);
@@ -539,7 +549,7 @@ class ConfirmSystemController extends Controller
     
         // Adresy e-mail są poprawne, próba wysłania wiadomości
         try {
-            Mail::send('admin.confirmsystem.sendMailHi', compact('job', 'jobs', 'minsandsecs', 'jobs_towary', 'jobs_sprzetzast','company_km'), function ($message) use ($recipients, $fileName, $output)  {
+            Mail::send('admin.confirmsystem.sendMailHi', compact('job', 'jobs', 'minsandsecs', 'jobs_towary', 'jobs_sprzetzast','company_km','travel_string'), function ($message) use ($recipients, $fileName, $output)  {
                 $message->to($recipients);
                 $message->subject('Kasper Komputer, potwierdzenie wykonania usług');
                 $message->attachData($output, $fileName, [

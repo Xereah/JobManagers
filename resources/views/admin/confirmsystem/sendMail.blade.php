@@ -143,8 +143,8 @@
                 @foreach($jobs as $key => $job)
                 <tr>
                     <td align="center">{{$i}}</td>
-                    <td align="left" class="strong"><b> {{ $job->type_task->name ?? '' }}</b></td>
-                    <td></td>
+                    <td align="left"  colspan="2" class="strong"><b> {{ $job->type_task->name ?? '' }}</b></td>
+                   
                     <?php
                         $zmienna1=$job->user->name;
                         $zmienna2=$job->user->surname;
@@ -222,7 +222,7 @@
                         ?>
                     <td align="center"> {{ $firstLetter1 }} {{  $firstLetter2  ?? '' }}</td>
                     <td> {{$company_km}} km</td>
-                    <td class="left"></td>
+                    <td class="left">{{$travel_string}}</td>
                     @if($job->paid==1)
                     <td align="center"> B</td>
                     @else
@@ -246,7 +246,7 @@
                         ----------------------------------------- -----------------------------------------
                     </td>
                     <td align="center" style="width:30%;">
-                        <hr> Nazwisko i imię oraz podpis<br>
+                        <hr> Nazwisko i imię oraz podpis
                         upoważnionego przedstawiciela klienta
                     </td>
                 </tr>

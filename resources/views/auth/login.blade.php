@@ -110,7 +110,7 @@ body{
                         <div class="row">
                             <div class="col-12 text-right">
                                 Wersja 1.2<br>
-                                Data kompilacji 16.04.2023
+                                Data kompilacji 28.04.2023
                             </div>
                         </div>
                     </form>
