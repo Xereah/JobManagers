@@ -16,6 +16,38 @@ class StoreJobRequest extends FormRequest
         return true;
     }
 
+    public function messages()
+    {
+    return [
+        'description[].required' => 'Pole Opis jest wymagane',
+        'fk_user.required' => 'Pole Odpowiedzialny jest wymagane',
+        'fk_typetask.required' => 'Pole Nazwa Zadania jest wymagane',
+        'start[].required' => 'Pole Początek jest wymagane',
+        'end[].required' => 'Pole Koniec jest wymagane',
+        'end[].after_or_equal' => 'Koniec nie może być wcześniejszy niż koniec',
+        'start[].before_or_equal' => 'Początek nie może być późniejszy niż koniec',
+        'start_date[].required' => 'Pole Data Początkowa jest wymagane',
+        'start_date[].before_or_equal' => 'Nie wpisujemy daty z przyszłości :D',
+        'end_date[].required' => 'Pole Data Początkowa jest wymagane',
+        'end_date[].before_or_equal' => 'Nie wpisujemy daty z przyszłości :D',
+        'end_date[].after_or_equal' =>'Data końcowa nie może być wcześniejsza niż początkowa',
+        'fk_company.required' => 'Pole Firma jest wymagane',
+
+        'fk_typetask_new[].required' => 'Pole Nazwa Zadania jest wymagane',
+        'start_date_new[].required' => 'Pole Data Początkowa jest wymagane',
+        'start_date_new[].before_or_equal' => 'Nie wpisujemy daty z przyszłości :D',
+        'end_date_new[].required' => 'Pole Data Początkowa jest wymagane',
+        'end_date_new[].before_or_equal' => 'Nie wpisujemy daty z przyszłości :D',
+        'end_date_new[].after_or_equal' =>'Data końcowa nie może być wcześniejsza niż początkowa',
+        'start_new[].required' => 'Pole Początek jest wymagane',
+        'end_new[].required' => 'Pole Koniec jest wymagane',
+        'end_new[].after_or_equal' => 'Koniec nie może być wcześniejszy niż koniec',
+        'start_new[].before_or_equal' => 'Początek nie może być późniejszy niż koniec',
+        'description_new[].required' => 'Pole Opis jest wymagane',
+
+    ];
+    }
+
     public function rules()
     {
         return [
