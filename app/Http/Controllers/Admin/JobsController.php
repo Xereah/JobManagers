@@ -235,7 +235,8 @@ class JobsController extends Controller
             $comments = $request->input('comments',[]);
             $value = $request->input('value',[]);
             $company =$request->input('fk_company');
-            $contract = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_id')->first();
+            $contract_grupa = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_grupa')->first();
+            $contract=DB::table('contracts')->where('contract_name', $contract_grupa)->pluck('id')->first();
             $company_place=DB::table('kontrahenci')->where('kontrahent_kod', 'KASPERKOMPUTERSPZOO')->pluck('kontrahent_id')->first();
             $time1= strtotime(implode($start));          
             $time2= strtotime(implode($end));          
@@ -327,7 +328,8 @@ class JobsController extends Controller
     $description = $request->input('description',[]);             
     $company = $request->fk_company;
     $id_opis = $request->input('id_opis',[]);
-    $contract = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_id')->first();
+    $contract_grupa = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_grupa')->first();
+    $contract=DB::table('contracts')->where('contract_name', $contract_grupa)->pluck('id')->first();
     foreach ($description as $key => $value) {
         $start =$request->start[$key];
         $end =$request->end[$key];

@@ -21,7 +21,12 @@
                <th><input id="filtr_nazwa" class="form-control" /></th>
                <th><input id="filtr_miasto" class="form-control" /></th>
                <th><input id="filtr_ulica" class="form-control" /></th>
-               <th><input id="filtr_umowa" class="form-control" /></th>
+               <th><select class="form-control" id="filtr_umowa">
+                        <option> </option>
+                                @foreach($contracts as $key => $contract)
+                                <option value="{{$contract->contract_name}}">{{ $contract->contract_name }} </option>
+                                @endforeach
+                            </select></th>
                <th><input id="filtr_email" class="form-control" /></th>   
                <th></th>       
            </tr>
@@ -126,7 +131,7 @@ var table = $('#example').DataTable();
     table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
     } );
     $('#filtr_umowa').on('change', function () {
-    table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
+    table.columns($(this).parent().index() + ':visible').search('^' + this.value + '$', true, false).draw();
     } );
     $('#filtr_kod').on('change', function () {
     table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();

@@ -19,9 +19,9 @@ class ContractsSeeder extends Seeder
             'Farmacja umowy',
             'Indywidualni',
             'Medycyna',
-            'Medycyna umowy',
+            'Medycyna umowa',
             'Przedsiębiorstwa',
-            'Przedsiębiorstwa umowy',
+            'Przedsiębiorstwa umw',
                 ];
 
         foreach($contract as $id => $contracts)
