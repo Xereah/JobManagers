@@ -27,18 +27,18 @@
         }
 
         .obramowanie_góra_dół {
-          
+
             border-bottom: 0.1cm solid black;
-            }
+        }
 
         body {
-            font-size: 22px;
+            font-size: 20px;
             padding: 0;
             margin: 0;
         }
 
         table {
-            font-size: 22px;
+            font-size: 20px;
         }
 
         @page {
@@ -77,9 +77,13 @@
             <tr>
                 <td style="width:30%;">
                     <div><strong>Akronim Klienta:</strong> {{ $job->company ->kontrahent_kod ?? '' }}</div>
-                    <div><strong>Klient:</strong> {{ $job->company -> kontrahent_nazwa1 ?? '' }} {{ $job->company -> kontrahent_nazwa2 ?? '' }} {{ $job->company -> kontrahent_nazwa3 ?? '' }} <br>
-                        {{ $job->company -> kontrahent_ulica ?? '' }} {{ $job->company -> kontrahent_kodpocztowy ?? '' }}
-                        {{ $job->company -> kontrahent_miasto ?? '' }} </div>
+                    <div><strong>Klient:</strong> {{ $job->company -> kontrahent_nazwa1 ?? '' }}
+                        {{ $job->company -> kontrahent_nazwa2 ?? '' }} {{ $job->company -> kontrahent_nazwa3 ?? '' }}
+                        <br>
+                        {{ $job->company -> kontrahent_ulica ?? '' }}
+                        {{ $job->company -> kontrahent_kodpocztowy ?? '' }}
+                        {{ $job->company -> kontrahent_miasto ?? '' }}
+                    </div>
                     <div><strong>Mejsce wykonania usług:</strong><br> {{ $job->company -> kontrahent_ulica ?? ''}}
                         {{$job->company -> kontrahent_kodpocztowy ?? ''}}
                         {{$job->company -> kontrahent_miasto ?? ''}}</div>
@@ -145,28 +149,28 @@
                 </tbody>
 
             </table>
-
-        </div>
-        <br>
-
-        <footer class="fixed-bottom">
-        
+            <br>
             <div class="row justify-content-around mb-5">
 
                 <div class="col-4 text-center">
-                <div class="obramowanie_góra_dół"></div>
+                    <div class="obramowanie_góra_dół"></div>
                     {{ $job->user->name ?? '' }} {{ $job->user->surname ?? '' }}
                 </div>
                 <div class="col-4 text-center">
-                <div class="obramowanie_góra_dół"></div>
-                    Nazwisko i imię oraz podpis
-                    upoważnionego przedstawiciela Klienta
+                    <div class="obramowanie_góra_dół"></div>
+                    Podpis upoważnionego przedstawiciela Klienta
                 </div>
             </div>
+        </div>
+
+
+        <footer class="fixed-bottom" style="font-size: 14px;">
+
+
             <div class="container">
                 <div class="row">
                     <div class="col-sm">
-                        Legenda:<br>
+                        Legenda:
                         RR.- Rodzaj Rozliczenia wykonanej Usługi: (P- Usługa Płatna, B- Usługa Bezpłatna)<br>
                     </div>
                 </div>
@@ -192,6 +196,7 @@
 
 </html>
 @endsection
+
 <script>
 document.getElementById("btnPrint").onclick = function() {
     printElement(document.getElementById("printThis"));

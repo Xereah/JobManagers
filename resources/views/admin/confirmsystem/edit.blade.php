@@ -477,12 +477,18 @@
           <input type="hidden" name="job_id" value="{{ $job->id }}">
           <div class="form-group">
   <label>Odbiorcy:</label>
-  @foreach ($company_mails as $company_mail)
+
+  @foreach($company_mails as $company_mail)
+  @if($company_mail != NULL)
     <div class="form-check">
       <input class="form-check-input" type="checkbox" name="recipients[]" value="{{ $company_mail }}">
       <label class="form-check-label">{{ $company_mail }}</label>
     </div>
+    @else
+  <p> Brak przypisanych adresów mailowych!.</p>
+  @endif
   @endforeach
+
 </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal"> {{ trans('global.close') }}</button>

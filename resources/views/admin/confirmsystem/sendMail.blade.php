@@ -8,16 +8,18 @@
 
         /* Zastosuj obramowania dla elementów */
         hr,
-        {
-            border: 0.1cm solid black !important;
+            {
+            border: 0.2cm solid black !important;
         }
+
         .obramowanie {
-            border: 0.1cm solid;
+            border: 0.2cm solid;
         }
 
 
         body {
-            font-size: 14px;
+            font-family: DejaVu Sans;
+            font-size: 12px;
             padding: 0;
             margin: 0;
             min-height: 100vh;
@@ -35,7 +37,7 @@
         }
 
         table {
-            font-size: 14px;
+            font-size: 12px;
 
         }
 
@@ -48,32 +50,23 @@
         header {
             display: none;
         }
-
+ 
     }
 
     body {
         font-family: DejaVu Sans;
-        font-size: 14px;
+        font-size: 12px;
         margin: 0;
         padding: 0;
         min-height: 100vh;
         display: flex;
         flex-direction: column;
     }
-
-    header {
-        padding: 20px;
-    }
-
-    main {
-        flex: 1;
-        padding: 20px;
-    }
-
-    footer {
-
-        padding: 20px;
-        margin-top: auto;
+    .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 50px; /* adjust the height as needed */
     }
     </style>
 </head>
@@ -95,14 +88,17 @@
                 </tr>
             </tbody>
         </table>
-<hr>
+        <hr>
         <table>
             <tbody>
                 <tr>
                     <td style="width:30%; text-align: left;">
                         <div><strong>Akronim Klienta:</strong> {{ $job->company ->kontrahent_kod ?? '' }}</div>
-                        <div><strong>Klient:</strong> {{ $job->company -> kontrahent_nazwa1 ?? '' }} {{ $job->company -> kontrahent_nazwa2 ?? '' }} {{ $job->company -> kontrahent_nazwa3 ?? '' }} <br>
-                            {{ $job->company -> kontrahent_ulica ?? '' }} {{ $job->company -> kontrahent_kodpocztowy ?? '' }}
+                        <div><strong>Klient:</strong> {{ $job->company -> kontrahent_nazwa1 ?? '' }}
+                            {{ $job->company -> kontrahent_nazwa2 ?? '' }}
+                            {{ $job->company -> kontrahent_nazwa3 ?? '' }} <br>
+                            {{ $job->company -> kontrahent_ulica ?? '' }}
+                            {{ $job->company -> kontrahent_kodpocztowy ?? '' }}
                             {{ $job->company -> kontrahent_miasto ?? '' }} </div>
                         <div><strong>Mejsce wykonania usług:</strong><br> {{ $job->company -> kontrahent_ulica ?? ''}}
                             {{$job->company -> kontrahent_kodpocztowy ?? ''}}
@@ -126,8 +122,8 @@
         <h3 align="center"><strong>Szczegółowy spis wykonanych usług przez serwis Kasper Komputer:</strong></h3>
 
         <table>
-            <thead >
-                <tr >
+            <thead>
+                <tr>
                     <th>Lp</th>
                     <th>{{ trans('cruds.job.fields.task_name') }}</th>
                     <th>{{ trans('cruds.job.fields.description') }}</th>
@@ -143,8 +139,8 @@
                 @foreach($jobs as $key => $job)
                 <tr>
                     <td align="center">{{$i}}</td>
-                    <td align="left"  colspan="2" class="strong"><b> {{ $job->type_task->name ?? '' }}</b></td>
-                   
+                    <td align="left" colspan="2" class="strong"><b> {{ $job->type_task->name ?? '' }}</b></td>
+
                     <?php
                         $zmienna1=$job->user->name;
                         $zmienna2=$job->user->surname;
@@ -221,8 +217,8 @@
                         $firstLetter2 = substr($zmienna2, 0, 1);
                         ?>
                     <td align="center"> {{ $firstLetter1 }} {{  $firstLetter2  ?? '' }}</td>
-                    <td> {{$company_km}} km</td>
-                    <td class="left">{{$travel_string}}</td>
+                    <td align="center"> {{$company_km}} km</td>
+                    <td align="center">{{$travel_string}}</td>
                     @if($job->paid==1)
                     <td align="center"> B</td>
                     @else
@@ -232,28 +228,33 @@
                 <?php $i++ ?>
             </tbody>
         </table>
+
+
         @if($job->comments != NULL)
-        <h4 align="left"><strong>OGÓLNE UWAGI DO WYKONANYCH ZADAŃ W RAMACH ZLECENIA:</strong></h4>
-        <p align="left">{!! nl2br(e($job->comments)) !!}</hp>
+        <h4 align="center"><strong>OGÓLNE UWAGI DO WYKONANYCH ZADAŃ W RAMACH ZLECENIA:</strong></h4>
+        <p align="left">{!! nl2br(e($job->comments)) !!}</p>
             @endif
+
         <table>
             <tbody>
                 <tr>
                     <td align="center" style="width:30%;">
                         <hr>{{ $job->user->name ?? '' }} {{ $job->user->surname ?? '' }}
                     </td>
-                    <td align="center" style="width:40%; visibility: hidden;">
+                    <td align="center" style="width:20%; visibility: hidden;">
                         ----------------------------------------- -----------------------------------------
                     </td>
-                    <td align="center" style="width:30%;">
+                    <td align="center" style="width:50%;">
                         <hr> Nazwisko i imię oraz podpis
                         upoważnionego przedstawiciela klienta
                     </td>
                 </tr>
             </tbody>
         </table>
-        </main>
-        <footer>
+
+
+    </main>
+    <!-- <footer >
         <table>
             <tbody>
                 <tr>
@@ -265,7 +266,18 @@
                 </tr>
             </tbody>
         </table>
-    </footer>
+    </footer> -->
+
+    <footer class="footer">
+    <div class="container">
+    Legenda:<br>
+                        RR.- Rodzaj Rozliczenia wykonanej Usługi: (P- Usługa Płatna, B- Usługa Bezpłatna)<br>
+                        <hr>
+                        Kasper Komputer, ul. Podmiejska 16, 62-800 Kalisz, tel/fax (0-62) 764-40-66, 501-15-05
+    </div>
+</footer>
+
+
 
 </body>
 
