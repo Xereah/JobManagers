@@ -30,35 +30,8 @@ class JobsController extends Controller
     {
         $startDate = Carbon::now()->subMonth(12);
         $endDate = date('Y-m-d');
-        if ($request->ajax()) {
-            // $data = DB::table('jobs')
-            // ->orderBy('jobs.id', 'desc')
-            // ->join('companies', 'companies.id', '=', 'jobs.fk_company')
-            // ->join('task_type', 'task_type.id', '=', 'jobs.fk_tasktype')
-            // ->join('users', 'users.id', '=', 'jobs.fk_user')
-            // ->select('jobs.*', 'companies.shortcode','users.name','users.surname','task_type.name')
-            // ->orderBy('jobs.id', 'DESC')
-            // ->whereBetween('jobs.start_date', [$startDate, $endDate])
-            // ->get();
-
-            // $jobs = Job::orderBy('id', 'desc')->get();
-            
+        if ($request->ajax()) {     
             return Datatables::of(Job::query()->orderBy('id', 'desc')
-            // ->where(function($query) {
-            //     $query->whereNotNull('description')
-            //           ->orWhereNotNull('description_goods')
-            //           ->orWhereNotNull('fk_rep_eq');
-            // })
-            // ->where(function($query) {
-            //     $query->whereNotNull('description')
-            //           ->orWhereNotNull('description_goods')
-            //           ->orWhereNotNull('fk_rep_eq');
-            // })
-            // ->where(function($query) {
-            //     $query->whereNotNull('description')
-            //           ->orWhereNotNull('description_goods')
-            //           ->orWhereNotNull('fk_rep_eq');
-            // })
             ->whereBetween('jobs.start_date', [$startDate, $endDate]))
             ->editColumn('fk_typetask', function ($job) {
                 $order_querry="SRW/";
@@ -120,15 +93,13 @@ class JobsController extends Controller
             })
             ->editColumn('fk_contract', function ($job) {
                 return  $job->fk_contract;
-            })
-        
+            })        
             ->editColumn('paid', function ($job) {
                 if($job->paid==1)
                 return  "Bezpłatne";
                 else
                 return "Płatne";
             })
-
             ->editColumn('description', function ($job) {
                 if(!(is_null($job->description)))
                     return  '<div style="text-align:left; max-height: 75px; overflow: auto;">' . $job->description . '</div>';
@@ -167,17 +138,13 @@ class JobsController extends Controller
     {
         abort_if(Gate::denies('job_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $job = Job::all();
-
         $job->load('company');
-
-        $companies = Company::all();
-        
+        $companies = Company::all();        
         $user = Auth::user();
         $user_all = User::all();
         $TypeTask = TypeTask::all();
         $todayDate =  Carbon::now();
-        $TaskType = TaskType::orderby("id","asc")
-        ->select('id','name')->get();
+        $TaskType = TaskType::orderby("id","asc")->select('id','name')->get();
         $list=TaskType_Pivot::all()->where('task_type_id','==',1);
         return view('admin.jobs.create', compact('companies','job','TaskType','TypeTask','user','user_all','todayDate','list'));
       
@@ -190,60 +157,38 @@ class JobsController extends Controller
         return response()->json($empData);
     }
 
+    private function generateOrderNumber()
+    {
+        $year = Carbon::now()->year;
+        $lastOrder = DB::table('jobs')->orderBy('id', 'desc')->first();
+        if (!$lastOrder || substr($lastOrder->order, -4) < $year) {
+            $orderNumber = 1;
+        } else {
+            $orderNumber = intval(substr($lastOrder->order, 4, -5)) + 1;
+        }
+    
+        return 'CZK/' . $orderNumber . '/' . $year;
+    }
+    
+    private function getContractId($companyId)
+    {
+        $contractGroup = DB::table('kontrahenci')->where('kontrahent_id', $companyId)->pluck('kontrahent_grupa')->first();
+    
+        return DB::table('contracts')->where('contract_name', $contractGroup)->pluck('id')->first();
+    }
+
     public function store(Request $request)
     {    
-        //    $request->validate([  
-        //     'description.*' => 'required', 
-        //     'start.*' => 'required', 
-        //     'end.*' => 'required',
-        //     'start_date.*' => 'required',
-        //     'end_date.*' => 'required',
-        //     'fk_tasktype.*' => 'required',
-        //     'fk_typetask.*' => 'required',
-        //     'paid.*' => 'required',
-        //       ], 
-        //         [  
-        //     'description.*.required' => 'Pole Opis jest wymagane',
-        //     'start.*.required' => 'Pole Początek jest wymagane',
-        //     'end.*.required' => 'Pole Koniec jest wymagane',
-        //     'start_date.*.required' => 'Pole Data Początkowa jest wymagane',
-        //     'end_date.*.required' => 'Pole Data Końcowa jest wymagane',
-        //     'fk_tasktype.*.required' => 'Pole Zlecenie jest wymagane',
-        //     'fk_typetask.*.required' => 'Pole Nazwa Zadania jest wymagane',
-        //     'paid.*.required' => 'Pole Płatność jest wymagane',
-        //          ]);
+        try {
+            $order = $this->generateOrderNumber();
+            $contract = $this->getContractId($request->fk_company);
+
         
-
-
-        $year = Carbon::now()->year;
-        $last = DB::table('jobs')->distinct('order')->count('order');
-        if($last == 0){
-           $last=0;
-        }
-        else{
-            $last;
-        }
-
-           $number_order=$last+1;
-
-            $start_date = $request->input('start_date',[]);
-            $end_date = $request->input('end_date',[]);
-            $start = $request->input('start',[]);
-            $end = $request->input('end',[]);
             $fk_typetask = $request->input('fk_typetask',[]);
             $description = $request->input('description',[]);
-            $comments = $request->input('comments',[]);
-            $value = $request->input('value',[]);
             $company =$request->input('fk_company');
-            $contract_grupa = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_grupa')->first();
-            $contract=DB::table('contracts')->where('contract_name', $contract_grupa)->pluck('id')->first();
             $company_place=DB::table('kontrahenci')->where('kontrahent_kod', 'KASPERKOMPUTERSPZOO')->pluck('kontrahent_id')->first();
-            $time1= strtotime(implode($start));          
-            $time2= strtotime(implode($end));          
-            $diff = $time2-$time1;
-            $diff2 = date("H:i",  $diff);     
-            
-           
+       
             foreach ($fk_typetask as $key => $value) {
                 $start =$request->start[$key];
                 $end =$request->end[$key];
@@ -261,7 +206,7 @@ class JobsController extends Controller
                     'location' => $company_place,
                     'fk_contract' =>  $contract,
                     'time' => $diff2,
-                    'order' =>'CZK/'. $number_order. '/'. $year,
+                    'order' =>$order,
         
                     'fk_typetask' => $request->fk_typetask[$key],
                     'start_date' => $request->start_date[$key],
@@ -275,27 +220,29 @@ class JobsController extends Controller
                 }
              }  
          return redirect()->route('admin.jobs.index')->with('success', 'Pomyślnie dodano nowe zadanie.'); 
+        } catch (\Exception $e) {
+            // Błąd podczas tworzenia nowego zadania
+            return redirect()->back()->with('error', 'Nie udało się dodać nowego zadania. ' . $e->getMessage());
+        }
     }
 
 
     public function edit($id)
     {
         $job = Job::findOrFail($id);
-        $companies = Company::all();
-     
+        $companies = Company::all();     
         $user_all = User::all();
         $TaskType = TaskType::all();
         $TypeTask = TypeTask::all();
         $jobi=$job->order;
-        $Notification = Notification::all()
-        ->where('order', '==', $jobi);
-       
+        $Notification = Notification::all()->where('order', '==', $jobi);       
         $type_task_id=$job->fk_tasktype;        
         $jobs = Job::all()->where('order', '==', $jobi);
         $list=TaskType_Pivot::all();   
 
         return view('admin.jobs.edit', compact('companies','job','TaskType','TypeTask','user_all','jobs','list','type_task_id','Notification'));
     }
+
     public function editone($id)
     {
         $job = Job::findOrFail($id);
@@ -318,18 +265,13 @@ class JobsController extends Controller
     public function update(Request $request, $id)
     {
        
-        // $request->validate([  
-        //     'description.*' => 'required|string|min:3|max:255',
-        //       ], 
-        //         [  
-        //     'description.*.required' => 'Pole Opis jest wymagane',
-        //     ]);  
+    try {
+    $description = $request->input('description',[]);  
 
-    $description = $request->input('description',[]);             
     $company = $request->fk_company;
     $id_opis = $request->input('id_opis',[]);
-    $contract_grupa = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_grupa')->first();
-    $contract=DB::table('contracts')->where('contract_name', $contract_grupa)->pluck('id')->first();
+    $contract = $this->getContractId($request->fk_company);
+
     foreach ($description as $key => $value) {
         $start =$request->start[$key];
         $end =$request->end[$key];
@@ -388,27 +330,29 @@ class JobsController extends Controller
             'start' =>$request->start_new[$key],
             'end' => $request->end_new[$key],
             'description' =>$request->description_new[$key],
-        );
-       
-        if(!empty($description_new[$key]) && isset($request->start_new[$key]) && isset($request->end_new[$key])) { 
-          
-        $created = Job::insert($data);
-        
-    }   
-     }  
+        );       
+        if(!empty($description_new[$key]) && isset($request->start_new[$key]) && isset($request->end_new[$key])) {           
+        $created = Job::insert($data);        
+         }   
+     }
+
      $user = Auth::user();
      $DateNow = Carbon::now();
-     if(!empty($request)){
-     $Notification = new Notification([
-        'user' => $user->id,
-        'order' => $order,
-        'date' => $DateNow,
-    ]);
-      $Notification->save();
+        if(!empty($request)){
+        $Notification = new Notification([
+            'user' => $user->id,
+            'order' => $order,
+            'date' => $DateNow,
+        ]);
+         $Notification->save();
      }
 
     //    return redirect()->route('admin.jobs.index') ->with('success', 'Pomyślnie edytowano potwierdzenie.'); 
-          return back()->with('success', 'Pomyślnie edytowano potwierdzenie.'); 
+          return back()->with('success', 'Pomyślnie edytowano zadanie.'); 
+        } catch (\Exception $e) {
+            // Błąd podczas tworzenia nowego zadania
+            return redirect()->back()->with('error', 'Nie udało się edytować zadania. ' . $e->getMessage());
+        }
     }
 
     public function show(Job $job)

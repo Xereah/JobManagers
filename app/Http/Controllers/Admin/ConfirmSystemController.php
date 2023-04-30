@@ -26,6 +26,8 @@ use Illuminate\Mail\Message;
 use Illuminate\Queue\SerializesModels;
 use App\Http\Requests\StoreConfirmSystem;
 
+
+
 class ConfirmSystemController extends Controller
 {
     /**
@@ -37,23 +39,14 @@ class ConfirmSystemController extends Controller
     {
 
         $companies = Company::all();
-         $user = Auth::user();
-         $user_all = User::all()->unique();
-         $TypeTask = TypeTask::all();
-         $car = Car::all();
-         $repEquipment=RepEquipment::all()->where('is_loan','!=',1);
-         $TaskType = TaskType::orderby("id","asc")
-         ->select('id','name')->get();
+        $user = Auth::user();
+        $user_all = User::all()->unique();
+        $TypeTask = TypeTask::all();
+        $car = Car::all();
+        $repEquipment=RepEquipment::all()->where('is_loan','!=',1);
+        $TaskType = TaskType::orderby("id","asc")->select('id','name')->get();
         return view('admin.confirmsystem.index', compact('companies','user','user_all','TypeTask','TaskType','car','repEquipment'));
     }
-
-    // public function getEmployees($company=0){        
-    //     $empData['data'] = DB::table('companies')
-    //        ->select('id','name','distance', DB::raw("CONCAT(companies.location,' ',companies.street) AS adress"))        
-    //        ->where('id',$company)
-    //        ->get();   
-    //     return response()->json($empData);   
-    //   }
 
       public function getTask($TypeTask=0)
       {       
@@ -77,40 +70,39 @@ class ConfirmSystemController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreConfirmSystem $request)
-    {   
 
-        // $request->validate([  
-        //     'description.*' => 'required',
-        //     'start.*' => 'required',
-        //     'end.*' => 'required',
-        //       ], 
-        //     [  
-        //     'description.*.required' => 'Pole Opis jest wymagane',
-        //     'start.*.required' => 'Pole Początek jest wymagane',
-        //     'end.*.required' => 'Pole Koniec jest wymagane',
-        //      ]);
-
-    
-
+     private function generateOrderNumber()
+        {
             $year = Carbon::now()->year;
+            $lastOrder = DB::table('jobs')->orderBy('id', 'desc')->first();
+            if (!$lastOrder || substr($lastOrder->order, -4) < $year) {
+                $orderNumber = 1;
+            } else {
+                $orderNumber = intval(substr($lastOrder->order, 4, -5)) + 1;
+            }
+        
+            return 'SRW/' . $orderNumber . '/' . $year;
+        }
+        
+    private function getContractId($companyId)
+        {
+            $contractGroup = DB::table('kontrahenci')->where('kontrahent_id', $companyId)->pluck('kontrahent_grupa')->first();
+        
+            return DB::table('contracts')->where('contract_name', $contractGroup)->pluck('id')->first();
+        }
+
+    public function store(StoreConfirmSystem $request)
+        {   
+            $order = $this->generateOrderNumber();
+            $contract = $this->getContractId($request->fk_company);
             $now = Carbon::now();
-            $last = DB::table('jobs')->distinct('order')->count('order');
-            if($last == 0){$last=0;}
-            else{$last;}
-            $number_order=$last+1;
-     
-            $start = $request->input('start',[]);
-            $end = $request->input('end',[]);
+           
             $fk_typetask = $request->input('fk_typetask',[]);
             $description = $request->input('description',[]);  
-            $użytkownik = $request->input('fk_user',[]);   
             $description_goods = $request->input('description_goods',[]);  
             $fk_rep_eq = $request->input('fk_rep_eq',[]);
             $description_eq = $request->input('description_eq',[]);               
             $company =$request->input('fk_company');
-            $contract_grupa = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_grupa')->first();
-            $contract=DB::table('contracts')->where('contract_name', $contract_grupa)->pluck('id')->first();
             $usługi = DB::table('task_type')->where('name', 'Usługi(U)')->pluck('id')->first();
             $towary = DB::table('task_type')->where('name', 'Towary(T)')->pluck('id')->first();
             $slugi_typ = DB::table('type_task')->where('name', 'Serwis sprzętu komputerowego')->pluck('id')->first();
@@ -118,13 +110,9 @@ class ConfirmSystemController extends Controller
             $sprzęt_zast= DB::table('task_type')->where('name',  'Sprzęt zastępczy(SZ)')->pluck('id')->first();
             $user_auth = Auth::user();
             $comments1 = $request->comments[0];
-
-            $time1= strtotime(implode($start));          
-            $time2= strtotime(implode($end));          
-            $diff = $time2-$time1;
-            $diff2 = date("H:i",  $diff);   
                        
             foreach ($description as $key => $value) {
+
                 $start =$request->start[$key];
                 $end =$request->end[$key];
                 $time1= strtotime($start);          
@@ -148,15 +136,31 @@ class ConfirmSystemController extends Controller
                     'fk_contract' =>  $contract,
                     'location' =>$location,
                     'time' => $diff2,
-                    'order' =>'SRW/'. $number_order. '/'. $year,
+                    'order' =>$order,
                     'description' =>$request->description[$key],
                     'paid_job'=>$request->paid_job[$key],
                     'comments' => $comments1,                
                 );  
                 if(!empty($description[$key]) && isset($request->start[$key]) && isset($request->end[$key])) { 
                     $created = Job::insert($data); 
-                }                     
-            };
+                }
+                if (!empty($request->comments[$key])) {
+                    $comments = explode("\n", $request->comments[$key]);
+                    foreach ($comments as $comment)
+                    {
+                    $data4 = array(
+                        'fk_user' =>  $user_auth->id,
+                        'fk_company' => $request->fk_company,
+                        'task_title' => trim($comment),
+                        'execution_user' => $user_auth->id,
+                        'fk_contract' => $contract,
+                        'completed' => 0,
+                        'created_at' => $now,
+                    );                   
+                    $created = Task::insert($data4);
+                         }
+                    };                     
+                };
                         
                 foreach ($description_goods as $key => $value) {
                     $data1 = array(
@@ -179,7 +183,7 @@ class ConfirmSystemController extends Controller
                     if(!empty($description_goods[$key]) && isset($request->paid_goods[$key]) && isset($request->value_goods[$key])) { 
                         $created = Job::insert($data1); 
                     }
-                     };
+                    };
 
                    foreach ($fk_rep_eq as $key => $value){
                         $data2 = array(
@@ -210,25 +214,8 @@ class ConfirmSystemController extends Controller
                         );                
                         $created = RepEquipment::where('id', $fk_rep_eq[$key])->update($data3);
                     };
-                
-            if (!empty($request->comments[$key])) {
-                $comments = explode("\n", $request->comments[$key]);
-                foreach ($comments as $comment) {
-                $data4 = array(
-                    'fk_user' =>  $user_auth->id,
-                    'fk_company' => $request->fk_company,
-                    'task_title' => trim($comment),
-                    'execution_user' => $user_auth->id,
-                    'fk_contract' => $contract,
-                    'completed' => 0,
-                    'created_at' => $now,
-                );
-               
-                $created = Task::insert($data4);
-            }
-                };
              
-            $last_id = DB::table('jobs')->whereNull('deleted_at')->pluck('id')->last();
+             $last_id = DB::table('jobs')->whereNull('deleted_at')->pluck('id')->last();
 
              return redirect(url('admin/ConfirmSystem/'. $last_id.'/edit'))->with('success', 'Pomyślnie dodano nowe potwierdzenie.'); 
     }
@@ -248,22 +235,17 @@ class ConfirmSystemController extends Controller
         $start1 = new DateTime($job->start_car);       
         $end1 = new DateTime($job->end_car);
         $travel = $start1->diff($end1);
-        $travel_string = $travel->format('%H:%I'); // np. 02:30
+        $travel_string = $travel->format('%H:%I');
        
         $time = Job::where('order', $jobi)->sum(DB::raw("TIME_TO_SEC(time)/60"));
         $minsandsecs = date('i:s',$time);
 
-        $jobs = Job::all()
-        ->where('order', '==', $jobi)
-        ->wherenotNull('description');
+        $jobs = Job::all()->where('order', '==', $jobi)->wherenotNull('description');
 
-        $jobs_towary = Job::all()
-        ->where('order', '==', $jobi)
-        ->wherenotNull('description_goods');
+        $jobs_towary = Job::all()->where('order', '==', $jobi)->wherenotNull('description_goods');
 
-        $jobs_sprzetzast = Job::all()
-        ->where('order', '==', $jobi)
-        ->wherenotNull('fk_rep_eq');
+        $jobs_sprzetzast = Job::all()->where('order', '==', $jobi)->wherenotNull('fk_rep_eq');
+
         $company = $job->fk_company;
         $company_km = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_odleglosc')->first();
         
@@ -288,27 +270,21 @@ class ConfirmSystemController extends Controller
         $TypeTask = TypeTask::all();
         $jobi=$job->order;
         $jobi_loan=$job->fk_company;
-        $Notification = Notification::all()
-        ->where('order', '==', $jobi);
+        $Notification = Notification::all()->where('order', '==', $jobi);
        
        // $type_task_id=$job->fk_tasktype;        
-        $jobs = Job::all()
-        ->where('order', '==', $jobi)
-        ->wherenotNull('description');
+        $jobs = Job::all()->where('order', '==', $jobi)->wherenotNull('description');
 
-        $jobs_towary = Job::all()
-        ->where('order', '==', $jobi)
-        ->wherenotNull('description_goods');
+        $jobs_towary = Job::all()->where('order', '==', $jobi)->wherenotNull('description_goods');
 
-        $jobs_sprzetzast = Job::all()
-        ->where('order', '==', $jobi)
-        ->wherenotNull('fk_rep_eq');
+        $jobs_sprzetzast = Job::all()->where('order', '==', $jobi)->wherenotNull('fk_rep_eq');
         $company = $job->fk_company;
         $company_mails = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_email')->first();
         $company_mails = explode(';', $company_mails);
         
         $repEquipment_loan=RepEquipment::all()->where('company_place', '==', $jobi_loan);
         $repEquipment_loan_add=RepEquipment::all()->where('is_loan','!=',1);
+
         return view('admin.confirmsystem.edit', compact('companies','company_mails','job','TaskType','TypeTask','user_all','jobs','Notification','car','user','repEquipment',
         'jobs_towary','jobs_sprzetzast','repEquipment_loan','repEquipment_loan_add'));
     }
@@ -327,35 +303,25 @@ class ConfirmSystemController extends Controller
             'description' => 'required',
         ]);
 
-        $last = DB::table('jobs')->distinct('order')->count('order');
-        if($last == 0){$last=0;}
-        else{$last;}
-        $number_order=$last+1;
         $now = Carbon::now();
-        $start = $request->input('start',[]);
-        $end = $request->input('end',[]);
+        $contract = $this->getContractId($request->fk_company);
+
         $fk_typetask = $request->input('fk_typetask',[]);
         $description = $request->input('description',[]);  
-        $użytkownik = $request->input('fk_user');  
         $description_goods = $request->input('description_goods',[]);  
         $fk_rep_eq = $request->input('fk_rep_eq',[]);   
         $description_equipment = $request->input('description_eq',[]);             
         $company =$request->input('fk_company');
-        $contract_grupa = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_grupa')->first();
-        $contract=DB::table('contracts')->where('contract_name', $contract_grupa)->pluck('id')->first();
+      
         $usługi = DB::table('task_type')->where('name', 'Usługi(U)')->pluck('id')->first();
         $towary = DB::table('task_type')->where('name', 'Towary(T)')->pluck('id')->first();
         $slugi_typ = DB::table('type_task')->where('name', 'Serwis sprzętu komputerowego')->pluck('id')->first();
         $location = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_id')->first();
         $sprzęt_zast= DB::table('task_type')->where('name',  'Sprzęt zastępczy(SZ)')->pluck('id')->first();
         $order = $request->input('order');
-        $user_order = $request->input('user_order');
         $user_auth = Auth::user() -> id;
 
-        $time1= strtotime(implode($start));          
-        $time2= strtotime(implode($end));          
-        $diff = $time2-$time1;
-        $diff2 = date("H:i",  $diff); 
+     
         $comments1 = $request->comments[0];
         $job = Job::findOrFail($id);
 
@@ -364,6 +330,7 @@ class ConfirmSystemController extends Controller
             $id_opis = $request->input('id_opis',[]);
             $id_sprzet = $request->input('id_sprzet',[]);
             $id_towar = $request->input('id_towar',[]);
+
             $start =$request->start[$key];
             $end =$request->end[$key];
             $time1= strtotime($start);          
@@ -468,10 +435,9 @@ class ConfirmSystemController extends Controller
             else
             {
                 // możliwość dodania nowych rekordów
-              $created = Job::create($data1);
-             
+              $created = Job::create($data1);             
+             }
             }
-        }
         };  
         
         foreach ($fk_rep_eq as $key => $value) 
