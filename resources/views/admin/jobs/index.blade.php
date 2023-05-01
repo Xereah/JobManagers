@@ -343,6 +343,7 @@
         orderClasses: false,
         responsive: true,
         deferRender: true,
+        autoWidth: false,
         renderer: "bootstrap",
         colReorder:true,
         "orderable":false,
@@ -578,7 +579,7 @@ function saveColumnSettings() {
 });
         </script>
 
-<script>
+<!-- <script>
          // display a modal (medium modal)
         $(document).on('click', '#mediumButton', function(event) {
             event.preventDefault();
@@ -605,6 +606,6 @@ function saveColumnSettings() {
             })
         });
 
-    </script>
+    </script> -->
 
 @endsection

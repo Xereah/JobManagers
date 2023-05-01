@@ -299,8 +299,7 @@ body {
 
   $.fn.dataTable.ext.classes.sPageButton = '';
 });
-
-    </script>
+</script>
 
 
     @yield('scripts')
