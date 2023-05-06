@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('content')
 <div class="card-header bg-dark col-md-6 mx-auto">
-        {{ trans('global.create') }} {{ trans('cruds.tasktype.title_singular') }}
+        {{ trans('global.create') }} {{ trans('cruds.category.fields.project') }}
     </div>
 <div class="card col-md-6 mx-auto">   
 
@@ -42,7 +42,7 @@
 
 
 <div class="card-header bg-dark col-md-6 mx-auto">
-{{ trans('global.create') }} {{ trans('cruds.typetask.title_singular') }}
+{{ trans('global.create') }} {{ trans('cruds.typetask.title_plulars') }}
     </div>
 
 <div class="card col-md-6 mx-auto">

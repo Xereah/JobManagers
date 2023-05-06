@@ -2,10 +2,10 @@
 @section('content')
 <div class="card">
     <div class="card-header bg-dark">
-    {{ trans('global.list') }} {{ trans('cruds.tasktype.title_plular') }}
+    {{ trans('global.list') }} {{ trans('cruds.category.fields.projects_plural') }}
         @can('TaskType_create')
         <a class="btn btn-dark float-right" href="{{ route("admin.tasktype.create") }}">
-        <i class="fa fa-plus"></i> {{ trans('global.add') }} {{ trans('cruds.tasktype.title_singular') }}
+        <i class="fa fa-plus"></i> {{ trans('global.add') }} {{ trans('cruds.category.fields.project') }}
             </a>
         @endcan
 
@@ -20,10 +20,10 @@
                             {{ trans('global.lp') }}
                         </th>
                         <th>
-                            {{ trans('cruds.tasktype.fields.name') }}
+                            {{ trans('cruds.category.fields.project') }}
                         </th>
                         <th>
-                            {{ trans('cruds.project.fields.category') }}
+                            {{ trans('cruds.typetask.title_plulars') }}
                         </th>
                         <th>
                             &nbsp;

@@ -72,7 +72,7 @@
                         <i class="fa-fw fas fa-tasks nav-icon">
 
                         </i>
-                        {{ trans('cruds.tasktype.title') }}
+                        {{ trans('cruds.category.fields.projects') }}
                     </a>
                 </li>
             @endcan
@@ -82,7 +82,7 @@
                     <i class="fa-fw fas fa-book nav-icon">
 
                         </i>
-                        {{ trans('cruds.typetask.title') }}
+                        {{ trans('cruds.typetask.title_plulars') }}
                     </a>
                 </li>
             @endcan

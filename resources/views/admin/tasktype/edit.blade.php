@@ -2,7 +2,7 @@
 @section('content')
 
 <div class="card-header bg-dark col-md-6 mx-auto">
-        {{ trans('global.edit') }} {{ trans('cruds.tasktype.title_plular') }}
+        {{ trans('global.edit') }} {{ trans('cruds.category.fields.projects_plural') }}
     </div>
 <div class="card col-md-6 mx-auto">
 
@@ -43,7 +43,7 @@
 </div>
 
 <div class="card-header bg-dark col-md-6 mx-auto">
-{{ trans('global.create') }} {{ trans('cruds.typetask.title_singular') }}
+{{ trans('global.create') }} {{ trans('cruds.typetask.title_plulars') }}
     </div>
 
 <div class="card col-md-6 mx-auto">

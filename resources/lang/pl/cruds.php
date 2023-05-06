@@ -81,7 +81,9 @@ return [
             'id'                => 'ID',
             'id_helper'         => '',
             'name'              => 'Nazwa',
-            'project'              => 'Project',
+            'project'              => 'Projekt',
+            'projects'              => 'Projekty',
+            'projects_plural'              => 'Projektów',
             'name_helper'       => '',
             'created_at'        => 'Stworzono',
             'created_at_helper' => '',
@@ -172,6 +174,7 @@ return [
         'title'          => 'Rodzaj Zadania',
         'title_singular' => 'Rodzaj Zadania',
         'title_plular' => 'Rodzajów Zadań',
+        'title_plulars' => 'Nazwy Zadań',
         'fields'         => [
             'id'                => 'ID',
             'id_helper'         => '',
