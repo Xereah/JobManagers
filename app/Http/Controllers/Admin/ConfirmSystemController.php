@@ -91,6 +91,13 @@ class ConfirmSystemController extends Controller
             return DB::table('contracts')->where('contract_name', $contractGroup)->pluck('id')->first();
         }
 
+    private function getCompanyDistance($companyId)
+        {
+            $CompanyZipcode = DB::table('kontrahenci')->where('kontrahent_id', $companyId)->pluck('kontrahent_kodpocztowy')->first();    
+            return DB::table('kontrahenci_miasta')->where('kontrahent_kodpocztowy', $CompanyZipcode)->pluck('kontrahent_odleglosc')->first();
+        }
+    
+
     public function store(StoreConfirmSystem $request)
         {   
             $order = $this->generateOrderNumber();
@@ -175,7 +182,7 @@ class ConfirmSystemController extends Controller
                         'fk_typetask' => $slugi_typ,
                         'fk_contract' => $contract,
                         'fk_user' => $user_auth->id,
-                        'order' => 'SRW/' . $number_order . '/' . $year,
+                        'order' => $order,
                         'description_goods' => $description_goods[$key],
                         'paid_goods' => $request->paid_goods[$key],
                         'value_goods' => $request->value_goods[$key],
@@ -198,7 +205,7 @@ class ConfirmSystemController extends Controller
                             'fk_contract' => $contract,
                             'fk_typetask' => $slugi_typ,
                             'fk_user' => $user_auth->id,
-                            'order' => 'SRW/' . $number_order . '/' . $year,
+                            'order' => $order,
                             'fk_rep_eq' => $fk_rep_eq[$key],
                             'description_eq' => $description_eq[$key],
                             'paid_eq' => $request->paid_eq[$key],
@@ -247,7 +254,7 @@ class ConfirmSystemController extends Controller
         $jobs_sprzetzast = Job::all()->where('order', '==', $jobi)->wherenotNull('fk_rep_eq');
 
         $company = $job->fk_company;
-        $company_km = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_odleglosc')->first();
+        $company_km = $this->getCompanyDistance($company);
         
         return view('admin.confirmsystem.print', compact('job','travel_string','jobs','minsandsecs','jobs_towary','jobs_sprzetzast','company_km'));
     }
@@ -494,7 +501,7 @@ class ConfirmSystemController extends Controller
         $company = $job->fk_company;
         $company_mails = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_email')->first();
         $company_mails = explode(';', $company_mails);
-        $company_km = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_odleglosc')->first();
+        $company_km = $this->getCompanyDistance($company);
         $time = Job::where('order', $jobi)->sum(DB::raw("TIME_TO_SEC(time)/60"));
         $minsandsecs = date('i:s', $time);
         $start1 = new DateTime($job->start_car);       

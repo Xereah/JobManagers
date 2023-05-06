@@ -32,7 +32,6 @@
             <table class=" table table-bordered table-striped table-hover datatable yajra-datatable" id="example">
                 <thead>
                     <tr>
-
                         <th> <button class="btn btn-danger" id="btnSearch" name="btnSearch"><i class="fa fa-trash"></i></button></th>
                         <th><input id="filtr_code" class="form-control" /></th>
                         <th><input id="filtr_nazwa" class="form-control" /></th>

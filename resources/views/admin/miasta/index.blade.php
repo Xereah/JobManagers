@@ -12,8 +12,15 @@
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-Role">
+            <table class=" table table-bordered table-striped table-hover datatable datatable-Role" id="example">
                 <thead align="center">
+                <tr>
+                        <th> <button class="btn btn-danger" id="btnSearch" name="btnSearch"><i class="fa fa-trash"></i></button></th>
+                        <th><input id="filtr_miast" class="form-control" /></th>
+                        <th><input id="filtr_kod" class="form-control" /></th>
+                        <th><input id="filtr_dystans" class="form-control" /></th>
+                        <th></th>
+                    </tr>
                     <tr>
                         <th width="10">
                             {{ trans('global.lp') }}
@@ -83,48 +90,30 @@
 @section('scripts')
 @parent
 <script>
-    $(function () {
-  let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('role_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
-  let deleteButton = {
-    text: deleteButtonTrans,
-    url: "{{ route('admin.roles.massDestroy') }}",
-    className: 'btn-danger',
-    action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
-          return $(entry).data('entry-id')
-      });
-
-      if (ids.length === 0) {
-        alert('{{ trans('global.datatables.zero_selected') }}')
-
-        return
-      }
-
-      if (confirm('{{ trans('global.areYouSure') }}')) {
-        $.ajax({
-          headers: {'x-csrf-token': _token},
-          method: 'POST',
-          url: config.url,
-          data: { ids: ids, _method: 'DELETE' }})
-          .done(function () { location.reload() })
-      }
-    }
-  }
-  dtButtons.push(deleteButton)
-@endcan
-
-  $.extend(true, $.fn.dataTable.defaults, {
-    order: [[ 1, 'desc' ]],
-    pageLength: 10,
-  });
-  $('.datatable-Role:not(.ajaxTable)').DataTable({ buttons: dtButtons })
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
-        $($.fn.dataTable.tables(true)).DataTable()
-            .columns.adjust();
+$(document).ready(function() {
+$('#example').DataTable();
+minDate = new DateTime($('#min'), {
+         format: 'YYYY-MM-DD'
+        });
+maxDate = new DateTime($('#max'), {
+         format: 'YYYY-MM-DD'
+        });
+var table = $('#example').DataTable();
+$('#btnSearch').click(function () {
+    $('#filtr_miast, #filtr_kod, #filtr_dystans').val('');
+    table.columns([1, 2, 3, 4, 5]).search('').draw();
     });
-})
+    $('#filtr_miast').on( 'change', function () {      
+    table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
+    } );
+    $('#filtr_kod').on( 'change', function () {      
+    table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
+    } );
+    $('#filtr_dystans').on( 'change', function () {      
+    table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
+    } );
+});
 
 </script>
+
 @endsection
