@@ -391,4 +391,25 @@ return [
             'deleted_at_helper' => '',
         ],
     ],
+
+    'miasta'       => [
+        'title'          => 'Miasta',
+        'title_one'          => 'Miast',
+        'title_two'          => 'Miasto',
+        'title_singular' => 'Lista Miast',
+        'fields'         => [
+            'id'                => 'ID',
+            'id_helper'         => '',
+            'zipcode'           => 'Kod Pocztowy',
+            'location'          => 'Miasto',
+            'distance'             => 'Odległość',
+            'name_helper'       => '',
+            'created_at'        => 'Stworzono',
+            'created_at_helper' => '',
+            'updated_at'        => 'Zaktualizowano',
+            'updated_at_helper' => '',
+            'deleted_at'        => 'Usunięto',
+            'deleted_at_helper' => '',
+        ],
+    ],
 ];

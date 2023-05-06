@@ -124,6 +124,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
      //Inventory
       Route::resource('inventory', 'InventoryController');
+
+      //Miasta
+      Route::resource('miasta', 'MiastaController');
 });
 
 

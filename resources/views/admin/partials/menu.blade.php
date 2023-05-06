@@ -92,10 +92,20 @@
                     <i class="fa-fw fas fa-car nav-icon">
 
                         </i>
-                        Samochody
+                        {{ trans('cruds.cars.title') }}
                     </a>
                 </li>
             @endcan
+           
+                <li class="nav-item">
+                    <a href="{{ route("admin.miasta.index") }}" class="nav-link {{ request()->is('admin/miasta') || request()->is('admin/miasta/*') ? 'active' : '' }}">
+                    <i class="fa-fw fas fa-city nav-icon">
+                        </i>
+                        {{ trans('cruds.miasta.title_singular') }}
+                       
+                    </a>
+                </li>
+           
                     </ul>
                 </li>
             @endcan 

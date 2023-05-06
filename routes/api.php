@@ -40,4 +40,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 
     //Inventory
     Route::apiResource('inventory', 'InventoryController');
+
+    //Miasta
+    Route::apiResource('miasta', 'MiastaController');
 });
