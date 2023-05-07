@@ -169,6 +169,16 @@ class JobsController extends Controller
     
         return 'CZK/' . $orderNumber . '/' . $year;
     }
+
+    private function saveNotification($user_id, $order_id) {
+        $DateNow = Carbon::now();
+        $Notification = new Notification([
+            'user' => $user_id,
+            'order' => $order_id,
+            'date' => $DateNow,
+        ]);
+        $Notification->save();
+    }
     
     private function getContractId($companyId)
     {
@@ -264,7 +274,7 @@ class JobsController extends Controller
 
     public function update(Request $request, $id)
     {
-       
+ 
     try {
     $description = $request->input('description',[]);  
 
@@ -272,79 +282,75 @@ class JobsController extends Controller
     $id_opis = $request->input('id_opis',[]);
     $contract = $this->getContractId($request->fk_company);
 
-    foreach ($description as $key => $value) {
-        $start =$request->start[$key];
-        $end =$request->end[$key];
-        $time1= strtotime($start);          
-        $time2= strtotime($end);          
-        $diff = $time2-$time1;
-        $diff2 = date("H:i",  $diff);
-        $data = array(                
-            'fk_company' => $request->fk_company,
-            'fk_user' => $request->fk_user,
-            'rns' => $request->rns[$key],
-            'fk_tasktype' => $request->fk_tasktype[$key],
-            'paid' => $request->paid[$key],
-            'location' => 1,
-            'fk_contract' =>  $contract,
-            'time' => $diff2,
-            'fk_typetask' => $request->fk_typetask[$key],
-            'start_date' => $request->start_date[$key],
-            'end_date' => $request->end_date[$key],
-            'start' =>$request->start[$key],
-            'end' => $request->end[$key],
-            'description' =>$request->description[$key],                          
-        );     
-        
-            if(!empty($description[$key]) && isset($request->start[$key]) && isset($request->end[$key])) { 
-            Job::where('id',$id_opis[$key])->update($data);   
-            }    
-     }
-
-     $description_new = $request->input('description_new',[]);
-     $job = Job::findOrFail($id);
-     $order=$job -> order;
-
-    foreach ($description_new as $key => $value) {
-        $start1 =$request->start_new[$key];
-        $end1 =$request->end_new[$key];
-        $time3= strtotime($start1);          
-        $time4= strtotime($end1);          
-        $diff1 = $time4-$time3;
-        $diff3 = date("H:i",  $diff1);
-
-        $data = array(     
-        
-            'order' => $order,  
-            'fk_company' => $request->fk_company,
-            'fk_user' => $request->fk_user,
-            'rns' => $request->rns_new[$key],
-            'fk_tasktype' => $request->fk_tasktype_new[$key],
-            'paid' => $request->paid_new[$key],
-            'location' => 1,
-            'fk_contract' =>  $contract,
-            'time' => $diff3,
-            'fk_typetask' => $request->fk_typetask_new[$key],
-            'start_date' => $request->start_date_new[$key],
-            'end_date' => $request->end_date_new[$key],
-            'start' =>$request->start_new[$key],
-            'end' => $request->end_new[$key],
-            'description' =>$request->description_new[$key],
-        );       
-        if(!empty($description_new[$key]) && isset($request->start_new[$key]) && isset($request->end_new[$key])) {           
-        $created = Job::insert($data);        
-         }   
-     }
-
-     $user = Auth::user();
-     $DateNow = Carbon::now();
+    $user = Auth::user();
+    $DateNow = Carbon::now();
+    
         if(!empty($request)){
-        $Notification = new Notification([
-            'user' => $user->id,
-            'order' => $order,
-            'date' => $DateNow,
-        ]);
-         $Notification->save();
+            foreach ($description as $key => $value) {
+                $start =$request->start[$key];
+                $end =$request->end[$key];
+                $time1= strtotime($start);          
+                $time2= strtotime($end);          
+                $diff = $time2-$time1;
+                $diff2 = date("H:i",  $diff);
+                $data = array(                
+                    'fk_company' => $request->fk_company,
+                    'fk_user' => $request->fk_user,
+                    'rns' => $request->rns[$key],
+                    'fk_tasktype' => $request->fk_tasktype[$key],
+                    'paid' => $request->paid[$key],
+                    'location' => 1,
+                    'fk_contract' =>  $contract,
+                    'time' => $diff2,
+                    'fk_typetask' => $request->fk_typetask[$key],
+                    'start_date' => $request->start_date[$key],
+                    'end_date' => $request->end_date[$key],
+                    'start' =>$request->start[$key],
+                    'end' => $request->end[$key],
+                    'description' =>$request->description[$key],                          
+                );     
+                
+                    if(!empty($description[$key]) && isset($request->start[$key]) && isset($request->end[$key])) { 
+                    Job::where('id',$id_opis[$key])->update($data);   
+                    }    
+             }
+        
+             $description_new = $request->input('description_new',[]);
+             $job = Job::findOrFail($id);
+             $order=$job -> order;
+        
+            foreach ($description_new as $key => $value) {
+                $start1 =$request->start_new[$key];
+                $end1 =$request->end_new[$key];
+                $time3= strtotime($start1);          
+                $time4= strtotime($end1);          
+                $diff1 = $time4-$time3;
+                $diff3 = date("H:i",  $diff1);
+        
+                $data = array(     
+                
+                    'order' => $order,  
+                    'fk_company' => $request->fk_company,
+                    'fk_user' => $request->fk_user,
+                    'rns' => $request->rns_new[$key],
+                    'fk_tasktype' => $request->fk_tasktype_new[$key],
+                    'paid' => $request->paid_new[$key],
+                    'location' => 1,
+                    'fk_contract' =>  $contract,
+                    'time' => $diff3,
+                    'fk_typetask' => $request->fk_typetask_new[$key],
+                    'start_date' => $request->start_date_new[$key],
+                    'end_date' => $request->end_date_new[$key],
+                    'start' =>$request->start_new[$key],
+                    'end' => $request->end_new[$key],
+                    'description' =>$request->description_new[$key],
+                );       
+                if(!empty($description_new[$key]) && isset($request->start_new[$key]) && isset($request->end_new[$key])) {           
+                $created = Job::insert($data);        
+                 }   
+             }   
+
+             $this->saveNotification($user->id, $order);
      }
 
     //    return redirect()->route('admin.jobs.index') ->with('success', 'Pomyślnie edytowano potwierdzenie.'); 
@@ -399,9 +405,7 @@ class JobsController extends Controller
 
     public function search_index(Request $request)
 
-    {
-      
-
+    {     
         abort_if(Gate::denies('job_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $last = Job::count(); 
         $order = $request->order_filter;
