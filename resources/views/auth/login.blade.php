@@ -125,8 +125,7 @@ body{
                     <div id="ukryty-tekst"> <h2 class="mb-4" align="center" >Ale nikt nie chce się nią podzielić</h2></div>
                 </div>
             </div>
-        </div>
-        
+        </div>        
     </div>
 </div>
 @endsection
