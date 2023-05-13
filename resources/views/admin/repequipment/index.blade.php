@@ -32,7 +32,6 @@
                         <th width="10">
                         {{ trans('global.lp') }}
                         </th>
-
                         <th>
                         {{ trans('cruds.rep_eq.fields.number') }}
                         </th>
@@ -66,7 +65,11 @@
                             <!-- {{ $RepEquipments->id }} -->
                         </td>
                         <td>
-                            {{$RepEquipments->eq_number}}
+                          
+                            <a class="text-success" data-toggle="modal" id="mediumButton" data-target="#mediumModal"
+                                data-attr="{{ route('admin.repequipment.show', $RepEquipments->id) }}">
+                                {{$RepEquipments->eq_number}}
+                            </a>
                         </td>
                         <td>
                             {{$RepEquipments->EqCategory->category_name}}
@@ -95,7 +98,7 @@
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.repequipment.show', $RepEquipments->id) }}">
                                         {{ trans('global.view') }}
                                     </a>
-                                @endcan -->
+                                @endcan   -->
                          
                             <div class="btn-group" role="group">
                                 @can('equipment_edit')
@@ -128,6 +131,19 @@
         </div>
     </div>
 </div>
+   <!-- medium modal -->
+   <div class="modal fade bd-example-modal-lg fade right" id="mediumModal" role="dialog"
+        aria-labelledby="mediumModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-full-height modal-right" role="document">
+            <div class="modal-content bg-light">
+                <div class="modal-body" id="mediumBody">
+                    <div>
+                        <!-- the result to be displayed apply here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('scripts')
 
@@ -174,5 +190,34 @@ var table = $('#example').DataTable();
  
 });
 </script>
+
+<script>
+         // display a modal (medium modal)
+        $(document).on('click', '#mediumButton', function(event) {
+            event.preventDefault();
+            let href = $(this).attr('data-attr');
+            $.ajax({
+                url: href,
+                beforeSend: function() {
+                    $('#loader').show();
+                },
+                // return the result
+                success: function(result) {
+                    $('#mediumModal').modal("show");
+                    $('#mediumBody').html(result).show();
+                },
+                complete: function() {
+                    $('#loader').hide();
+                },
+                error: function(jqXHR, testStatus, error) {
+                    console.log(error);
+                    alert("Page " + href + " cannot open. Error:" + error);
+                    $('#loader').hide();
+                },
+                timeout: 8000
+            })
+        });
+
+    </script>
 @endsection
 

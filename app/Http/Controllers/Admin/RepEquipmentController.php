@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\Controller;
 use App\Models\RepEquipment;
+use App\Models\RepEquipmentHistory;
 use App\Models\EquipmentCategory;
 use App\Models\Company;
 use App\Models\Job;
@@ -64,7 +65,8 @@ class RepEquipmentController extends Controller
     {
         abort_if(Gate::denies('equipment_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.repequipment.show');
+        $RepEquipmentHistory = RepEquipmentHistory::all()->where('equipment_id', '==', $id);
+        return view('admin.repequipment.show', compact('RepEquipmentHistory'));
     }
 
     /**
