@@ -3,11 +3,11 @@
 <div class="card">
     <div class="card-header bg-dark">
         {{ trans('global.list') }} {{ trans('cruds.miasta.title_one') }}
-
+        @can('town_create')
         <a class="btn btn-dark float-right" href="{{ route("admin.miasta.create") }}">
             <i class="fa fa-plus"></i> {{ trans('global.add') }} {{ trans('cruds.miasta.title_two') }}
         </a>
-
+        @endcan
     </div>
 
     <div class="card-body">
@@ -57,12 +57,13 @@
                         </td>
                         <td width="10">
                             <div class="btn-group" role="group">
-
+                            @can('town_edit')
                                 <a class="btn btn-info" title="{{ trans('global.edit') }}"
                                     href="{{ route('admin.miasta.edit', $miasto->id) }}">
                                     <i class="fas fa-edit"></i>
                                 </a>
-
+                            @endcan
+                            @can('town_delete')
                                 <form action="{{  route('admin.miasta.destroy', $miasto->id) }}" method="POST"
                                     onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
                                     style="display: inline-block;">
@@ -72,7 +73,7 @@
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
-
+                            @endcan
                             </div>
 
                         </td>

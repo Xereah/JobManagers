@@ -204,6 +204,22 @@ class PermissionsTableSeeder extends Seeder
                 'id'    => '49',
                 'title' => 'car_edit',
             ],
+            [
+                'id'    => '50',
+                'title' => 'town_access',
+            ],
+            [
+                'id'    => '51',
+                'title' => 'town_create',
+            ],
+            [
+                'id'    => '52',
+                'title' => 'town_edit',
+            ],
+            [
+                'id'    => '53',
+                'title' => 'town_delete',
+            ],
 
             
         ];

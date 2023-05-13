@@ -96,7 +96,7 @@
                     </a>
                 </li>
             @endcan
-           
+            @can('town_access')
                 <li class="nav-item">
                     <a href="{{ route("admin.miasta.index") }}" class="nav-link {{ request()->is('admin/miasta') || request()->is('admin/miasta/*') ? 'active' : '' }}">
                     <i class="fa-fw fas fa-city nav-icon">
@@ -105,7 +105,7 @@
                        
                     </a>
                 </li>
-           
+            @endcan
                     </ul>
                 </li>
             @endcan 
@@ -162,7 +162,7 @@
                     </a>
                 </li>
             @endcan  
-            <!-- Inwentaryzacja -->
+            <!-- Inwentaryzacja
             @can('job_access')
                 <li class="nav-item">
                     <a href="{{ route("admin.inventory.index") }}" class="nav-link {{ request()->is('admin/inventory') || request()->is('admin/inventory/*') ? 'active' : '' }}">
@@ -171,7 +171,7 @@
                         Sprzęt
                     </a>
                 </li>
-            @endcan  
+            @endcan   -->
 
                    <!-- Configuration -->
              @can('user_management_access')

@@ -12,7 +12,7 @@
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class=" table table-bordered table-hover datatable table-responsive" id="example">
+            <table class=" table table-bordered table-hover datatable" id="example">
                 <thead>
                     <tr>
                         <th> <button class="btn btn-danger" id="btnSearch" name="btnSearch"><i
