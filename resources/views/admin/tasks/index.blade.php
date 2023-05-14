@@ -85,7 +85,7 @@
                            
                         </td>
                         <td style="text-align:left">
-                             {{$task->task_title}}
+                             {{$task->title}}
                            
                         </td>
                      
@@ -100,7 +100,7 @@
                         {{$firstLetter1}}{{$firstLetter2}}
                         </td>
                         <td>
-                        {{ date('Y-m-d', strtotime($task->created_at)) }}
+                        {{$task->start}}
                       
                         </td>
                         <td>

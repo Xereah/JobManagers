@@ -18,7 +18,9 @@ class Task extends Model
     ];
 
     protected $fillable = [
-        'task_title',
+        'title', 
+        'start', 
+        'end',
         'fk_company',
         'fk_contract',
         'fk_user',

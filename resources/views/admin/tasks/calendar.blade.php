@@ -21,7 +21,7 @@
                 <div class="form-group">
                     <label for="companySelect">Wybierz firmę:</label>
                     <select name="fk_company" id="fk_company" class="form-control select2" required>
-                        <option value=""></option>
+                        
                         @foreach($companies as $company)
                         <option value="{{ $company->kontrahent_id }}">{{ $company -> kontrahent_kod }}</option>
                         @endforeach
@@ -124,18 +124,18 @@ $(document).ready(function() {
 
     $('#addTaskBtn').on('click', function () {
         var title = $('#taskTitle').val();
-        var company = $('#fk_company').val();
+        var fk_company = $('#fk_company').val();
         var start = clickedDate;
         var end = clickedDate;
 
-        if (title && company && start && end) {
+        if (title && fk_company && start && end) {
             $.ajax({
                 url: SITEURL + "/fullcalenderAjax",
                 data: {
                     title: title,
                     start: start,
                     end: end,
-                    company: company,
+                    fk_company: fk_company,
                     type: 'add'
                 },
                 type: "POST",

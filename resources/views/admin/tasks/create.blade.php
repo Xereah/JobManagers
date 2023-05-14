@@ -43,6 +43,15 @@
                         </select>
                     </div>
             </div>
+            <div class="form-group ">
+                            <label for="start">  Data wykonania</label>
+                            <input type='date' id="start" name="start" class="form-control input-group-addon" />
+                            </span>
+
+             </div>
+
+
+
             <div class="form-row" hidden>
                     <div class="form-group col-md-12">
                         <label for="fk_user" style="margin-top:1%;">Odpowiedzialny</label>

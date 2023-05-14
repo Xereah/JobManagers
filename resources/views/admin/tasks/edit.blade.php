@@ -21,7 +21,7 @@
             </div>
             <div class="form-group {{ $errors->has('task_title') ? 'has-error' : '' }}">
                 <label for="shortcode">{{ trans('cruds.task.fields.description') }}*</label>
-                <input type="text" id="task_title" name="task_title" value="{{ $task -> task_title }}" class="form-control" >
+                <input type="text" id="task_title" name="task_title" value="{{ $task -> title }}" class="form-control" >
                 @if($errors->has('task_title'))
                     <em class="invalid-feedback">
                         {{ $errors->first('task_title') }}

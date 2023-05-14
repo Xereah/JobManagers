@@ -31,7 +31,7 @@ class TaskController extends Controller
         $user = Auth::user();
         $companies = Company::all(); 
         if($request->ajax()) {   
-            $data = Event::whereDate('start', '>=', $request->start)
+            $data = Task::whereDate('start', '>=', $request->start)
                       ->whereDate('end',   '<=', $request->end)
                       ->get(['id', 'title', 'start', 'end']);
             return response()->json($data);
@@ -50,12 +50,13 @@ class TaskController extends Controller
 
         switch ($request->type) {
            case 'add':
-              $event = Event::create([
+              $event = Task::create([
                   'title' => $request->title,
                   'start' => $request->start,
                   'end' => $request->end,
                   'fk_company' =>  $company,
                   'fk_contract' => $contract,
+                  'execution_user' => $user->id,
                   'fk_user' => $user->id,
                   'completed' =>  0,
               ]);
@@ -63,7 +64,7 @@ class TaskController extends Controller
              break;
 
            case 'update':
-              $event = Event::find($request->id)->update([
+              $event = Task::find($request->id)->update([
                   'title' => $request->title,
                   'start' => $request->start,
                   'end' => $request->end,
@@ -71,7 +72,7 @@ class TaskController extends Controller
               return response()->json($event);
              break;
            case 'delete':
-              $event = Event::find($request->id)->delete();
+              $event = Task::find($request->id)->delete();
               return response()->json($event);
              break;   
            default:
@@ -106,10 +107,12 @@ class TaskController extends Controller
         $contract = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_grupa')->first();
         $now = Carbon::now();
         $data = array(     
-            'task_title' => $request->task_title,
+            'title' => $request->task_title,
             'fk_company' =>  $company,
             'fk_contract' => $contract,
             'fk_user' => $request->fk_user,
+            'start' => $request->start,
+            'end' => $request->start,
             'created_at' =>$now,
             'execution_user' => $request->execution_user,
             'completed' =>  0,
@@ -163,7 +166,7 @@ class TaskController extends Controller
         $now = Carbon::now();
 
         $data = array(     
-            'task_title' => $request->task_title,
+            'title' => $request->task_title,
             'fk_company' =>  $request->fk_company,
             'fk_contract' => $contract,
             'execution_date' =>$request->execution_date,
