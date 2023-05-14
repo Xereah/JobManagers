@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use Auth;
 use App\Models\Task;
 use App\Models\Company;
+use App\Models\Event;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -16,11 +17,68 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $tasks = Task::all();
         $user = Auth::user();
+
         return view('admin.tasks.index', compact('tasks','user'));
+    }
+
+    public function calendar(Request $request)
+    {
+        $tasks = Task::all();
+        $user = Auth::user();
+        $companies = Company::all(); 
+        if($request->ajax()) {   
+            $data = Event::whereDate('start', '>=', $request->start)
+                      ->whereDate('end',   '<=', $request->end)
+                      ->get(['id', 'title', 'start', 'end']);
+            return response()->json($data);
+       }
+
+        return view('admin.tasks.calendar', compact('tasks','user','companies'));
+    }
+
+    public function ajax(Request $request)
+
+    {
+        $company =$request->input('fk_company');
+        $contract = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_grupa')->first();
+        $now = Carbon::now();
+        $user = Auth::user();
+
+        switch ($request->type) {
+           case 'add':
+              $event = Event::create([
+                  'title' => $request->title,
+                  'start' => $request->start,
+                  'end' => $request->end,
+                  'fk_company' =>  $company,
+                  'fk_contract' => $contract,
+                  'fk_user' => $user->id,
+                  'completed' =>  0,
+              ]);
+              return response()->json($event);
+             break;
+
+           case 'update':
+              $event = Event::find($request->id)->update([
+                  'title' => $request->title,
+                  'start' => $request->start,
+                  'end' => $request->end,
+              ]);
+              return response()->json($event);
+             break;
+           case 'delete':
+              $event = Event::find($request->id)->delete();
+              return response()->json($event);
+             break;   
+           default:
+             # code...
+             break;
+        }
+
     }
 
     /**

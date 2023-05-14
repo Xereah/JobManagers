@@ -64,6 +64,9 @@ Route::get('/getTask/{id}', [App\Http\Controllers\Admin\JobsController::class, '
 
 Route::post('/storeTask', [App\Http\Controllers\Admin\TypeTaskController::class, 'storeTask'])->name('storeTask');
 
+Route::post('/fullcalenderAjax', [App\Http\Controllers\Admin\TaskController::class, 'ajax'])->name('ajax');
+Route::get('/fullcalender' , [App\Http\Controllers\Admin\TaskController::class, 'calendar'])->name('calendar');
+Route::get('/calendar' , [App\Http\Controllers\Admin\TaskController::class, 'calendar'])->name('calendar');
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
     Route::get('/', [App\Http\Controllers\Admin\JobsController::class, 'index'])->name('index')->middleware(['auth']);
@@ -128,7 +131,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
       //Miasta
       Route::resource('miasta', 'MiastaController');
 });
-
 
 Route::get('/test-mail',function(){
 

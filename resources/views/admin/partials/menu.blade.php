@@ -154,12 +154,32 @@
             @endcan
             <!-- Zadania -->
             @can('job_access')
-                <li class="nav-item">
-                    <a href="{{ route("admin.tasks.index") }}" class="nav-link {{ request()->is('admin/tasks') || request()->is('admin/tasks/*') ? 'active' : '' }}">
-                    <i class="fa-fw fas fa-tasks nav-icon">
+            <li class="nav-item nav-dropdown">
+                    <a class="nav-link  nav-dropdown-toggle" href="#">
+                        <i class="fa-fw fas fa-users nav-icon">
+
                         </i>
                         {{ trans('cruds.task.title') }}
                     </a>
+                    <ul class="nav-dropdown-items">
+                      
+                        <li class="nav-item">
+                            <a href="{{ route("admin.tasks.index") }}" class="nav-link {{ request()->is('admin/tasks') || request()->is('admin/tasks/*') ? 'active' : '' }}">
+                            <i class="fa-fw fas fa-tasks nav-icon">
+                                </i>
+                                {{ trans('cruds.task.title') }}
+                            </a>
+                        </li>                      
+                      
+                        <li class="nav-item">
+                            <a href="{{ url('/calendar') }}" class="nav-link {{ request()->is('admin/calendar') || request()->is('admin/calendar/*') ? 'active' : '' }}">
+                            <i class="fa-fw fas fa-calendar nav-icon">
+                                </i>
+                               Kalendarz
+                            </a>
+                        </li> 
+                                        
+                    </ul>
                 </li>
             @endcan  
             <!-- Inwentaryzacja
