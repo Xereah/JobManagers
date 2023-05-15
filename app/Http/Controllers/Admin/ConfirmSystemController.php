@@ -158,7 +158,9 @@ class ConfirmSystemController extends Controller
                     $data4 = array(
                         'fk_user' =>  $user_auth->id,
                         'fk_company' => $request->fk_company,
-                        'task_title' => trim($comment),
+                        'title' => trim($comment),
+                        'start' => $now,
+                        'end' => $now,
                         'execution_user' => $user_auth->id,
                         'fk_contract' => $contract,
                         'completed' => 0,

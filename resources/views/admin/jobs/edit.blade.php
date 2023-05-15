@@ -232,13 +232,15 @@
 $(document).on('change', '#fk_tasktype', function() {
   // Department id
   var id = $(this).val();
+  var SITEURL = "{{ url('/') }}";
 
   // Empty the dropdown
   $(this).closest('.form-row').find('#fk_typetask').empty();
 
   // AJAX request 
   $.ajax({
-    url: '/jobmanager/public/getTask/' + id,
+       // url: SITEURL + '/getTask/' + id,
+    url: SITEURL + '/getTask/' + id,
     type: 'get',
     dataType: 'json',
     success: function(response) {

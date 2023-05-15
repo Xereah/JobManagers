@@ -19,7 +19,7 @@
                     <input type="text" class="form-control" id="taskTitle" placeholder="Tytuł zadania">
                 </div>
                 <div class="form-group">
-                    <label for="companySelect">Wybierz firmę:</label>
+                    <label for="companySelect">Wybierz kontrahenta:</label>
                     <select name="fk_company" id="fk_company" class="form-control select2" required>
                         
                         @foreach($companies as $company)
@@ -42,16 +42,11 @@
 
 @parent
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script>
-
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
 
 <script type="text/javascript">
@@ -71,6 +66,9 @@ $(document).ready(function() {
         displayEventTime: false,
         selectable: true,
         selectHelper: true,
+        defaultView: 'agendaWeek',
+        minTime: '08:00', // Początek przedziału godzinowego
+        maxTime: '16:00', // Koniec przedziału godzinowego
 
         select: function(start, end, allDay) {
             $('#taskTitle').val('');
