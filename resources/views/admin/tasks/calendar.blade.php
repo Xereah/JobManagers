@@ -1,4 +1,10 @@
 @extends('layouts.admin2')
+<style>
+  #calendar {
+    background-color: #f2f2f2;
+  }
+  
+</style>
 @section('content')
 
 <div class="container">
@@ -44,7 +50,8 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/locale/pl.min.js" ></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
@@ -52,7 +59,9 @@
 <script type="text/javascript">
 $(document).ready(function() {
     var SITEURL = "{{ url('/') }}";
-    var clickedDate; // Deklaracja zmiennej clickedDate na poziomie globalnym
+    var clickedDate;
+
+    $.fullCalendar.locale('pl');
 
     $.ajaxSetup({
         headers: {
@@ -62,13 +71,34 @@ $(document).ready(function() {
 
     var calendar = $('#calendar').fullCalendar({
         editable: true,
+        backgroundColor: 'red',
+        slotDuration: '00:20:00',
         events: SITEURL + "/fullcalender",
         displayEventTime: false,
         selectable: true,
         selectHelper: true,
+        hiddenDays: [0, 6],
+        columnFormat: 'dddd',
         defaultView: 'agendaWeek',
-        minTime: '08:00', // Początek przedziału godzinowego
-        maxTime: '16:00', // Koniec przedziału godzinowego
+        minTime: '08:00',
+        maxTime: '16:00',
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month,agendaWeek,agendaDay'
+        },
+        views: {
+            settimana: {
+                type: 'agendaWeek',
+                duration: {
+                    days: 7
+                },
+                title: 'Apertura',
+                columnFormat: 'dddd',
+                hiddenDays: [0, 6]
+            }
+        },
+        defaultView: 'settimana',
 
         select: function(start, end, allDay) {
             $('#taskTitle').val('');
@@ -77,14 +107,15 @@ $(document).ready(function() {
         },
 
         eventDrop: function(event) {
-            var start = event.start.format("YYYY-MM-DD");
-           
+            var start = event.start.format("Y-MM-DD HH:mm:ss");
+            var end = event.end.format("Y-MM-DD HH:mm:ss");
+
             $.ajax({
                 url: SITEURL + '/fullcalenderAjax',
                 data: {
                     title: event.title,
                     start: start,
-                    end: start,
+                    end: end,
                     id: event.id,
                     type: 'update'
                 },
@@ -93,6 +124,30 @@ $(document).ready(function() {
                     displayMessage("Pomyślnie edytowano zadanie");
                 }
             });
+        },
+
+        eventResize: function(event, delta)
+        {
+            var start = event.start.format("Y-MM-DD HH:mm:ss");
+            var end = event.end.format("Y-MM-DD HH:mm:ss");
+            var title = event.title;
+            var id = event.id;
+            $.ajax({
+                url: SITEURL + '/fullcalenderAjax',
+                type:"POST",
+                data:{
+                    title: title,
+                    start: start,
+                    end: end,
+                    id: id,
+                    type: 'update'
+                },
+                success:function(response)
+                {
+                    calendar.fullCalendar('refetchEvents');
+                    alert("Event Updated Successfully");
+                }
+            })
         },
 
         eventClick: function(event) {
@@ -114,8 +169,10 @@ $(document).ready(function() {
         },
 
         dayClick: function(date, jsEvent, view) {
-            clickedDate = date.format("YYYY-MM-DD"); // Aktualizacja wartości zmiennej clickedDate
+            clickedDate = date.format("YYYY-MM-DD HH:mm:ss");
+            endDateTime = date.clone().add(20, 'minutes').format("YYYY-MM-DD HH:mm:ss"); // Dodaj 20 minut do daty początkowej, aby uzyskać datę końcową
             $('#taskModal').data('clickedDate', clickedDate);
+            $('#taskModal').data('endDateTime', endDateTime); // Przekaż datę końcową do modala
             $('#taskModal').modal('show');
         }
     });
@@ -124,7 +181,7 @@ $(document).ready(function() {
         var title = $('#taskTitle').val();
         var fk_company = $('#fk_company').val();
         var start = clickedDate;
-        var end = clickedDate;
+        var end = endDateTime;
 
         if (title && fk_company && start && end) {
             $.ajax({
@@ -144,15 +201,16 @@ $(document).ready(function() {
                         title: title,
                         start: start,
                         end: end,
-                        allDay: true
+                        allDay: false
                     };
                     calendar.fullCalendar('renderEvent', eventData, true);
                     calendar.fullCalendar('unselect');
+                    $('#taskModal').modal('hide');
+                    calendar.fullCalendar('refetchEvents');
                 }
             });
-            $('#taskModal').modal('hide');
         } else {
-            alert("Uzupełnij reszte pól");
+            alert("Uzupełnij wszystkie pola");
         }
     });
 
@@ -161,5 +219,7 @@ $(document).ready(function() {
     }
 });
 </script>
+
+
 
 @endsection
