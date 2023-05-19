@@ -38,6 +38,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="addTaskBtn">Dodaj zadanie</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
+                <button type="button" class="btn btn-danger" id="deleteEventBtn">Usuń</button>
             </div>
         </div>
     </div>
@@ -151,21 +152,33 @@ $(document).ready(function() {
         },
 
         eventClick: function(event) {
-            var deleteMsg = confirm("Naprawdę chcesz usunąć wpis?");
-            if (deleteMsg) {
-                $.ajax({
-                    type: "POST",
-                    url: SITEURL + '/fullcalenderAjax',
-                    data: {
-                        id: event.id,
-                        type: 'delete'
-                    },
-                    success: function(response) {
-                        calendar.fullCalendar('removeEvents', event.id);
-                        displayMessage("Wpis pomyślnie usunięty");
-                    }
-                });
-            }
+            $('#deleteEventBtn').data('event', event); // Przekazanie informacji o wydarzeniu do przycisku Delete w modalu
+
+            $('#deleteEventBtn').on('click', function() {
+                var event = $(this).data('event');
+                var deleteMsg = confirm("Naprawdę chcesz usunąć wpis?");
+
+                if (deleteMsg) {
+                    $.ajax({
+                        type: "POST",
+                        url: SITEURL + '/fullcalenderAjax',
+                        data: {
+                            id: event.id,
+                            type: 'delete'
+                        },
+                        success: function(response) {
+                            calendar.fullCalendar('removeEvents', event.id);
+                            displayMessage("Wpis pomyślnie usunięty");
+                        }
+                    });
+                }
+
+                $('#taskModal').modal('hide');
+            });
+
+            // Pozostała część kodu...
+            
+            $('#taskModal').modal('show');
         },
 
         dayClick: function(date, jsEvent, view) {
