@@ -33,7 +33,7 @@ class TaskController extends Controller
         if($request->ajax()) {   
             $data = Task::whereDate('start', '>=', $request->start)
                       ->whereDate('end',   '<=', $request->end)
-                      ->get(['id', 'title', 'start', 'end']);
+                      ->get(['id', 'title', 'start', 'end', 'fk_company']);
             return response()->json($data);
        }
 
@@ -44,6 +44,7 @@ class TaskController extends Controller
 
     {
         $company =$request->input('fk_company');
+        $descriptions =$request->input('description');
         $contract = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_grupa')->first();
         $now = Carbon::now();
         $user = Auth::user();
@@ -54,6 +55,7 @@ class TaskController extends Controller
                   'title' => $request->title,
                   'start' => $request->start,
                   'end' => $request->end,
+                  'description' => $descriptions,
                   'fk_company' =>  $company,
                   'fk_contract' => $contract,
                   'execution_user' => $user->id,
@@ -67,6 +69,8 @@ class TaskController extends Controller
               $event = Task::find($request->id)->update([
                   'title' => $request->title,
                   'start' => $request->start,
+                  'description'  => $request->description,
+                  'fk_company' => $request->fk_company,
                   'end' => $request->end,
               ]);
               return response()->json($event);
@@ -82,6 +86,11 @@ class TaskController extends Controller
 
     }
 
+    public function fetchContractors($id)
+    {
+        $contractors = DB::select("SELECT kontrahent_id AS id, kontrahent_kod AS name FROM kontrahenci WHERE kontrahent_id = ?", [$taskTypeId]);
+        return response()->json($contractors);
+    }
     /**
      * Show the form for creating a new resource.
      *

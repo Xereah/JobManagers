@@ -67,6 +67,7 @@ Route::post('/storeTask', [App\Http\Controllers\Admin\TypeTaskController::class,
 Route::post('/fullcalenderAjax', [App\Http\Controllers\Admin\TaskController::class, 'ajax'])->name('ajax');
 Route::get('/fullcalender' , [App\Http\Controllers\Admin\TaskController::class, 'calendar'])->name('calendar');
 Route::get('/calendar' , [App\Http\Controllers\Admin\TaskController::class, 'calendar'])->name('calendar');
+Route::get('/fetchContractors/{id}', [App\Http\Controllers\Admin\TaskController::class, 'fetchContractors'])->name('fetchContractors');
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
     Route::get('/', [App\Http\Controllers\Admin\JobsController::class, 'index'])->name('index')->middleware(['auth']);
