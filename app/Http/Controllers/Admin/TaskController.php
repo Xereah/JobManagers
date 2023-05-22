@@ -33,7 +33,7 @@ class TaskController extends Controller
         if($request->ajax()) {   
             $data = Task::whereDate('start', '>=', $request->start)
                       ->whereDate('end',   '<=', $request->end)
-                      ->get(['id', 'title', 'start', 'end', 'fk_company']);
+                      ->get(['id', 'title', 'start', 'end', 'fk_company','description']);
             return response()->json($data);
        }
 
