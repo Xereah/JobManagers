@@ -24,6 +24,7 @@ class Task extends Model
         'description',
         'fk_company',
         'fk_contract',
+        'category_color',
         'fk_user',
         'execution_date',
         'execution_user',

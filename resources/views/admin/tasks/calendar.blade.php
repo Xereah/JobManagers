@@ -30,21 +30,33 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="taskModalLabel">Dodaj zadanie</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <div class="text-right ml-auto">
+                    <select name="category_color" id="category_color" class="form-control text-center">
+                        <option value="">Kategoria</option>
+                        <option value="#008000" style="background-color:#008000;color:black;">Na miejscu</option>
+                        <option value="#FFFF00" style="background-color:#FFFF00;color:black;">Inne</option>
+                        <option value="#800080" style="background-color:#800080;color:black;">Urlop</option>
+                        <option value="#FF0000" style="background-color:#FF0000;color:black;">Ważne</option>
+                        <option value="#0000FF" style="background-color:#0000FF;color:black;">Zdalne</option>
+                        <option value="#FFA500" style="background-color:#FFA500;color:black;">Wyjazd</option>
+                    </select>
+
+                </div>
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                </button>
+                </button> -->
             </div>
             <div class="modal-body">
                 <div class="form-group">
                     <label for="taskTitle">Temat:</label>
-                    <input type="text" class="form-control" autocomplete="off" id="taskTitle" >
+                    <input type="text" class="form-control" autocomplete="off" id="taskTitle">
                 </div>
                 <div class="row">
                     <div class="col-sm">
                         <label for="companySelect">Kontrahent:</label>
                         <select name="fk_company" id="fk_company" class="form-control select2" required>
                             @foreach($companies as $company)
-                            <option value="{{ $company->kontrahent_id }}">{{ $company -> kontrahent_kod }}</option>
+                            <option value="{{ $company->kontrahent_id }}">{{ $company->kontrahent_kod }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -62,7 +74,8 @@
                 <br>
                 <div class="form-group">
                     <label for="taskTitle">Treść:</label>
-                    <textarea class="form-control" name="description"  id="description" autocomplete="off"  required rows="5"></textarea>
+                    <textarea class="form-control" name="description" id="description" autocomplete="off" required
+                        rows="5"></textarea>
                 </div>
             </div>
             <div class="modal-footer">
@@ -73,6 +86,7 @@
         </div>
     </div>
 </div>
+
 
 @endsection
 @section('scripts')
@@ -107,7 +121,7 @@ $(document).ready(function() {
 
         $.ajax({
             url: SITEURL + '/fetchContractors/' +
-            companyId, // Pass the company ID as a parameter in the URL
+                companyId, // Pass the company ID as a parameter in the URL
             type: 'GET',
             success: function(response) {
                 var contractors = response;
@@ -149,6 +163,12 @@ $(document).ready(function() {
         },
         defaultView: 'settimana',
 
+        eventRender: function(event, element) {
+            element.css('background-color', event.category_color);
+            element.css('color', 'black');
+        },
+
+
         select: function(start, end, allDay) {
             var taskDateTime = start.format("Y-MM-DD HH:mm");
             var taskDateTimeEnd = end.format("Y-MM-DD HH:mm");
@@ -157,6 +177,7 @@ $(document).ready(function() {
             $('#taskDateTimeEnd').val(taskDateTimeEnd);
             $('#taskTitle').val('');
             $('#description').val('');
+            $('#category_color').val('');
             $('#fk_company').val('').trigger('change');
             $('#taskModal').modal('show');
         },
@@ -173,6 +194,7 @@ $(document).ready(function() {
                     end: end,
                     fk_company: event.fk_company,
                     description: event.description,
+                    category_color: event.category_color,
                     id: event.id,
                     type: 'update'
                 },
@@ -188,6 +210,7 @@ $(document).ready(function() {
             var end = event.end.format("Y-MM-DD HH:mm:ss");
             var title = event.title;
             var fk_company = event.fk_company;
+            var category_color = event.category_color;
             var description = event.description;
             var id = event.id;
             $.ajax({
@@ -198,6 +221,7 @@ $(document).ready(function() {
                     start: start,
                     fk_company: fk_company,
                     description: description,
+                    category_color: category_color,
                     end: end,
                     id: id,
                     type: 'update'
@@ -205,7 +229,7 @@ $(document).ready(function() {
                 success: function(response) {
                     calendar.fullCalendar('refetchEvents');
                     displayMessage(
-                                "Pomyślnie zaktualizowano wydarzenie");
+                        "Pomyślnie zaktualizowano wydarzenie");
                 }
             })
         },
@@ -220,6 +244,7 @@ $(document).ready(function() {
             $('#taskDateTimeEnd').val(clickedDateTimeEnd);
             $('#taskTitle').val(event.title);
             $('#description').val(event.description);
+            $('#category_color').val(event.category_color);
             $('#fk_company').val(event.fk_company).trigger('change');
             $('#deleteEventBtn').data('event', event);
 
@@ -249,6 +274,7 @@ $(document).ready(function() {
                 var taskTitle = $('#taskTitle').val();
                 var fkCompany = $('#fk_company').val();
                 var desc = $('#description').val();
+                var color = $('#category_color').val();
                 var taskDateTime = $('#taskDateTime').val();
                 var taskDateTimeEnd = $('#taskDateTimeEnd').val();
 
@@ -258,6 +284,7 @@ $(document).ready(function() {
                     clickedEvent.start = taskDateTime;
                     clickedEvent.end = taskDateTimeEnd;
                     clickedEvent.description = desc;
+                    clickedEvent.category_color = color;
 
                     $.ajax({
                         url: SITEURL + '/fullcalenderAjax',
@@ -268,6 +295,7 @@ $(document).ready(function() {
                             end: taskDateTimeEnd,
                             fk_company: fkCompany,
                             description: desc,
+                            category_color: color,
                             type: 'update'
                         },
                         type: "POST",
@@ -282,6 +310,7 @@ $(document).ready(function() {
                         title: taskTitle,
                         fk_company: fkCompany,
                         description: desc,
+                        category_color: color,
                         start: taskDateTime,
                         end: taskDateTimeEnd
                     };
@@ -293,6 +322,7 @@ $(document).ready(function() {
                             start: taskDateTime,
                             end: taskDateTimeEnd,
                             fk_company: fkCompany,
+                            category_color: color,
                             description: desc,
                             type: 'add'
                         },
@@ -318,6 +348,7 @@ $(document).ready(function() {
             $('#taskDateTimeEnd').val(taskDateTimeEnd);
             $('#taskTitle').val('');
             $('#description').val('');
+            $('#category_color').val('');
             $('#fk_company').val('').trigger('change');
             $('#taskModal').modal('show');
         }
@@ -329,14 +360,17 @@ $(document).ready(function() {
         var description = $('#description').val();
         var taskDateTime = $('#taskDateTime').val();
         var taskDateTimeEnd = $('#taskDateTimeEnd').val();
-        if (taskTitle != '' && fk_company != '' && taskDateTime != '' && taskDateTimeEnd != '' && description != '') {
+        var category_color = $('#category_color').val();
+        if (taskTitle != '' && fk_company != '' && taskDateTime != '' && taskDateTimeEnd != '' &&
+            description != '' && category_color != '') {
             $.ajax({
                 url: SITEURL + '/fullcalenderAjax',
                 data: {
                     title: taskTitle,
                     start: taskDateTime,
                     end: taskDateTimeEnd,
-                    description:description,
+                    description: description,
+                    category_color: category_color,
                     fk_company: fk_company,
                     type: 'add'
                 },
