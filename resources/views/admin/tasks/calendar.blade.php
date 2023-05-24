@@ -150,11 +150,11 @@ $(document).ready(function() {
         columnFormat: 'DD.MM dddd',
         defaultView: 'agendaWeek',
         minTime: '08:00',
-        maxTime: '16:00',
+        maxTime: '18:00',
         header: {
             left: 'prev,next today',
             center: 'title',
-            right: 'month,agendaWeek,agendaDay'
+            right: 'month,agendaWeek,agendaDay,list'
         },
         views: {
             settimana: {
