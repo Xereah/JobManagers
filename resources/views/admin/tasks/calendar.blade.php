@@ -133,7 +133,6 @@ $(document).ready(function() {
         selectHelper: true,
         hiddenDays: [0, 6],
         slotEventOverlap: false,
-        height: "100%",
         columnFormat: 'DD.MM dddd',
         defaultView: 'agendaWeek',
         minTime: '08:00',
@@ -146,9 +145,6 @@ $(document).ready(function() {
         views: {
             settimana: {
                 type: 'agendaWeek',
-                duration: {
-                    days: 7
-                },
             }
         },
         defaultView: 'settimana',
@@ -208,7 +204,8 @@ $(document).ready(function() {
                 },
                 success: function(response) {
                     calendar.fullCalendar('refetchEvents');
-                    alert("Event Updated Successfully");
+                    displayMessage(
+                                "Pomyślnie zaktualizowano wydarzenie");
                 }
             })
         },
