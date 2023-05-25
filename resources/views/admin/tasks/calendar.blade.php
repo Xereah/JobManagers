@@ -67,7 +67,7 @@
                     </div>
                     <div class="col-sm">
                         <label for="taskDateTime">Czas zakończenia:</label>
-                        <input type="datetime-local" class="form-control" id="taskDateTimeEnd"
+                        <input type="datetime" class="form-control" id="taskDateTimeEnd"
                             placeholder="Wybierz datę i godzinę">
                     </div>
                 </div>
@@ -77,6 +77,18 @@
                     <textarea class="form-control" name="description" id="description" autocomplete="off" required
                         rows="5"></textarea>
                 </div>
+                <label for="taskRecurring">Zadanie cykliczne:</label>
+                <input type="checkbox" id="taskRecurring"  autocomplete="off">
+                <div id="recurringOptions" style="display: none;">
+                    <label for="taskFrequency">Częstotliwość:</label>
+                    <select id="taskFrequency">
+                        <option value="daily">Codziennie</option>
+                        <option value="weekly">Co tydzień</option>
+                        <option value="monthly">Co miesiąc</option>
+                        <option value="yearly">Co rok</option>
+                    </select>
+                </div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="addTaskBtn">Zapisz</button>
@@ -150,7 +162,7 @@ $(document).ready(function() {
         columnFormat: 'DD.MM dddd',
         defaultView: 'agendaWeek',
         minTime: '08:00',
-        maxTime: '18:00',
+        maxTime: '17:00',
         header: {
             left: 'prev,next today',
             center: 'title',
@@ -389,6 +401,14 @@ $(document).ready(function() {
     function displayMessage(message) {
         toastr.success(message, 'Sukces');
     }
+
+    $('#taskRecurring').change(function() {
+            if ($(this).is(':checked')) {
+                $('#recurringOptions').show();
+            } else {
+                $('#recurringOptions').hide();
+            }
+        });
 });
 </script>
 @endsection
