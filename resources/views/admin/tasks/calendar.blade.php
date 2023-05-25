@@ -62,12 +62,12 @@
                     </div>
                     <div class="col-sm">
                         <label for="taskDateTime">Czas rozpoczęcia:</label>
-                        <input type="datetime" class="form-control" id="taskDateTime"
+                        <input type="datetime-local" class="form-control" id="taskDateTime"
                             placeholder="Wybierz datę i godzinę">
                     </div>
                     <div class="col-sm">
                         <label for="taskDateTime">Czas zakończenia:</label>
-                        <input type="datetime" class="form-control" id="taskDateTimeEnd"
+                        <input type="datetime-local" class="form-control" id="taskDateTimeEnd"
                             placeholder="Wybierz datę i godzinę">
                     </div>
                 </div>
@@ -231,10 +231,10 @@ $(document).ready(function() {
                 data: {
                     title: title,
                     start: start,
+                    end: end,
                     fk_company: fk_company,
                     description: description,
-                    category_color: category_color,
-                    end: end,
+                    category_color: category_color,                  
                     id: id,
                     type: 'update'
                 },
@@ -368,35 +368,111 @@ $(document).ready(function() {
 
     $('#addTaskBtn').click(function() {
         var taskTitle = $('#taskTitle').val();
-        var fk_company = $('#fk_company').val();
-        var description = $('#description').val();
-        var taskDateTime = $('#taskDateTime').val();
-        var taskDateTimeEnd = $('#taskDateTimeEnd').val();
-        var category_color = $('#category_color').val();
-        if (taskTitle != '' && fk_company != '' && taskDateTime != '' && taskDateTimeEnd != '' &&
-            description != '' && category_color != '') {
-            $.ajax({
-                url: SITEURL + '/fullcalenderAjax',
-                data: {
-                    title: taskTitle,
-                    start: taskDateTime,
-                    end: taskDateTimeEnd,
-                    description: description,
-                    category_color: category_color,
-                    fk_company: fk_company,
-                    type: 'add'
-                },
-                type: "POST",
-                success: function(response) {
-                    $('#taskModal').modal('hide');
-                    calendar.fullCalendar('refetchEvents');
-                    displayMessage("Pomyślnie dodano zadanie");
+    var fk_company = $('#fk_company').val();
+    var description = $('#description').val();
+    var taskDateTime = moment($('#taskDateTime').val(), 'YYYY-MM-DD HH:mm').format('YYYY-MM-DD HH:mm:ss');
+    var taskDateTimeEnd = moment($('#taskDateTimeEnd').val(), 'YYYY-MM-DD HH:mm').format('YYYY-MM-DD HH:mm:ss');
+    var category_color = $('#category_color').val();
+    var recurring = $('#taskRecurring').is(':checked');
+    var recurringFrequency = $('#taskFrequency').val();
+
+    if (taskTitle != '' && fk_company != '' && taskDateTime != '' && taskDateTimeEnd != '' &&
+        description != '' && category_color != '') {
+        $.ajax({
+            url: SITEURL + '/fullcalenderAjax',
+            data: {
+                title: taskTitle,
+                start: taskDateTime,
+                end: taskDateTimeEnd,
+                description: description,
+                category_color: category_color,
+                fk_company: fk_company,
+                recurring: recurring,
+                recurringFrequency: recurringFrequency,
+                type: 'add'
+            },
+            type: "POST",
+            success: function(response) {
+                if (recurring) {
+                    // If the task is recurring, handle the recurring logic
+                    var taskId = response.event_id;
+                    var recurringData = generateRecurringData(taskId, recurringFrequency, taskDateTime, taskDateTimeEnd);
+                    saveRecurringEvents(recurringData);
                 }
+                $('#taskModal').modal('hide');
+                calendar.fullCalendar('refetchEvents');
+                displayMessage("Pomyślnie dodano wydarzenie");
+            }
+        });
+    }
+});
+
+function generateRecurringData(taskId, recurringFrequency, taskDateTime, taskDateTimeEnd) {
+    // Generate recurring data based on the selected frequency
+    var recurringData = [];
+    var startDate = moment(taskDateTime, 'Y-MM-DD HH:mm');
+    var endDate = moment(taskDateTimeEnd, 'Y-MM-DD HH:mm');
+    var duration = moment.duration(endDate.diff(startDate));
+    var daysDiff = duration.asDays();
+
+    if (recurringFrequency === 'daily') {
+        // Add daily recurring events
+        for (var i = 1; i <= 30; i++) {
+            var start = moment(taskDateTime, 'Y-MM-DD HH:mm').add(i, 'days').format('Y-MM-DD HH:mm');
+            var end = moment(taskDateTimeEnd, 'Y-MM-DD HH:mm').add(i, 'days').format('Y-MM-DD HH:mm');
+            recurringData.push({
+                title: taskTitle,
+                fk_company: fk_company,
+                description: description,
+                category_color: category_color,
+                start: start,
+                end: end
             });
-        } else {
-            toastr.error("Wprowadź wszystkie wymagane informacje", "Błąd");
+        }
+    } else if (recurringFrequency === 'weekly') {
+        // Add weekly recurring events
+        for (var i = 1; i <= 4; i++) {
+            var start = moment(taskDateTime, 'Y-MM-DD HH:mm').add(i, 'weeks').format('Y-MM-DD HH:mm');
+            var end = moment(taskDateTimeEnd, 'Y-MM-DD HH:mm').add(i, 'weeks').format('Y-MM-DD HH:mm');
+            recurringData.push({
+                title: taskTitle,
+                fk_company: fk_company,
+                description: description,
+                category_color: category_color,
+                start: start,
+                end: end
+            });
+        }
+    } else if (recurringFrequency === 'monthly') {
+        // Add monthly recurring events
+        for (var i = 1; i <= 12; i++) {
+            var start = moment(taskDateTime, 'Y-MM-DD HH:mm').add(i, 'months').format('Y-MM-DD HH:mm');
+            var end = moment(taskDateTimeEnd, 'Y-MM-DD HH:mm').add(i, 'months').format('Y-MM-DD HH:mm');
+            recurringData.push({
+                title: taskTitle,
+                fk_company: fk_company,
+                description: description,
+                category_color: category_color,
+                start: start,
+                end: end
+            });
+        }
+    }
+    
+    return recurringData;
+}
+
+function saveRecurringEvents(recurringData) {
+    // Save the recurring events in the database
+    $.ajax({
+        url: SITEURL + '/fullcalendarAjax',
+        data: recurringData, // Send the recurring data as the request payload
+        type: "POST",
+        success: function(response) {
+            console.log("Recurring events saved successfully.");
         }
     });
+}
 
     function displayMessage(message) {
         toastr.success(message, 'Sukces');
