@@ -19,6 +19,20 @@
 .fc-slats tbody tr[data-time="23:00"] {
     display: none;
 }
+.modal-header{
+    background-color:#f2f2f5;
+}
+.fc-recurring-event {
+    position: absolute;
+    top: 2px;
+    right: 5px;
+    font-weight: bold;
+
+ 
+    font-size: 10px;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
 </style>
 
 @section('content')
@@ -175,6 +189,9 @@ $(document).ready(function() {
         defaultView: 'settimana',
 
         eventRender: function(event, element) {
+             if (event.recurring) {
+                element.find('.fc-title').prepend('<span class="fc-recurring-event">[C]</span>');
+            }
             element.css('background-color', event.category_color);
             element.css('color', 'black');
         },
@@ -385,8 +402,7 @@ $(document).ready(function() {
                 description: description,
                 category_color: category_color,
                 fk_company: fk_company,
-                recurring: recurring,
-                recurringFrequency: recurringFrequency,
+                recurring: 0,
                 type: 'add'
             },
             type: "POST",
@@ -410,8 +426,7 @@ $(document).ready(function() {
                 description: description,
                 category_color: category_color,
                 fk_company: fk_company,
-                recurring: recurring,
-                recurringFrequency: recurringFrequency,
+                recurring:1,
                 type: 'add'
             },
         
@@ -439,8 +454,7 @@ else if (recurringFrequency === 'weekly') {
                 description: description,
                 category_color: category_color,
                 fk_company: fk_company,
-                recurring: recurring,
-                recurringFrequency: recurringFrequency,
+                recurring:1,
                 type: 'add'
             },
             type: "POST",
@@ -468,8 +482,7 @@ else if (recurringFrequency === 'monthly') {
                 description: description,
                 category_color: category_color,
                 fk_company: fk_company,
-                recurring: recurring,
-                recurringFrequency: recurringFrequency,
+                recurring:1,
                 type: 'add'
             },
             type: "POST",

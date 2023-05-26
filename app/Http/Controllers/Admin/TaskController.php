@@ -33,7 +33,7 @@ class TaskController extends Controller
         if($request->ajax()) {   
             $data = Task::whereDate('start', '>=', $request->start)
                       ->whereDate('end',   '<=', $request->end)
-                      ->get(['id', 'title', 'start', 'end', 'fk_company','description','category_color']);
+                      ->get(['id', 'title', 'start', 'end', 'fk_company','description','category_color','recurring']);
             return response()->json($data);
        }
 
@@ -62,6 +62,7 @@ class TaskController extends Controller
                   'fk_user' => $user->id,
                   'category_color' => $request->category_color,
                   'completed' =>  0,
+                  'recurring' =>$request->recurring,
               ]);
               return response()->json($event);
              break;

@@ -21,6 +21,7 @@ class Task extends Model
         'title', 
         'start', 
         'end',
+        'recurring',
         'description',
         'fk_company',
         'fk_contract',
