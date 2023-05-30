@@ -254,6 +254,8 @@ $(document).ready(function() {
             });
         },
 
+        
+
         eventResize: function(event, delta) {
             var start = event.start.format("Y-MM-DD HH:mm:ss");
             var end = event.end.format("Y-MM-DD HH:mm:ss");
@@ -315,8 +317,6 @@ $(document).ready(function() {
 
                 $('#taskModal').modal('hide');
             });
-
-            // ...
 
             function deleteTask(taskId) {
                 $.ajax({
@@ -432,6 +432,7 @@ $(document).ready(function() {
             $('#taskModal').modal('show');
         }
     });
+    
 
     $('#addTaskBtn').click(function() {
         var taskTitle = $('#taskTitle').val();
