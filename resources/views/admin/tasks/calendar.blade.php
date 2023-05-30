@@ -145,12 +145,21 @@ $(document).ready(function() {
     var clickedEvent;
     var recurringEndDate;
 
+
     $.fullCalendar.locale('pl');
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+
+    function generateUniqueId() {
+        var timestamp = Date.now().toString(36); // Pobranie aktualnego czasu i zamiana na system o podstawie 36
+        var randomChars = Math.random().toString(36).substr(2, 5); // Generowanie losowych znaków
+
+        return timestamp + randomChars; // Połączenie czasu i losowych znaków
+    }
+
     // Funkcja pobierająca listę kontrahentów z serwera
     function fetchContractors() {
 
@@ -293,22 +302,52 @@ $(document).ready(function() {
             $('#deleteEventBtn').off('click').on('click', function() {
                 var event = $(this).data('event');
                 var deleteMsg = confirm("Naprawdę chcesz usunąć wpis?");
+
                 if (deleteMsg) {
-                    $.ajax({
-                        type: "POST",
-                        url: SITEURL + '/fullcalenderAjax',
-                        data: {
-                            id: event.id,
-                            type: 'delete'
-                        },
-                        success: function(response) {
-                            calendar.fullCalendar('removeEvents', event.id);
-                            displayMessage("Wpis pomyślnie usunięty");
-                        }
-                    });
+                    if (event.recurring) {
+                        // Usuń wszystkie zadania cykliczne z danego cyklu
+                        deleteRecurringTasks(event.id);
+                    } else {
+                        // Usuń pojedyncze zadanie
+                        deleteTask(event.id);
+                    }
                 }
+
                 $('#taskModal').modal('hide');
             });
+
+            // ...
+
+            function deleteTask(taskId) {
+                $.ajax({
+                    type: "POST",
+                    url: SITEURL + '/fullcalenderAjax',
+                    data: {
+                        id: taskId,
+                        type: 'delete'
+                    },
+                    success: function(response) {
+                        calendar.fullCalendar('removeEvents', taskId);
+                        displayMessage("Wpis pomyślnie usunięty");
+                    }
+                });
+            }
+
+            function deleteRecurringTasks(recurringId) {
+                $.ajax({
+                    type: "POST",
+                    url: SITEURL + '/fullcalenderAjax',
+                    data: {
+                        id: recurringId, // Przekaż ID cyklu
+                        type: 'deleteRecurring'
+                    },
+                    success: function(response) {
+                        calendar.fullCalendar('refetchEvents');
+                        displayMessage(
+                            "Wszystkie zadania cykliczne pomyślnie usunięte");
+                    }
+                });
+            }
 
             $('#addTaskBtn').off('click').on('click', function() {
                 var taskTitle = $('#taskTitle').val();
@@ -439,6 +478,7 @@ $(document).ready(function() {
             var currentDate = moment(taskDateTime, 'YYYY-MM-DD HH:mm');
             var endDate = moment(recurringEndDate, 'YYYY-MM-DD');
             var recurrence = moment.duration(1, 'days');
+            var Recuring_Number = generateUniqueId();
 
             while (currentDate.isSameOrBefore(endDate)) {
                 var start = currentDate.format('YYYY-MM-DD') + ' ' + taskDateTime.substr(11, 5);
@@ -454,6 +494,7 @@ $(document).ready(function() {
                         category_color: category_color,
                         fk_company: fk_company,
                         recurring: 1,
+                        recurring_id: Recuring_Number,
                         type: 'add'
                     },
                     type: "POST",
@@ -472,6 +513,7 @@ $(document).ready(function() {
             var currentDate = moment(taskDateTime, 'YYYY-MM-DD HH:mm');
             var endDate = moment(recurringEndDate, 'YYYY-MM-DD');
             var recurrence = moment.duration(1, 'weeks');
+            var Recuring_Number = generateUniqueId();
 
             while (currentDate.isSameOrBefore(endDate)) {
                 var start = currentDate.format('YYYY-MM-DD') + ' ' + taskDateTime.substr(11, 5);
@@ -486,6 +528,7 @@ $(document).ready(function() {
                         description: description,
                         category_color: category_color,
                         fk_company: fk_company,
+                        recurring_id: Recuring_Number,
                         recurring: 1,
                         type: 'add'
                     },
@@ -505,6 +548,7 @@ $(document).ready(function() {
             var currentDate = moment(taskDateTime, 'YYYY-MM-DD HH:mm');
             var endDate = moment(recurringEndDate, 'YYYY-MM-DD');
             var recurrence = moment.duration(1, 'months');
+            var Recuring_Number = generateUniqueId();
 
             while (currentDate.isSameOrBefore(endDate)) {
                 var start = currentDate.format('YYYY-MM-DD') + ' ' + taskDateTime.substr(11, 5);
@@ -519,6 +563,7 @@ $(document).ready(function() {
                         description: description,
                         category_color: category_color,
                         fk_company: fk_company,
+                        recurring_id: Recuring_Number,
                         recurring: 1,
                         type: 'add'
                     },

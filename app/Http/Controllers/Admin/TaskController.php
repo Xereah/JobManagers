@@ -63,6 +63,7 @@ class TaskController extends Controller
                   'category_color' => $request->category_color,
                   'completed' =>  0,
                   'recurring' =>$request->recurring,
+                  'recurring_id' => $request->recurring_id,
               ]);
               return response()->json($event);
              break;
@@ -73,14 +74,30 @@ class TaskController extends Controller
                   'start' => $request->start,
                   'description'  => $request->description,
                   'fk_company' => $request->fk_company,
+                  'category_color' => $request->category_color,
                   'end' => $request->end,
               ]);
               return response()->json($event);
              break;
-           case 'delete':
-              $event = Task::find($request->id)->delete();
-              return response()->json($event);
-             break;   
+             case 'delete':
+                // Usuwanie pojedynczego zadania
+                $taskId = $request->id;
+                $task = Task::find($taskId);
+                $task->delete();
+                return response()->json(['success' => true]);
+                break;  
+
+                case 'deleteRecurring':
+                    // Usuwanie wszystkich zadań z danego cyklu
+                    $taskId = $request->id;
+                    $recurringId = DB::table('tasks')->where('id', $taskId)->pluck('recurring_id')->first();    
+                    $tasks = Task::where('recurring_id', $recurringId)->get();
+                    foreach ($tasks as $task) {
+                        $task->delete();
+                    }
+                    return response()->json(['success' => true]);
+                    break;
+
            default:
              # code...
              break;
