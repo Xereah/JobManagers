@@ -93,21 +93,26 @@
                     <textarea class="form-control" name="description" id="description" autocomplete="off" required
                         rows="5"></textarea>
                 </div>
-                <label for="taskRecurring">Zadanie cykliczne:</label>
-                <input type="checkbox" id="taskRecurring" autocomplete="off">
-                <div id="recurringOptions" style="display: none;">
-                    <label for="taskFrequency">Częstotliwość:</label>
-                    <select id="taskFrequency">
-                        <option value="daily">Codziennie</option>
-                        <option value="weekly">Co tydzień</option>
-                        <option value="monthly">Co miesiąc</option>
-                    </select>
-                    <br>
-                    <label for="taskEndDate">Data zakończenia:</label>
-                    <input type="date" class="form-control" id="taskEndDate">
+                <div style="background-color: #f2f2f5;">
+                    <label for="taskRecurring">Zadanie cykliczne:</label>
+                    <input type="checkbox" id="taskRecurring" autocomplete="off">
+                    <div class="row" id="recurringOptions" style="display: none;">
+                        <div class="col-md-4">
+                            <br>
+                            <label for="taskFrequency">Częstotliwość:</label>
+                            <select id="taskFrequency">
+                                <option value="daily">Codziennie</option>
+                                <option value="weekly">Co tydzień</option>
+                                <option value="monthly">Co miesiąc</option>
+                            </select>
+                        </div>
+                        <div class="col-md-8">
+                            <label for="taskEndDate" style="display: flex;">Data zakończenia:
+                                <input type="date" class="form-control " id="taskEndDate"
+                                    style="display: flex;"></label>
+                        </div>
+                    </div>
                 </div>
-
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="addTaskBtn">Zapisz</button>
@@ -138,6 +143,7 @@ $(document).ready(function() {
     var endDateTime;
     var clickedDateTime;
     var clickedEvent;
+    var recurringEndDate;
 
     $.fullCalendar.locale('pl');
     $.ajaxSetup({
@@ -400,6 +406,15 @@ $(document).ready(function() {
         var recurring = $('#taskRecurring').is(':checked');
         var recurringFrequency = $('#taskFrequency').val();
 
+        if (recurring) {
+            recurringEndDate = $('#taskEndDate').val();
+
+            if (!recurringEndDate) {
+                alert('Proszę ustawić datę zakończenia dla zadania cyklicznego.');
+                return;
+            }
+        }
+
         if (!recurring) {
             $.ajax({
                 url: SITEURL + '/fullcalenderAjax',
@@ -421,11 +436,14 @@ $(document).ready(function() {
                 }
             });
         } else if (recurringFrequency === 'daily') {
-            for (var i = 1; i <= 30; i++) {
-                var start = moment(taskDateTime, 'Y-MM-DD HH:mm').add(i, 'days').format(
-                'Y-MM-DD HH:mm');
-                var end = moment(taskDateTimeEnd, 'Y-MM-DD HH:mm').add(i, 'days').format(
-                    'Y-MM-DD HH:mm');
+            var currentDate = moment(taskDateTime, 'YYYY-MM-DD HH:mm');
+            var endDate = moment(recurringEndDate, 'YYYY-MM-DD');
+            var recurrence = moment.duration(1, 'days');
+
+            while (currentDate.isSameOrBefore(endDate)) {
+                var start = currentDate.format('YYYY-MM-DD') + ' ' + taskDateTime.substr(11, 5);
+                var end = currentDate.format('YYYY-MM-DD') + ' ' + taskDateTimeEnd.substr(11, 5);
+
                 $.ajax({
                     url: SITEURL + '/fullcalenderAjax',
                     data: {
@@ -438,22 +456,27 @@ $(document).ready(function() {
                         recurring: 1,
                         type: 'add'
                     },
-
                     type: "POST",
                     success: function(response) {
-                        $('#taskModal').modal('hide');
                         calendar.fullCalendar('refetchEvents');
                         displayMessage("Pomyślnie dodano wydarzenie");
                     }
                 });
+
+                currentDate.add(recurrence);
             }
+
+            $('#taskModal').modal('hide');
+            displayMessage("Pomyślnie dodano zadania cykliczne.");
         } else if (recurringFrequency === 'weekly') {
-            // Add weekly recurring events
-            for (var i = 0; i <= 3; i++) { // Dodawanie co tydzień przez 4 tygodnie
-                var start = moment(taskDateTime, 'Y-MM-DD HH:mm').add(i, 'weeks').format(
-                    'Y-MM-DD HH:mm');
-                var end = moment(taskDateTimeEnd, 'Y-MM-DD HH:mm').add(i, 'weeks').format(
-                    'Y-MM-DD HH:mm');
+            var currentDate = moment(taskDateTime, 'YYYY-MM-DD HH:mm');
+            var endDate = moment(recurringEndDate, 'YYYY-MM-DD');
+            var recurrence = moment.duration(1, 'weeks');
+
+            while (currentDate.isSameOrBefore(endDate)) {
+                var start = currentDate.format('YYYY-MM-DD') + ' ' + taskDateTime.substr(11, 5);
+                var end = currentDate.format('YYYY-MM-DD') + ' ' + taskDateTimeEnd.substr(11, 5);
+
                 $.ajax({
                     url: SITEURL + '/fullcalenderAjax',
                     data: {
@@ -468,18 +491,25 @@ $(document).ready(function() {
                     },
                     type: "POST",
                     success: function(response) {
-                        $('#taskModal').modal('hide');
                         calendar.fullCalendar('refetchEvents');
                         displayMessage("Pomyślnie dodano wydarzenie");
                     }
                 });
+
+                currentDate.add(recurrence);
             }
+
+            $('#taskModal').modal('hide');
+            displayMessage("Pomyślnie dodano zadania cykliczne.");
         } else if (recurringFrequency === 'monthly') {
-            var startDate = moment(taskDateTime, 'Y-MM-DD HH:mm'); // Początkowa data
-            // Add monthly recurring events
-            for (var i = 0; i <= 11; i++) { // Dodawanie co miesiąc przez 4 miesiące
-                var start = startDate.clone().add(i, 'months').format('Y-MM-DD HH:mm');
-                var end = startDate.clone().add(i, 'months').add(1, 'hour').format('Y-MM-DD HH:mm');
+            var currentDate = moment(taskDateTime, 'YYYY-MM-DD HH:mm');
+            var endDate = moment(recurringEndDate, 'YYYY-MM-DD');
+            var recurrence = moment.duration(1, 'months');
+
+            while (currentDate.isSameOrBefore(endDate)) {
+                var start = currentDate.format('YYYY-MM-DD') + ' ' + taskDateTime.substr(11, 5);
+                var end = currentDate.format('YYYY-MM-DD') + ' ' + taskDateTimeEnd.substr(11, 5);
+
                 $.ajax({
                     url: SITEURL + '/fullcalenderAjax',
                     data: {
@@ -494,16 +524,19 @@ $(document).ready(function() {
                     },
                     type: "POST",
                     success: function(response) {
-                        $('#taskModal').modal('hide');
                         calendar.fullCalendar('refetchEvents');
                         displayMessage("Pomyślnie dodano wydarzenie");
                     }
                 });
+
+                currentDate.add(recurrence);
             }
+
+            $('#taskModal').modal('hide');
+            displayMessage("Pomyślnie dodano zadania cykliczne.");
         }
-
-
     });
+
 
     function displayMessage(message) {
         toastr.success(message, 'Sukces');
