@@ -47,7 +47,7 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="taskModalLabel">Dodaj zadanie</h5>
                 <div class="text-right ml-auto">
-                    <select name="category_color" id="category_color" autocomplete="off" class="form-control text-center">
+                    <select name="category_color" id="category_color" class="form-control text-center">
                         <option value="">Kategoria</option>
                         <option value="#008000" style="background-color:#008000;color:black;">Na miejscu</option>
                         <option value="#FFFF00" style="background-color:#FFFF00;color:black;">Inne</option>
@@ -144,7 +144,7 @@ $(document).ready(function() {
     var clickedDateTime;
     var clickedEvent;
     var recurringEndDate;
-
+    var recurringId;
 
     $.fullCalendar.locale('pl');
     $.ajaxSetup({
@@ -156,6 +156,7 @@ $(document).ready(function() {
     function generateUniqueId() {
         var timestamp = Date.now().toString(36); // Pobranie aktualnego czasu i zamiana na system o podstawie 36
         var randomChars = Math.random().toString(36).substr(2, 5); // Generowanie losowych znaków
+
         return timestamp + randomChars; // Połączenie czasu i losowych znaków
     }
 
@@ -165,12 +166,15 @@ $(document).ready(function() {
         var companyId = $('#fk_company').val(); // Get the selected company ID
 
         $.ajax({
-            url: SITEURL + '/fetchContractors/' + companyId, // Pass the company ID as a parameter in the URL
+            url: SITEURL + '/fetchContractors/' +
+                companyId, // Pass the company ID as a parameter in the URL
             type: 'GET',
             success: function(response) {
                 var contractors = response;
+
                 // Clear existing options in the select field
                 $('#fk_company').empty();
+
                 // Add new options to the select field
                 for (var i = 0; i < contractors.length; i++) {
                     var contractor = contractors[i];
@@ -211,6 +215,8 @@ $(document).ready(function() {
             }
             element.css('background-color', event.category_color);
             element.css('color', 'black');
+            element.attr('data-event-id', event.id);
+            element.attr('data-recurring-id', event.recurring_id); // Dodaj tę linię
         },
 
 
@@ -223,9 +229,6 @@ $(document).ready(function() {
             $('#taskTitle').val('');
             $('#description').val('');
             $('#category_color').val('');
-            $('#taskRecurring').val('');
-            $('#taskFrequency').val('');
-            $('#taskEndDate').val('');
             $('#fk_company').val('').trigger('change');
             $('#taskModal').modal('show');
         },
@@ -233,6 +236,7 @@ $(document).ready(function() {
         eventDrop: function(event) {
             var start = event.start.format("Y-MM-DD HH:mm:ss");
             var end = event.end.format("Y-MM-DD HH:mm:ss");
+            var recurringId = event.recurring_id; // Dodaj tę linię
 
             $.ajax({
                 url: SITEURL + '/fullcalenderAjax',
@@ -243,6 +247,7 @@ $(document).ready(function() {
                     fk_company: event.fk_company,
                     description: event.description,
                     category_color: event.category_color,
+                    recurring_id: recurringId, // Dodaj tę linię
                     id: event.id,
                     type: 'update'
                 },
@@ -253,9 +258,10 @@ $(document).ready(function() {
             });
         },
 
-        
 
-        eventResize: function(event, delta) {
+
+        eventDrop: function(event, delta, revertFunc) {
+            var recurringId = event.recurring_id; // Dodaj tę linię
             var start = event.start.format("Y-MM-DD HH:mm:ss");
             var end = event.end.format("Y-MM-DD HH:mm:ss");
             var title = event.title;
@@ -263,25 +269,47 @@ $(document).ready(function() {
             var category_color = event.category_color;
             var description = event.description;
             var id = event.id;
-            $.ajax({
-                url: SITEURL + '/fullcalenderAjax',
-                type: "POST",
-                data: {
-                    title: title,
-                    start: start,
-                    end: end,
-                    fk_company: fk_company,
-                    description: description,
-                    category_color: category_color,
-                    id: id,
-                    type: 'update'
-                },
-                success: function(response) {
-                    calendar.fullCalendar('refetchEvents');
-                    displayMessage(
-                        "Pomyślnie zaktualizowano wydarzenie");
-                }
-            })
+
+            if (event.recurring) {
+                var eventDateTime = moment(event.start).format("Y-MM-DD HH:mm");
+                var eventDateTimeEnd = moment(event.end).format("Y-MM-DD HH:mm");
+
+                // Wykonaj żądanie AJAX, aby zaktualizować zadania cykliczne
+                $.ajax({
+                    url: SITEURL + '/fullcalenderAjax',
+                    type: "POST",
+                    data: {
+                        end: end,
+                        start: start,
+                        type: 'updateRecurring'
+                    },
+                    success: function(response) {
+                        calendar.fullCalendar('refetchEvents');
+                        displayMessage("Pomyślnie zaktualizowano wydarzenie");
+                    }
+                });
+            } else {
+                $.ajax({
+                    url: SITEURL + '/fullcalenderAjax',
+                    type: "POST",
+                    data: {
+                        title: title,
+                        start: start,
+                        end: end,
+                        fk_company: fk_company,
+                        description: description,
+                        category_color: category_color,
+                        id: id,
+                        recurring_id: recurringId, // Dodaj tę linię
+                        type: 'update'
+                    },
+                    success: function(response) {
+                        calendar.fullCalendar('refetchEvents');
+                        displayMessage(
+                            "Pomyślnie zaktualizowano wydarzenie");
+                    }
+                })
+            }
         },
 
         eventClick: function(event) {
@@ -290,14 +318,13 @@ $(document).ready(function() {
             var eventDateTimeEnd = moment(event.end).format("Y-MM-DD HH:mm");
             clickedDateTime = eventDateTime;
             clickedDateTimeEnd = eventDateTimeEnd;
+            var recurringId = event.recurring_id; // Dodaj tę linię
+
             $('#taskDateTime').val(clickedDateTime);
             $('#taskDateTimeEnd').val(clickedDateTimeEnd);
             $('#taskTitle').val(event.title);
             $('#description').val(event.description);
             $('#category_color').val(event.category_color);
-            $('#taskRecurring').val(event.taskRecurring);
-            $('#taskFrequency').val(event.taskFrequency);
-            $('#taskEndDate').val(event.taskEndDate);
             $('#fk_company').val(event.fk_company).trigger('change');
             $('#deleteEventBtn').data('event', event);
 
@@ -354,24 +381,18 @@ $(document).ready(function() {
             $('#addTaskBtn').off('click').on('click', function() {
                 var taskTitle = $('#taskTitle').val();
                 var fkCompany = $('#fk_company').val();
-                var description = $('#description').val();
+                var desc = $('#description').val();
                 var color = $('#category_color').val();
                 var taskDateTime = $('#taskDateTime').val();
                 var taskDateTimeEnd = $('#taskDateTimeEnd').val();
-                var taskRecurring = $('#taskRecurring').val();
-                var taskFrequency = $('#taskFrequency').val();
-                var taskEndDate = $('#taskEndDate').val();
 
                 if (clickedEvent) {
                     clickedEvent.title = taskTitle;
                     clickedEvent.fk_company = fkCompany;
                     clickedEvent.start = taskDateTime;
                     clickedEvent.end = taskDateTimeEnd;
-                    clickedEvent.description = description;
+                    clickedEvent.description = desc;
                     clickedEvent.category_color = color;
-                    clickedEvent.taskRecurring = taskRecurring;
-                    clickedEvent.taskFrequency = taskFrequency;
-                    clickedEvent.taskEndDate = taskEndDate;
 
                     $.ajax({
                         url: SITEURL + '/fullcalenderAjax',
@@ -381,7 +402,7 @@ $(document).ready(function() {
                             start: taskDateTime,
                             end: taskDateTimeEnd,
                             fk_company: fkCompany,
-                            description: description,
+                            description: desc,
                             category_color: color,
                             type: 'update'
                         },
@@ -396,7 +417,7 @@ $(document).ready(function() {
                     var newEvent = {
                         title: taskTitle,
                         fk_company: fkCompany,
-                        description: description,
+                        description: desc,
                         category_color: color,
                         start: taskDateTime,
                         end: taskDateTimeEnd
@@ -410,7 +431,7 @@ $(document).ready(function() {
                             end: taskDateTimeEnd,
                             fk_company: fkCompany,
                             category_color: color,
-                            description: description,
+                            description: desc,
                             type: 'add'
                         },
                         type: "POST",
@@ -440,7 +461,7 @@ $(document).ready(function() {
             $('#taskModal').modal('show');
         }
     });
-    
+
 
     $('#addTaskBtn').click(function() {
         var taskTitle = $('#taskTitle').val();
@@ -605,23 +626,4 @@ $(document).ready(function() {
     });
 });
 </script>
-
-<script>
-    const categoryColorSelect = document.getElementById('category_color');
-    const initialColor = categoryColorSelect.style.backgroundColor;
-
-    categoryColorSelect.addEventListener('change', function() {
-        const selectedOption = categoryColorSelect.options[categoryColorSelect.selectedIndex];
-        const selectedColor = selectedOption.value;
-
-        categoryColorSelect.style.backgroundColor = selectedColor;
-        categoryColorSelect.style.color = 'black';
-    });
-
-    categoryColorSelect.addEventListener('blur', function() {
-        categoryColorSelect.style.backgroundColor = initialColor;
-        categoryColorSelect.style.color = 'initial';
-    });
-</script>
-
 @endsection

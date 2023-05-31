@@ -41,69 +41,83 @@ class TaskController extends Controller
     }
 
     public function ajax(Request $request)
-
     {
-        $company =$request->input('fk_company');
-        $descriptions =$request->input('description');
-        $contract = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_grupa')->first();
+        $company = $request->input('fk_company');
+        $descriptions = $request->input('description');
+        $contract = DB::table('kontrahenci')->where('kontrahent_id', $company)->pluck('kontrahent_grupa')->first();
         $now = Carbon::now();
         $user = Auth::user();
-
+    
         switch ($request->type) {
-           case 'add':
-              $event = Task::create([
-                  'title' => $request->title,
-                  'start' => $request->start,
-                  'end' => $request->end,
-                  'description' => $descriptions,
-                  'fk_company' =>  $company,
-                  'fk_contract' => $contract,
-                  'execution_user' => $user->id,
-                  'fk_user' => $user->id,
-                  'category_color' => $request->category_color,
-                  'completed' =>  0,
-                  'recurring' =>$request->recurring,
-                  'recurring_id' => $request->recurring_id,
-              ]);
-              return response()->json($event);
-             break;
-
-           case 'update':
-              $event = Task::find($request->id)->update([
-                  'title' => $request->title,
-                  'start' => $request->start,
-                  'description'  => $request->description,
-                  'fk_company' => $request->fk_company,
-                  'category_color' => $request->category_color,
-                  'end' => $request->end,
-              ]);
-              return response()->json($event);
-             break;
-             case 'delete':
+            case 'add':
+                $event = Task::create([
+                    'title' => $request->title,
+                    'start' => $request->start,
+                    'end' => $request->end,
+                    'description' => $descriptions,
+                    'fk_company' => $company,
+                    'fk_contract' => $contract,
+                    'execution_user' => $user->id,
+                    'fk_user' => $user->id,
+                    'category_color' => $request->category_color,
+                    'completed' => 0,
+                    'recurring' => $request->recurring,
+                    'recurring_id' => $request->recurring_id,
+                ]);
+                return response()->json($event);
+                break;
+    
+            case 'update':
+                $event = Task::find($request->id)->update([
+                    'title' => $request->title,
+                    'start' => $request->start,
+                    'description' => $request->description,
+                    'fk_company' => $request->fk_company,
+                    'category_color' => $request->category_color,
+                    'end' => $request->end,
+                ]);
+                return response()->json($event);
+                break;
+    
+            case 'updateRecurring':
+                $taskId = $request->id;
+                $recurringId = DB::table('tasks')->where('id', $taskId)->pluck('recurring_id')->first();
+                $tasks = Task::where('recurring_id', $recurringId)->get();
+                foreach ($tasks as $task) {
+                    $task->update([
+                        'start' => $request->start,
+                        'end' => $request->end,
+                      
+                    ]);
+                }
+                return response()->json(['success' => true]);
+                break;
+    
+            case 'delete':
                 // Usuwanie pojedynczego zadania
                 $taskId = $request->id;
                 $task = Task::find($taskId);
                 $task->delete();
                 return response()->json(['success' => true]);
-                break;  
-
-                case 'deleteRecurring':
-                    // Usuwanie wszystkich zadań z danego cyklu
-                    $taskId = $request->id;
-                    $recurringId = DB::table('tasks')->where('id', $taskId)->pluck('recurring_id')->first();    
-                    $tasks = Task::where('recurring_id', $recurringId)->get();
-                    foreach ($tasks as $task) {
-                        $task->delete();
-                    }
-                    return response()->json(['success' => true]);
-                    break;
-
-           default:
-             # code...
-             break;
+                break;
+    
+            case 'deleteRecurring':
+                // Usuwanie wszystkich zadań z danego cyklu
+                $taskId = $request->id;
+                $recurringId = DB::table('tasks')->where('id', $taskId)->pluck('recurring_id')->first();
+                $tasks = Task::where('recurring_id', $recurringId)->get();
+                foreach ($tasks as $task) {
+                    $task->delete();
+                }
+                return response()->json(['success' => true]);
+                break;
+    
+            default:
+                # code...
+                break;
         }
-
     }
+    
 
     public function fetchContractors($id)
     {
