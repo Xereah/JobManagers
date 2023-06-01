@@ -79,19 +79,25 @@ class TaskController extends Controller
                 return response()->json($event);
                 break;
     
-            case 'updateRecurring':
-                $taskId = $request->id;
-                $recurringId = DB::table('tasks')->where('id', $taskId)->pluck('recurring_id')->first();
-                $tasks = Task::where('recurring_id', $recurringId)->get();
-                foreach ($tasks as $task) {
-                    $task->update([
-                        'start' => $request->start,
-                        'end' => $request->end,
-                      
-                    ]);
-                }
-                return response()->json(['success' => true]);
-                break;
+                case 'updateRecurring':
+                    $taskId = $request->id;
+                    $recurringId = DB::table('tasks')->where('id', $taskId)->pluck('recurring_id')->first();
+                    $tasks = Task::where('recurring_id', $recurringId)->get();
+                
+                    foreach ($tasks as $task) {
+                        $originalStartDate = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $task->start)->format('Y-m-d');
+                        $originalEndDate = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $task->end)->format('Y-m-d');
+                        $updatedStartDate = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->start)->format('H:i:s');
+                        $updatedEndDate = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->end)->format('H:i:s');
+                
+                        $task->update([
+                            'start' => $originalStartDate . ' ' . $updatedStartDate,
+                            'end' => $originalEndDate . ' ' . $updatedEndDate,
+                        ]);
+                    }
+                
+                    return response()->json(['success' => true]);
+                    break;
     
             case 'delete':
                 // Usuwanie pojedynczego zadania

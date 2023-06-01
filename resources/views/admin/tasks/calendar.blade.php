@@ -233,35 +233,64 @@ $(document).ready(function() {
             $('#taskModal').modal('show');
         },
 
-        eventDrop: function(event) {
+        eventResize: function(event, delta) {
             var start = event.start.format("Y-MM-DD HH:mm:ss");
             var end = event.end.format("Y-MM-DD HH:mm:ss");
-            var recurringId = event.recurring_id; // Dodaj tę linię
+            var title = event.title;
+            var fk_company = event.fk_company;
+            var category_color = event.category_color;
+            var description = event.description;
+            var id = event.id;
+            if (event.recurring) {
+                var originalStart = moment(event.start).format("Y-MM-DD");
+                var originalEnd = moment(event.end).format("Y-MM-DD");
+                var updatedStart = moment(originalStart + " " + event.start.format("HH:mm:ss"))
+                    .format("Y-MM-DD HH:mm:ss");
+                var updatedEnd = moment(originalEnd + " " + event.end.format("HH:mm:ss")).format(
+                    "Y-MM-DD HH:mm:ss");
 
+                $.ajax({
+                    url: SITEURL + '/fullcalenderAjax',
+                    type: "POST",
+                    data: {
+                        end: updatedEnd,
+                        id: id,
+                        start: updatedStart,
+                        recurring_id: recurringId,
+                        type: 'updateRecurring'
+                    },
+                    success: function(response) {
+                        calendar.fullCalendar('refetchEvents');
+                        displayMessage("Pomyślnie zaktualizowano wydarzenie");
+                    }
+                });
+            } else {
             $.ajax({
                 url: SITEURL + '/fullcalenderAjax',
+                type: "POST",
                 data: {
-                    title: event.title,
+                    title: title,
                     start: start,
                     end: end,
-                    fk_company: event.fk_company,
-                    description: event.description,
-                    category_color: event.category_color,
-                    recurring_id: recurringId, // Dodaj tę linię
-                    id: event.id,
+                    fk_company: fk_company,
+                    description: description,
+                    category_color: category_color,
+                    id: id,
                     type: 'update'
                 },
-                type: "POST",
                 success: function(response) {
-                    displayMessage("Pomyślnie edytowano zadanie");
-                }
-            });
+                    calendar.fullCalendar('refetchEvents');
+                    displayMessage(
+                        "Pomyślnie zaktualizowano wydarzenie");
+                    }
+                })
+            }
         },
 
 
 
         eventDrop: function(event, delta, revertFunc) {
-            var recurringId = event.recurring_id; // Dodaj tę linię
+            var recurringId = event.recurring_id;
             var start = event.start.format("Y-MM-DD HH:mm:ss");
             var end = event.end.format("Y-MM-DD HH:mm:ss");
             var title = event.title;
@@ -271,16 +300,21 @@ $(document).ready(function() {
             var id = event.id;
 
             if (event.recurring) {
-                var eventDateTime = moment(event.start).format("Y-MM-DD HH:mm");
-                var eventDateTimeEnd = moment(event.end).format("Y-MM-DD HH:mm");
+                var originalStart = moment(event.start).format("Y-MM-DD");
+                var originalEnd = moment(event.end).format("Y-MM-DD");
+                var updatedStart = moment(originalStart + " " + event.start.format("HH:mm:ss"))
+                    .format("Y-MM-DD HH:mm:ss");
+                var updatedEnd = moment(originalEnd + " " + event.end.format("HH:mm:ss")).format(
+                    "Y-MM-DD HH:mm:ss");
 
-                // Wykonaj żądanie AJAX, aby zaktualizować zadania cykliczne
                 $.ajax({
                     url: SITEURL + '/fullcalenderAjax',
                     type: "POST",
                     data: {
-                        end: end,
-                        start: start,
+                        end: updatedEnd,
+                        id: id,
+                        start: updatedStart,
+                        recurring_id: recurringId,
                         type: 'updateRecurring'
                     },
                     success: function(response) {
@@ -300,13 +334,12 @@ $(document).ready(function() {
                         description: description,
                         category_color: category_color,
                         id: id,
-                        recurring_id: recurringId, // Dodaj tę linię
+                        recurring_id: recurringId,
                         type: 'update'
                     },
                     success: function(response) {
                         calendar.fullCalendar('refetchEvents');
-                        displayMessage(
-                            "Pomyślnie zaktualizowano wydarzenie");
+                        displayMessage("Pomyślnie zaktualizowano wydarzenie");
                     }
                 })
             }
