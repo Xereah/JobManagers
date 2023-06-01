@@ -79,10 +79,10 @@ class TaskController extends Controller
                 return response()->json($event);
                 break;
     
-                case 'updateRecurring':
-                    $taskId = $request->id;
-                    $recurringId = DB::table('tasks')->where('id', $taskId)->pluck('recurring_id')->first();
-                    $tasks = Task::where('recurring_id', $recurringId)->get();
+             case 'updateRecurring':
+                 $taskId = $request->id;
+                 $recurringId = DB::table('tasks')->where('id', $taskId)->pluck('recurring_id')->first();
+                 $tasks = Task::where('recurring_id', $recurringId)->get();
                 
                     foreach ($tasks as $task) {
                         $originalStartDate = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $task->start)->format('Y-m-d');
@@ -93,6 +93,24 @@ class TaskController extends Controller
                         $task->update([
                             'start' => $originalStartDate . ' ' . $updatedStartDate,
                             'end' => $originalEndDate . ' ' . $updatedEndDate,
+                        ]);
+                    }
+                
+                    return response()->json(['success' => true]);
+                    break;
+
+
+                case 'updateRecurringCycle':
+                    $taskId = $request->id;
+                    $recurringId = DB::table('tasks')->where('id', $taskId)->pluck('recurring_id')->first();
+                    $tasks = Task::where('recurring_id', $recurringId)->get();
+                
+                    foreach ($tasks as $task) {                               
+                        $task->update([
+                            'title' => $request->title,
+                            'description' => $request->description,
+                            'fk_company' => $request->fk_company,
+                            'category_color' => $request->category_color,
                         ]);
                     }
                 

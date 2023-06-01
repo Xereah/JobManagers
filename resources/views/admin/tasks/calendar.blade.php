@@ -35,6 +35,10 @@
     padding: 2px 4px;
     border-radius: 3px;
 }
+
+label {
+    font-weight: bold;
+}
 </style>
 
 @section('content')
@@ -96,23 +100,23 @@
                 <div style="background-color: #f2f2f5;">
                     <label for="taskRecurring">Zadanie cykliczne:</label>
                     <input type="checkbox" id="taskRecurring" autocomplete="off">
-                    <div class="row" id="recurringOptions" style="display: none;">
-                        <div class="col-md-4">
-                            <br>
-                            <label for="taskFrequency">Częstotliwość:</label>
-                            <select id="taskFrequency">
-                                <option value="daily">Codziennie</option>
-                                <option value="weekly">Co tydzień</option>
-                                <option value="monthly">Co miesiąc</option>
-                            </select>
+                    <div id="recurringOptions" class="row" style="display: none;">
+                        <div class="col-sm-3 ml-2">
+                            <label for="taskFrequency">Wzorzec cyklu:</label> <br>
+                            <input type="radio" id="taskFrequency" name="taskFrequency" value="daily">
+                            <label style="font-weight:normal;" for="taskFrequencyDaily">Codziennie</label><br>
+                            <input type="radio" id="taskFrequency" name="taskFrequency" value="weekly">
+                            <label style="font-weight:normal;" for="taskFrequencyWeekly">Co tydzień</label><br>
+                            <input type="radio" id="taskFrequency" name="taskFrequency" value="monthly">
+                            <label style="font-weight:normal;" for="taskFrequencyMonthly">Co miesiąc</label>
                         </div>
-                        <div class="col-md-8">
-                            <label for="taskEndDate" style="display: flex;">Data zakończenia:
-                                <input type="date" class="form-control " id="taskEndDate"
-                                    style="display: flex;"></label>
+                        <div class="col-sm-8">
+                            <label for="taskEndDate"><strong>Data zakończenia:<strong></label>
+                            <input type="date" class="form-control" id="taskEndDate">
                         </div>
                     </div>
                 </div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="addTaskBtn">Zapisz</button>
@@ -216,7 +220,7 @@ $(document).ready(function() {
             element.css('background-color', event.category_color);
             element.css('color', 'black');
             element.attr('data-event-id', event.id);
-            element.attr('data-recurring-id', event.recurring_id); // Dodaj tę linię
+            element.attr('data-recurring-id', event.recurring_id);
         },
 
 
@@ -265,23 +269,23 @@ $(document).ready(function() {
                     }
                 });
             } else {
-            $.ajax({
-                url: SITEURL + '/fullcalenderAjax',
-                type: "POST",
-                data: {
-                    title: title,
-                    start: start,
-                    end: end,
-                    fk_company: fk_company,
-                    description: description,
-                    category_color: category_color,
-                    id: id,
-                    type: 'update'
-                },
-                success: function(response) {
-                    calendar.fullCalendar('refetchEvents');
-                    displayMessage(
-                        "Pomyślnie zaktualizowano wydarzenie");
+                $.ajax({
+                    url: SITEURL + '/fullcalenderAjax',
+                    type: "POST",
+                    data: {
+                        title: title,
+                        start: start,
+                        end: end,
+                        fk_company: fk_company,
+                        description: description,
+                        category_color: category_color,
+                        id: id,
+                        type: 'update'
+                    },
+                    success: function(response) {
+                        calendar.fullCalendar('refetchEvents');
+                        displayMessage(
+                            "Pomyślnie zaktualizowano wydarzenie");
                     }
                 })
             }
@@ -351,7 +355,7 @@ $(document).ready(function() {
             var eventDateTimeEnd = moment(event.end).format("Y-MM-DD HH:mm");
             clickedDateTime = eventDateTime;
             clickedDateTimeEnd = eventDateTimeEnd;
-            var recurringId = event.recurring_id; // Dodaj tę linię
+            var recurringId = event.recurring_id;
 
             $('#taskDateTime').val(clickedDateTime);
             $('#taskDateTimeEnd').val(clickedDateTimeEnd);
@@ -411,6 +415,8 @@ $(document).ready(function() {
                 });
             }
 
+            //Edycja
+
             $('#addTaskBtn').off('click').on('click', function() {
                 var taskTitle = $('#taskTitle').val();
                 var fkCompany = $('#fk_company').val();
@@ -419,7 +425,38 @@ $(document).ready(function() {
                 var taskDateTime = $('#taskDateTime').val();
                 var taskDateTimeEnd = $('#taskDateTimeEnd').val();
 
-                if (clickedEvent) {
+
+
+                if (event.recurring) {
+                    clickedEvent.title = taskTitle;
+                    clickedEvent.fk_company = fkCompany;
+                    clickedEvent.start = taskDateTime;
+                    clickedEvent.end = taskDateTimeEnd;
+                    clickedEvent.description = desc;
+                    clickedEvent.category_color = color;
+
+                    $.ajax({
+                        url: SITEURL + '/fullcalenderAjax',
+                        data: {
+                            id: clickedEvent.id,
+                            title: taskTitle,
+                            
+                           
+                            fk_company: fkCompany,
+                            description: desc,
+                            category_color: color,
+                            type: 'updateRecurringCycle'
+                        },
+                        type: "POST",
+                        success: function(response) {
+                            calendar.fullCalendar('refetchEvents');
+                            calendar.fullCalendar('updateEvent', clickedEvent);
+                            displayMessage(
+                                "Pomyślnie zaktualizowano wydarzenie");
+                        }
+                    });
+
+                } else {
                     clickedEvent.title = taskTitle;
                     clickedEvent.fk_company = fkCompany;
                     clickedEvent.start = taskDateTime;
@@ -441,40 +478,14 @@ $(document).ready(function() {
                         },
                         type: "POST",
                         success: function(response) {
+                            calendar.fullCalendar('refetchEvents');
                             calendar.fullCalendar('updateEvent', clickedEvent);
                             displayMessage(
                                 "Pomyślnie zaktualizowano wydarzenie");
                         }
                     });
-                } else {
-                    var newEvent = {
-                        title: taskTitle,
-                        fk_company: fkCompany,
-                        description: desc,
-                        category_color: color,
-                        start: taskDateTime,
-                        end: taskDateTimeEnd
-                    };
-
-                    $.ajax({
-                        url: SITEURL + '/fullcalenderAjax',
-                        data: {
-                            title: taskTitle,
-                            start: taskDateTime,
-                            end: taskDateTimeEnd,
-                            fk_company: fkCompany,
-                            category_color: color,
-                            description: desc,
-                            type: 'add'
-                        },
-                        type: "POST",
-                        success: function(response) {
-                            newEvent.id = response.event_id;
-                            calendar.fullCalendar('renderEvent', newEvent);
-                            displayMessage("Pomyślnie dodano wydarzenie");
-                        }
-                    });
                 }
+
 
                 $('#taskModal').modal('hide');
             });
@@ -495,6 +506,7 @@ $(document).ready(function() {
         }
     });
 
+    //Dodawanie
 
     $('#addTaskBtn').click(function() {
         var taskTitle = $('#taskTitle').val();
