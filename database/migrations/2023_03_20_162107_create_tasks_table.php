@@ -22,6 +22,8 @@ class CreateTasksTable extends Migration
             $table->string('category_color')->nullable();
             $table->boolean('recurring')->default(false);
             $table->string('recurring_id')->nullable();
+            $table->string('taskFrequency')->nullable();
+            $table->date('taskEndDate')->nullable();
 
             $table->unsignedInteger('fk_company')->unsigned()->nullable();
             $table->string('fk_contract')->nullable();

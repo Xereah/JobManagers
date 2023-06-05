@@ -30,6 +30,8 @@ class Task extends Model
         'fk_user',
         'execution_date',
         'execution_user',
+        'taskEndDate',
+        'taskFrequency',
         'completed',
         'created_at',
         'updated_at',

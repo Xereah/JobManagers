@@ -102,20 +102,27 @@ label {
                     <input type="checkbox" id="taskRecurring" autocomplete="off">
                     <div id="recurringOptions" class="row" style="display: none;">
                         <div class="col-sm-3 ml-2">
-                            <label for="taskFrequency">Wzorzec cyklu:</label> <br>
+                            <!-- <label for="taskFrequency">Wzorzec cyklu:</label> <br>
                             <input type="radio" id="taskFrequency" name="taskFrequency" value="daily">
                             <label style="font-weight:normal;" for="taskFrequencyDaily">Codziennie</label><br>
                             <input type="radio" id="taskFrequency" name="taskFrequency" value="weekly">
                             <label style="font-weight:normal;" for="taskFrequencyWeekly">Co tydzień</label><br>
                             <input type="radio" id="taskFrequency" name="taskFrequency" value="monthly">
-                            <label style="font-weight:normal;" for="taskFrequencyMonthly">Co miesiąc</label>
+                            <label style="font-weight:normal;" for="taskFrequencyMonthly">Co miesiąc</label> -->
+
+                            <select id="taskFrequency">
+                                <option value="daily">Codziennie</option>
+                                <option value="weekly">Co tydzień</option>
+                                <option value="monthly">Co miesiąc</option>
+                            </select>
                         </div>
                         <div class="col-sm-8">
-                            <label for="taskEndDate"><strong>Data zakończenia:<strong></label>
+                            <label for="taskEndDate"><strong>Data zakończenia:</strong></label>
                             <input type="date" class="form-control" id="taskEndDate">
                         </div>
                     </div>
                 </div>
+
 
             </div>
             <div class="modal-footer">
@@ -214,9 +221,14 @@ $(document).ready(function() {
         defaultView: 'settimana',
 
         eventRender: function(event, element) {
-            if (event.recurring) {
+            if (event.recurring && event.category_color == '#FF0000') {
+                element.find('.fc-title').prepend('<span class="fc-recurring-event">[!][C]</span>');
+            } else if (event.recurring) {
                 element.find('.fc-title').prepend('<span class="fc-recurring-event">[C]</span>');
+            } else if (event.category_color == '#FF0000') {
+                element.find('.fc-title').prepend('<span class="fc-recurring-event">[!]</span>');
             }
+
             element.css('background-color', event.category_color);
             element.css('color', 'black');
             element.attr('data-event-id', event.id);
@@ -424,7 +436,12 @@ $(document).ready(function() {
                 var color = $('#category_color').val();
                 var taskDateTime = $('#taskDateTime').val();
                 var taskDateTimeEnd = $('#taskDateTimeEnd').val();
-
+                clickedEvent.title = taskTitle;
+                clickedEvent.fk_company = fkCompany;
+                clickedEvent.start = taskDateTime;
+                clickedEvent.end = taskDateTimeEnd;
+                clickedEvent.description = desc;
+                clickedEvent.category_color = color;
 
 
                 if (event.recurring) {
@@ -440,8 +457,6 @@ $(document).ready(function() {
                         data: {
                             id: clickedEvent.id,
                             title: taskTitle,
-
-
                             fk_company: fkCompany,
                             description: desc,
                             category_color: color,
@@ -502,6 +517,8 @@ $(document).ready(function() {
             $('#taskTitle').val('');
             $('#description').val('');
             $('#category_color').val('');
+            $('#recurringFrequency').val('');
+            $('#taskEndDate').val('');
             $('#fk_company').val('').trigger('change');
             $('#taskModal').modal('show');
         }
@@ -520,6 +537,9 @@ $(document).ready(function() {
         var category_color = $('#category_color').val();
         var recurring = $('#taskRecurring').is(':checked');
         var recurringFrequency = $('#taskFrequency').val();
+        var taskEndDate = $('#taskEndDate').val();
+
+        console.log(recurringFrequency);
 
         if (recurring) {
             recurringEndDate = $('#taskEndDate').val();
@@ -570,7 +590,9 @@ $(document).ready(function() {
                         category_color: category_color,
                         fk_company: fk_company,
                         recurring: 1,
+                        taskFrequency:recurringFrequency,
                         recurring_id: Recuring_Number,
+                        taskEndDate:taskEndDate,
                         type: 'add'
                     },
                     type: "POST",
@@ -605,6 +627,8 @@ $(document).ready(function() {
                         category_color: category_color,
                         fk_company: fk_company,
                         recurring_id: Recuring_Number,
+                        taskFrequency:recurringFrequency,
+                        taskEndDate:taskEndDate,
                         recurring: 1,
                         type: 'add'
                     },
@@ -640,6 +664,8 @@ $(document).ready(function() {
                         category_color: category_color,
                         fk_company: fk_company,
                         recurring_id: Recuring_Number,
+                        taskFrequency:recurringFrequency,
+                        taskEndDate:taskEndDate,
                         recurring: 1,
                         type: 'add'
                     },
@@ -662,6 +688,25 @@ $(document).ready(function() {
     function displayMessage(message) {
         toastr.success(message, 'Sukces');
     }
+
+    function checkTaskRecurring() {
+        if (clickedEvent && clickedEvent.recurring) {
+            $('#taskRecurring').prop('checked', true);
+            $('#recurringOptions').show();
+        } else {
+            $('#taskRecurring').prop('checked', false);
+            $('#recurringOptions').hide();
+        }
+    }
+
+    $('#taskModal').on('show.bs.modal', function() {
+        checkTaskRecurring();
+    });
+
+    $('#taskModal').on('hide.bs.modal', function() {
+        clickedEvent = null;
+        clickedDateTime = null;
+    });
 
     $('#taskRecurring').change(function() {
         if ($(this).is(':checked')) {

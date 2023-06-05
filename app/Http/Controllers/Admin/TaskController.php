@@ -63,6 +63,8 @@ class TaskController extends Controller
                     'completed' => 0,
                     'recurring' => $request->recurring,
                     'recurring_id' => $request->recurring_id,
+                    'taskEndDate'=>$request->taskEndDate,
+                    'taskFrequency'=>$request->taskFrequency,
                 ]);
                 return response()->json($event);
                 break;
@@ -111,6 +113,7 @@ class TaskController extends Controller
                             'description' => $request->description,
                             'fk_company' => $request->fk_company,
                             'category_color' => $request->category_color,
+                            'taskEndDate'=>$request->taskEndDate,
                         ]);
                     }
                 
