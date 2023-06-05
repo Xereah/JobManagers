@@ -27,17 +27,17 @@ class TaskController extends Controller
 
     public function calendar(Request $request)
     {
-        $tasks = Task::all();
         $user = Auth::user();
         $companies = Company::all(); 
         if($request->ajax()) {   
             $data = Task::whereDate('start', '>=', $request->start)
                       ->whereDate('end',   '<=', $request->end)
+                      ->where('fk_user',   '=', $user->id)
                       ->get(['id', 'title', 'start', 'end', 'fk_company','description','category_color','recurring']);
             return response()->json($data);
        }
 
-        return view('admin.tasks.calendar', compact('tasks','user','companies'));
+        return view('admin.tasks.calendar', compact('user','companies'));
     }
 
     public function ajax(Request $request)

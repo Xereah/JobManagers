@@ -440,8 +440,8 @@ $(document).ready(function() {
                         data: {
                             id: clickedEvent.id,
                             title: taskTitle,
-                            
-                           
+
+
                             fk_company: fkCompany,
                             description: desc,
                             category_color: color,
@@ -485,12 +485,13 @@ $(document).ready(function() {
                         }
                     });
                 }
-
-
                 $('#taskModal').modal('hide');
             });
 
             $('#taskModal').modal('show');
+            $('#taskModal').on('hide.bs.modal', function() {
+                location.reload();
+            });
         },
 
         dayClick: function(date, jsEvent, view) {
