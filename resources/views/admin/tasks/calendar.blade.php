@@ -198,10 +198,11 @@ $(document).ready(function() {
             }
         });
     }
+    var selectedUserId = "{{ $user->id }}";
     var calendar = $('#calendar').fullCalendar({
         editable: true,
         slotDuration: '00:20:00',
-        events: SITEURL + "/fullcalender",
+        events: SITEURL + "/fullcalender/" + selectedUserId,
         displayEventTime: true,
         selectable: true,
         selectHelper: true,
@@ -226,9 +227,9 @@ $(document).ready(function() {
     $(".fc-right .select_month").remove();
 
     // Tworzenie listy rozwijanej z linkami do stron
-    var selectOptions = '<select class="select_month">' +
+    var selectOptions = '<select name="selectUser" class="select_month">' +
         '@foreach($user_all as $user)' +
-        '<option value="{{ $user->id }}" @if($user->id == Auth::id()) selected="selected" @endif>{{ $user->name }} {{ $user->surname }}</option>' +
+        '<option name="selectUser" value="{{ $user->id }}" @if($user->id == Auth::id()) selected="selected" @endif>{{ $user->name }} {{ $user->surname }}</option>' +
         '@endforeach' +
         '</select>';
 
@@ -238,15 +239,12 @@ $(document).ready(function() {
     selectElement.on('change', function() {
         var selectedOption = $(this).val();
         if (selectedOption) {
-            window.location.href = selectedOption;
+            window.location.href = SITEURL + "/fullcalender/" + selectedOption;
         }
     });
 
     $(".fc-right").append(selectElement);
 },
-
-
-
 
         eventRender: function(event, element) {
             if (event.recurring && event.category_color == '#FF0000') {
@@ -766,5 +764,6 @@ $(document).ready(function() {
         }
     });
 });
+
 </script>
 @endsection
