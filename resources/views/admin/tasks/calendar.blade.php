@@ -39,6 +39,7 @@
 label {
     font-weight: bold;
 }
+
 </style>
 
 @section('content')
@@ -157,6 +158,8 @@ $(document).ready(function() {
     var recurringEndDate;
     var recurringId;
 
+    var userName = "<?php echo $user->name. ' '. $user->surname; ?>";
+
     $.fullCalendar.locale('pl');
     $.ajaxSetup({
         headers: {
@@ -219,6 +222,31 @@ $(document).ready(function() {
             }
         },
         defaultView: 'settimana',
+        viewRender: function(view, element) {
+    $(".fc-right .select_month").remove();
+
+    // Tworzenie listy rozwijanej z linkami do stron
+    var selectOptions = '<select class="select_month">' +
+        '@foreach($user_all as $user)' +
+        '<option value="{{ $user->id }}" @if($user->id == Auth::id()) selected="selected" @endif>{{ $user->name }} {{ $user->surname }}</option>' +
+        '@endforeach' +
+        '</select>';
+
+    var selectElement = $(selectOptions);
+
+    // Przeniesienie do wybranej strony po kliknięciu na opcję w liście rozwijanej
+    selectElement.on('change', function() {
+        var selectedOption = $(this).val();
+        if (selectedOption) {
+            window.location.href = selectedOption;
+        }
+    });
+
+    $(".fc-right").append(selectElement);
+},
+
+
+
 
         eventRender: function(event, element) {
             if (event.recurring && event.category_color == '#FF0000') {
@@ -402,7 +430,7 @@ $(document).ready(function() {
 
             if (event.recurring) {
                 // Zablokuj możliwość edycji wyboru zadania cyklicznego oraz daty zadania cyklicznego
-                $('#taskFrequency').prop('disabled', true); 
+                $('#taskFrequency').prop('disabled', true);
                 $('#taskEndDate').prop('disabled', true);
                 $('#taskRecurring').prop('disabled', true);
             } else {
@@ -557,7 +585,7 @@ $(document).ready(function() {
         var recurringFrequency = $('#taskFrequency').val();
         var taskEndDate = $('#taskEndDate').val();
 
-        
+
 
         if (recurring) {
             recurringEndDate = $('#taskEndDate').val();

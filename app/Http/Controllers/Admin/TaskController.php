@@ -21,14 +21,16 @@ class TaskController extends Controller
     {
         $tasks = Task::all();
         $user = Auth::user();
+        $user_all = User::all();
 
-        return view('admin.tasks.index', compact('tasks','user'));
+        return view('admin.tasks.index', compact('tasks','user','user_all'));
     }
 
     public function calendar(Request $request)
     {
         $user = Auth::user();
         $companies = Company::all(); 
+        $user_all = User::all();
         if($request->ajax()) {   
             $data = Task::whereDate('start', '>=', $request->start)
                       ->whereDate('end',   '<=', $request->end)
@@ -38,7 +40,7 @@ class TaskController extends Controller
             return response()->json($data);
        }
 
-        return view('admin.tasks.calendar', compact('user','companies'));
+        return view('admin.tasks.calendar', compact('user','companies','user_all'));
     }
 
     public function ajax(Request $request)

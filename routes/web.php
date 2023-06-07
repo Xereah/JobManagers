@@ -69,6 +69,8 @@ Route::get('/fullcalender' , [App\Http\Controllers\Admin\TaskController::class, 
 Route::get('/calendar' , [App\Http\Controllers\Admin\TaskController::class, 'calendar'])->name('calendar');
 Route::get('/fetchContractors/{id}', [App\Http\Controllers\Admin\TaskController::class, 'fetchContractors'])->name('fetchContractors');
 
+
+
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
     Route::get('/', [App\Http\Controllers\Admin\JobsController::class, 'index'])->name('index')->middleware(['auth']);
     // Permissions
