@@ -33,7 +33,8 @@ class TaskController extends Controller
             $data = Task::whereDate('start', '>=', $request->start)
                       ->whereDate('end',   '<=', $request->end)
                       ->where('fk_user',   '=', $user->id)
-                      ->get(['id', 'title', 'start', 'end', 'fk_company','description','category_color','recurring']);
+                      ->get(['id', 'title', 'start', 'end', 'fk_company','description','category_color','recurring','taskEndDate',
+                      'taskFrequency']);
             return response()->json($data);
        }
 
@@ -113,7 +114,6 @@ class TaskController extends Controller
                             'description' => $request->description,
                             'fk_company' => $request->fk_company,
                             'category_color' => $request->category_color,
-                            'taskEndDate'=>$request->taskEndDate,
                         ]);
                     }
                 

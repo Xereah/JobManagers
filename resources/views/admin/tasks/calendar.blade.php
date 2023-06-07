@@ -245,6 +245,8 @@ $(document).ready(function() {
             $('#taskTitle').val('');
             $('#description').val('');
             $('#category_color').val('');
+            $('#taskEndDate').val('');
+            $('#taskFrequency').val('');
             $('#fk_company').val('').trigger('change');
             $('#taskModal').modal('show');
         },
@@ -374,6 +376,8 @@ $(document).ready(function() {
             $('#taskTitle').val(event.title);
             $('#description').val(event.description);
             $('#category_color').val(event.category_color);
+            $('#taskEndDate').val(event.taskEndDate);
+            $('#taskFrequency').val(event.taskFrequency);
             $('#fk_company').val(event.fk_company).trigger('change');
             $('#deleteEventBtn').data('event', event);
 
@@ -395,6 +399,17 @@ $(document).ready(function() {
 
                 $('#taskModal').modal('hide');
             });
+
+            if (event.recurring) {
+                // Zablokuj możliwość edycji wyboru zadania cyklicznego oraz daty zadania cyklicznego
+                $('#taskFrequency').prop('disabled', true); 
+                $('#taskEndDate').prop('disabled', true);
+                $('#taskRecurring').prop('disabled', true);
+            } else {
+                $('#taskFrequency').prop('disabled', false);
+                $('#taskEndDate').prop('disabled', false);
+                $('#taskRecurring').prop('disabled', true);
+            }
 
             function deleteTask(taskId) {
                 $.ajax({
@@ -436,12 +451,8 @@ $(document).ready(function() {
                 var color = $('#category_color').val();
                 var taskDateTime = $('#taskDateTime').val();
                 var taskDateTimeEnd = $('#taskDateTimeEnd').val();
-                clickedEvent.title = taskTitle;
-                clickedEvent.fk_company = fkCompany;
-                clickedEvent.start = taskDateTime;
-                clickedEvent.end = taskDateTimeEnd;
-                clickedEvent.description = desc;
-                clickedEvent.category_color = color;
+                var taskFrequency = $('#taskFrequency').val();
+                var taskEndDate = $('#taskEndDate').val();
 
 
                 if (event.recurring) {
@@ -451,6 +462,8 @@ $(document).ready(function() {
                     clickedEvent.end = taskDateTimeEnd;
                     clickedEvent.description = desc;
                     clickedEvent.category_color = color;
+                    clickedEvent.taskFrequency = taskFrequency;
+                    clickedEvent.taskEndDate = taskEndDate;
 
                     $.ajax({
                         url: SITEURL + '/fullcalenderAjax',
@@ -460,6 +473,8 @@ $(document).ready(function() {
                             fk_company: fkCompany,
                             description: desc,
                             category_color: color,
+                            taskFrequency: taskFrequency,
+                            taskEndDate: taskEndDate,
                             type: 'updateRecurringCycle'
                         },
                         type: "POST",
@@ -478,6 +493,9 @@ $(document).ready(function() {
                     clickedEvent.end = taskDateTimeEnd;
                     clickedEvent.description = desc;
                     clickedEvent.category_color = color;
+                    clickedEvent.taskFrequency = taskFrequency;
+                    clickedEvent.taskEndDate = taskEndDate;
+
 
                     $.ajax({
                         url: SITEURL + '/fullcalenderAjax',
@@ -539,13 +557,17 @@ $(document).ready(function() {
         var recurringFrequency = $('#taskFrequency').val();
         var taskEndDate = $('#taskEndDate').val();
 
-        console.log(recurringFrequency);
+        
 
         if (recurring) {
             recurringEndDate = $('#taskEndDate').val();
 
             if (!recurringEndDate) {
                 alert('Proszę ustawić datę zakończenia dla zadania cyklicznego.');
+                return;
+            }
+            if (!recurringFrequency) {
+                alert('Proszę rodzaj zadania cyklicznego.');
                 return;
             }
         }
@@ -590,9 +612,9 @@ $(document).ready(function() {
                         category_color: category_color,
                         fk_company: fk_company,
                         recurring: 1,
-                        taskFrequency:recurringFrequency,
+                        taskFrequency: recurringFrequency,
                         recurring_id: Recuring_Number,
-                        taskEndDate:taskEndDate,
+                        taskEndDate: taskEndDate,
                         type: 'add'
                     },
                     type: "POST",
@@ -627,8 +649,8 @@ $(document).ready(function() {
                         category_color: category_color,
                         fk_company: fk_company,
                         recurring_id: Recuring_Number,
-                        taskFrequency:recurringFrequency,
-                        taskEndDate:taskEndDate,
+                        taskFrequency: recurringFrequency,
+                        taskEndDate: taskEndDate,
                         recurring: 1,
                         type: 'add'
                     },
@@ -664,8 +686,8 @@ $(document).ready(function() {
                         category_color: category_color,
                         fk_company: fk_company,
                         recurring_id: Recuring_Number,
-                        taskFrequency:recurringFrequency,
-                        taskEndDate:taskEndDate,
+                        taskFrequency: recurringFrequency,
+                        taskEndDate: taskEndDate,
                         recurring: 1,
                         type: 'add'
                     },
