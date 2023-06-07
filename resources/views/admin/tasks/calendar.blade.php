@@ -572,7 +572,7 @@ $(document).ready(function() {
             });
         } else if (recurringFrequency === 'daily') {
             var currentDate = moment(taskDateTime, 'YYYY-MM-DD HH:mm');
-            var endDate = moment(recurringEndDate, 'YYYY-MM-DD');
+            var endDate = moment(recurringEndDate, 'YYYY-MM-DD').add(1, 'day');
             var recurrence = moment.duration(1, 'days');
             var Recuring_Number = generateUniqueId();
 
@@ -609,7 +609,7 @@ $(document).ready(function() {
             displayMessage("Pomyślnie dodano zadania cykliczne.");
         } else if (recurringFrequency === 'weekly') {
             var currentDate = moment(taskDateTime, 'YYYY-MM-DD HH:mm');
-            var endDate = moment(recurringEndDate, 'YYYY-MM-DD');
+            var endDate = moment(recurringEndDate, 'YYYY-MM-DD').add(1, 'weeks');
             var recurrence = moment.duration(1, 'weeks');
             var Recuring_Number = generateUniqueId();
 
@@ -646,7 +646,7 @@ $(document).ready(function() {
             displayMessage("Pomyślnie dodano zadania cykliczne.");
         } else if (recurringFrequency === 'monthly') {
             var currentDate = moment(taskDateTime, 'YYYY-MM-DD HH:mm');
-            var endDate = moment(recurringEndDate, 'YYYY-MM-DD');
+            var endDate = moment(recurringEndDate, 'YYYY-MM-DD').add(1, 'months');
             var recurrence = moment.duration(1, 'months');
             var Recuring_Number = generateUniqueId();
 
