@@ -92,7 +92,7 @@
                                     class="form-control select2" style="width:100%;" id="company" name="company">
                                     <option value="">-----{{ trans('cruds.job.fields.choose') }}-----</option>
                                     @foreach($filter_company as $filter_companys)
-                                    <option value="{{ $filter_companys ->id }}">{{ $filter_companys-> kontrahent_kod }}
+                                    <option value="{{ $filter_companys ->kontrahent_id }}">{{ $filter_companys-> kontrahent_kod }}
                                     </option>
                                     @endforeach
                                 </select></div>
@@ -105,7 +105,7 @@
                                     name="contract_filter">
                                     <option value="">-----{{ trans('cruds.job.fields.choose') }}-----</option>
                                     @foreach($filter_contracts as $contracts)
-                                    <option value="{{ $contracts ->contract_name }}">{{ $contracts-> contract_name }} </option>
+                                    <option value="{{ $contracts ->id }}">{{ $contracts-> contract_name }} </option>
                                     @endforeach
                                 </select></div>
                         </div>

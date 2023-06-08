@@ -441,28 +441,28 @@ class JobsController extends Controller
                 $query->where('description', 'like', '%'.$descriptions.'%');
             }
             if (!empty($order)) {
-                $query->where('order', 'like', '%'.$order.'%');
+                $query->where('order', '=',$order);
             }
             if (!empty($paid)) {
-                $query->where('paid', 'like', '%'.$paid.'%');
+                $query->where('paid', '=',$paid);
             }
             if (!empty($rns)) {
-                $query->where('rns', 'like', '%'.$rns.'%');
+                $query->where('rns',  '=',$rns);
             }
             if (!empty($company)) {
-                $query->where('fk_company', 'like', '%'.$company.'%');
+                $query->where('fk_company', '=', $company);
             }
             if (!empty($task_name)) {
-                $query->where('fk_typetask', 'like', '%'.$task_name.'%');
+                $query->where('fk_typetask', '=', $task_name);
             }
             if (!empty($task)) {
-                $query->where('fk_tasktype', 'like', '%'.$task.'%');
+                $query->where('fk_tasktype', '=', $task);
             }
             if (!empty($users)) {
-                $query->where('fk_user', 'like', '%'.$users.'%');
+                $query->where('fk_user', '=', $users);
             }
             if (!empty($contract)) {
-                $query->where('fk_contract', 'like', '%'.$contract.'%');
+                $query->where('fk_contract',  '=', $contract);
             }
             if (!empty($comments)) {
                 $query->where('comments', 'like', '%'.$comments.'%');
@@ -474,6 +474,7 @@ class JobsController extends Controller
                 $query->whereBetween('start_date', [$start_date, $end_date]);
             }
             })->orderBy('id', 'DESC')->paginate(500);  
+            
             
         return view('admin.jobs.search', compact('jobs','filter_tasktype','filter_company','filter_task_name','filter_task',
         'filter_user','order','rns','descriptions','start_date','end_date','users','task_name','TypeTaskValue','task','TaskTypeValue','company','CompanyValue','UserValue','paid','filter_contracts','contract','ContractValue'));

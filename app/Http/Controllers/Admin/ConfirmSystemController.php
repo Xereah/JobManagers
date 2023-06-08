@@ -387,10 +387,11 @@ class ConfirmSystemController extends Controller
         
         if (!empty($comments1)) {
             $comments = explode("\n", $comments1);
+            $end = $now->copy()->addMinutes(30); // Dodanie 15 minut do godziny startu
             foreach ($comments as $comment) {
                 $existingTask = Task::
                                      where('fk_company', $request->fk_company)
-                                     ->where('task_title', trim($comment))
+                                     ->where('title', trim($comment))
                                      ->first();
                 if ($existingTask) {
                     $existingTask->update([
@@ -403,11 +404,13 @@ class ConfirmSystemController extends Controller
                     $data = array(
                         'fk_user' =>  $user_auth,
                         'fk_company' => $request->fk_company,
-                        'task_title' => trim($comment),
+                        'title' => trim($comment),
                         'execution_user' =>  $user_auth,
                         'fk_contract' => $contract,
                         'completed' => 0,
                         'created_at' => $now,
+                        'start' => $now,
+                        'end' => $end, 
                     );
                     $created = Task::create($data); // Tworzenie nowego rekordu
                 }

@@ -2,20 +2,17 @@
 @section('content')
 <div class="card">
     <div class="card-header bg-dark">
-        <b> {{ trans('cruds.job.title_singular') }} {{ trans('global.list') }}</b>
-
+        <!-- <b> {{ trans('cruds.job.title_singular') }} {{ trans('global.list') }}</b> -->
+        <b> Widok wyszukiwania filtrów</b>
         @can('job_create')
 
-        <a class="btn btn-dark float-right" data-attr="{{ route('admin.jobs.create') }}" ddata-toggle="modal"
-            id="mediumButton" data-target="#mediumModal"><i class="fa fa-plus"></i>
+        <!-- <a class="btn btn-dark float-right" href="{{ route('admin.jobs.create') }}"><i class="fa fa-plus"></i>
             {{ trans('global.add') }} {{ trans('cruds.job.title_singular') }}
-        </a>
-        <button type="button" class="btn btn-demo btn-dark btn-demo float-right" data-toggle="modal"
-            data-target="#myModal2"><i class="fa fa-filter"></i> Filtry </button>
+        </a> -->
+        <!-- <button type="button" class="btn btn-demo btn-dark btn-demo float-right" data-toggle="modal"
+            data-target="#myModal2"><i class="fa fa-filter"></i> Filtry </button> -->
         @endcan
     </div>
-
-
 
 
     <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2"
@@ -31,19 +28,14 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="GET">
+                <form method="GET" action="{{ url('/job/search') }}">
                         <div class="form-floating ">
                             <div class="col">
                                 <label for="task_name" style="display:block;">{{ trans('cruds.job.fields.task_name') }}</label>                         
-                                    <select
-                                    class="form-control" style="width:100%;" id="task_name" name="task_name">
-                                    @if($task_name!=0)
-                                    <option value="{{ $task_name}}"> {{$TypeTaskValue->name}}</option>
-                                    @else
-                                    <option> </option>
-                                    @endif
+                                <select class="form-control" style="width:100%;" id="task_name" name="task_name">
+                                    <option value="" >-----{{ trans('cruds.job.fields.choose') }}-----</option>
                                     @foreach($filter_task_name as $task_name)
-                                    <option value="{{ $task_name ->id }}">{{ $task_name-> name }} </option>
+                                        <option value="{{ $task_name->id }}">{{ $task_name->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -51,13 +43,10 @@
 
                         <div class="form-floating ">
                             <div class="col"> <label for="task"
-                                    style="display:block;">{{ trans('cruds.job.fields.task') }}</label> <select
+                                    style="display:block;">{{ trans('cruds.job.fields.task') }}</label>
+                                <select
                                     class="form-control" style="width:100%;" id="task" name="task">
-                                    @if($task!=0)
-                                    <option value="{{ $task}}"> {{$TaskTypeValue->name}}</option>
-                                    @else
-                                    <option> </option>
-                                    @endif
+                                    <option value="">-----{{ trans('cruds.job.fields.choose') }}-----</option>
                                     @foreach($filter_task as $task)
                                     <option value="{{ $task ->id }}">{{ $task-> name }} </option>
                                     @endforeach
@@ -65,43 +54,34 @@
                         </div>
                         <div class="form-floating  ">
                             <div class="col"> <label for="company"
-                                    style="display:block;">{{ trans('cruds.job.fields.company') }}</label> <select
+                                    style="display:block;">{{ trans('cruds.job.fields.company') }}</label>
+                                <select
                                     class="form-control select2" style="width:100%;" id="company" name="company">
-                                    @if($company!=0)
-                                    <option value="{{ $company}}"> {{$CompanyValue->shortcode}}</option>
-                                    @else
-                                    <option> </option>
-                                    @endif
+                                    <option value="">-----{{ trans('cruds.job.fields.choose') }}-----</option>
                                     @foreach($filter_company as $filter_companys)
-                                    <option value="{{ $filter_companys ->id }}">{{ $filter_companys-> shortcode }}
+                                    <option value="{{ $filter_companys ->id }}">{{ $filter_companys-> kontrahent_kod }}
                                     </option>
                                     @endforeach
                                 </select></div>
                         </div>
                         <div class="form-floating ">
                             <div class="col"> <label for="fk_contracts"
-                                    style="display:block;">{{ trans('cruds.company.fields.contract') }}</label> <select
+                                    style="display:block;">{{ trans('cruds.company.fields.contract') }}</label> 
+                                <select
                                     class="form-control" style="width:100%;" id="contract_filter"
                                     name="contract_filter">
-                                    @if($contract!=0)
-                                    <option value="{{$contract}}"> {{$ContractValue->contract_name}}</option>
-                                    @else
-                                    <option> </option>
-                                    @endif
+                                    <option value="">-----{{ trans('cruds.job.fields.choose') }}-----</option>
                                     @foreach($filter_contracts as $contracts)
-                                    <option value="{{ $contracts ->id }}">{{ $contracts-> contract_name }} </option>
+                                    <option value="{{ $contracts ->contract_name }}">{{ $contracts-> contract_name }} </option>
                                     @endforeach
                                 </select></div>
                         </div>
                         <div class="form-floating  ">
                             <div class="col"> <label for="performed"
-                                    style="display:block;">{{ trans('cruds.job.fields.performed') }}</label> <select
+                                    style="display:block;">{{ trans('cruds.job.fields.performed') }}</label> 
+                                <select
                                     class="form-control" style="width:100%;" id="users" name="users">
-                                    @if($users!=0)
-                                    <option value="{{ $users}}"> {{$UserValue->name}} {{$UserValue->surname}}</option>
-                                    @else
-                                    <option> </option>
-                                    @endif
+                                    <option value="">-----{{ trans('cruds.job.fields.choose') }}-----</option>
                                     @foreach($filter_user as $users)
                                     <option value="{{ $users ->id }}">{{ $users-> name }} {{ $users-> surname }}
                                     </option>
@@ -136,7 +116,7 @@
                                 </div>
                                 <div class="col">
                                 <label for="rns_filter" style="display:block;"> {{ trans('cruds.job.fields.rns') }}</label>
-                                <input type="text" class="form-control" width="10px;" id="rns" value="{{ $rns}}"
+                                <input type="text" class="form-control" width="10px;" id="rns" 
                                     name="rns_filter">
                                 </div>
                             </div>
@@ -145,7 +125,7 @@
                                 <label for="descriptions_filter" style="display:block;">
                                     {{ trans('cruds.job.fields.description') }}</label>
                                 <input type="text" class="form-control" style="height:90px;" id="descriptions"
-                                    value="{{ $descriptions}}" name="descriptions_filter">
+                                     name="descriptions_filter">
                             </div>
                         </div>
                         <div class="form-floating  mb-2">
@@ -153,13 +133,13 @@
                                 <label for="comments_filter" style="display:block;">
                                     {{ trans('cruds.job.fields.comments') }}</label>
                                 <input type="text" class="form-control" style="height:90px;" id="comments"
-                                    value="{{ $descriptions}}" name="comments_filter">
+                                     name="comments_filter">
                             </div>
                         </div>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-                            <button type="submit" class="btn btn-primary ">Szukaj</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ trans('global.close') }}</button>
+                            <button type="submit" class="btn btn-primary ">{{ trans('global.search') }}</button>
                         </div>
                     </form>
                 </div>
