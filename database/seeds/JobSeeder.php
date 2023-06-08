@@ -17,7 +17,7 @@ class JobSeeder extends Seeder
         $faker = Factory::create();
        
        
-        for($i=0;$i<=200000;$i++){
+        for($i=0;$i<=20000;$i++){
             Job::create([
                 'fk_company' => rand(1,3),
                 'rns' => $faker->randomDigit,
@@ -33,7 +33,6 @@ class JobSeeder extends Seeder
                 'fk_typetask' => rand(1,5),
                 'description' => $faker->text,
                 'comments' => $faker->text,
-                'value' => rand(1,5),
                 'location'=>'3',
                 'fk_contract' => rand(1,7),
                 'updated_at' => rand(0, 9) < 5
