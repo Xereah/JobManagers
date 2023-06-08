@@ -39,7 +39,6 @@
 label {
     font-weight: bold;
 }
-
 </style>
 
 @section('content')
@@ -198,7 +197,9 @@ $(document).ready(function() {
             }
         });
     }
-    var selectedUserId = "{{ $user->id }}";
+
+    var selectedUserId = "{{ $selectedUserId }}";
+    console.log(selectedUserId);
     var calendar = $('#calendar').fullCalendar({
         editable: true,
         slotDuration: '00:20:00',
@@ -224,27 +225,27 @@ $(document).ready(function() {
         },
         defaultView: 'settimana',
         viewRender: function(view, element) {
-    $(".fc-right .select_month").remove();
+            $(".fc-right .select_month").remove();
 
-    // Tworzenie listy rozwijanej z linkami do stron
-    var selectOptions = '<select name="selectUser" class="select_month">' +
-        '@foreach($user_all as $user)' +
-        '<option name="selectUser" value="{{ $user->id }}" @if($user->id == Auth::id()) selected="selected" @endif>{{ $user->name }} {{ $user->surname }}</option>' +
-        '@endforeach' +
-        '</select>';
+            // Creating dropdown list with user options
+            var selectOptions = '<select name="selectUser" class="select_month">' +
+                '@foreach($user_all as $userone)' +
+                '<option name="selectUser" value="{{ $userone->id }}" @if($userone->id == $selectedUserId) selected="selected" @endif>{{ $userone->name }} {{ $userone->surname }}</option>' +
+                '@endforeach' +
+                '</select>';
 
-    var selectElement = $(selectOptions);
+            var selectElement = $(selectOptions);
 
-    // Przeniesienie do wybranej strony po kliknięciu na opcję w liście rozwijanej
-    selectElement.on('change', function() {
-        var selectedOption = $(this).val();
-        if (selectedOption) {
-            window.location.href = SITEURL + "/fullcalender/" + selectedOption;
-        }
-    });
+            // Update selectedUserId when user is selected from the dropdown
+            selectElement.on('change', function() {
+                var selectedOption = $(this).val();
+                if (selectedOption) {
+                    window.location.href = SITEURL + "/fullcalender/" + selectedOption;
+                }
+            });
 
-    $(".fc-right").append(selectElement);
-},
+            $(".fc-right").append(selectElement);
+        },
 
         eventRender: function(event, element) {
             if (event.recurring && event.category_color == '#FF0000') {
@@ -764,6 +765,5 @@ $(document).ready(function() {
         }
     });
 });
-
 </script>
 @endsection

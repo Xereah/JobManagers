@@ -61,7 +61,7 @@ class TaskController extends Controller
                     'fk_company' => $company,
                     'fk_contract' => $contract,
                     'execution_user' => $user->id,
-                    'fk_user' => $user->id,
+                    'fk_user' => $request->fk_user,
                     'category_color' => $request->category_color,
                     'completed' => 0,
                     'recurring' => $request->recurring,
