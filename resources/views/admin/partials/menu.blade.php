@@ -172,7 +172,7 @@
                         </li>                      
                       
                         <li class="nav-item">
-                            <a href="{{ url('/calendar') }}" class="nav-link {{ request()->is('admin/calendar') || request()->is('admin/calendar/*') ? 'active' : '' }}">
+                            <a href="{{ url('/calendar/' . Auth::id()) }}" class="nav-link {{ request()->is('admin/calendar') || request()->is('admin/calendar/*') ? 'active' : '' }}">
                             <i class="fa-fw fas fa-calendar nav-icon">
                                 </i>
                                Kalendarz

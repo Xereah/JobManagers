@@ -609,6 +609,7 @@ $(document).ready(function() {
                     description: description,
                     category_color: category_color,
                     fk_company: fk_company,
+                    fk_user:selectedUserId,
                     recurring: 0,
                     type: 'add'
                 },
@@ -642,6 +643,7 @@ $(document).ready(function() {
                         taskFrequency: recurringFrequency,
                         recurring_id: Recuring_Number,
                         taskEndDate: taskEndDate,
+                        fk_user:selectedUserId,
                         type: 'add'
                     },
                     type: "POST",
@@ -678,6 +680,7 @@ $(document).ready(function() {
                         recurring_id: Recuring_Number,
                         taskFrequency: recurringFrequency,
                         taskEndDate: taskEndDate,
+                        fk_user:selectedUserId,
                         recurring: 1,
                         type: 'add'
                     },
@@ -715,6 +718,7 @@ $(document).ready(function() {
                         recurring_id: Recuring_Number,
                         taskFrequency: recurringFrequency,
                         taskEndDate: taskEndDate,
+                        fk_user:selectedUserId,
                         recurring: 1,
                         type: 'add'
                     },
