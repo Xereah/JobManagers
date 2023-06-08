@@ -109,7 +109,7 @@ label {
                             <label style="font-weight:normal;" for="taskFrequencyWeekly">Co tydzień</label><br>
                             <input type="radio" id="taskFrequency" name="taskFrequency" value="monthly">
                             <label style="font-weight:normal;" for="taskFrequencyMonthly">Co miesiąc</label> -->
-
+                            <label for="taskEndDate"><strong>Cykl:</strong></label><br>
                             <select id="taskFrequency">
                                 <option value="daily">Codziennie</option>
                                 <option value="weekly">Co tydzień</option>
@@ -117,9 +117,11 @@ label {
                             </select>
                         </div>
                         <div class="col-sm-8">
+                            
                             <label for="taskEndDate"><strong>Data zakończenia:</strong></label>
                             <input type="date" class="form-control" id="taskEndDate">
                         </div>
+                        
                     </div>
                 </div>
 
@@ -212,7 +214,7 @@ $(document).ready(function() {
         columnFormat: 'DD.MM dddd',
         defaultView: 'agendaWeek',
         minTime: '08:00',
-        maxTime: '24:00',
+        maxTime: '18:00',
         header: {
             left: 'prev,next today',
             center: 'title',
