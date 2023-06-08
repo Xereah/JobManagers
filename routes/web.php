@@ -69,6 +69,8 @@ Route::get('/fullcalender/{id}' , [App\Http\Controllers\Admin\TaskController::cl
 Route::get('/calendar/{id}' , [App\Http\Controllers\Admin\TaskController::class, 'calendar'])->name('calendar');
 Route::get('/fetchContractors/{id}', [App\Http\Controllers\Admin\TaskController::class, 'fetchContractors'])->name('fetchContractors');
 
+Route::get('admin/tasks/completed', [App\Http\Controllers\Admin\TaskController::class, 'index_wykonane'])->name('index_wykonane');
+
 
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {

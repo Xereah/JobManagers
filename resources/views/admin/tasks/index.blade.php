@@ -2,12 +2,21 @@
 @section('content')
 <div class="card">
     <div class="card-header bg-dark">
-    {{ trans('global.list') }} {{ trans('cruds.task.title_singular') }}
+    {{ trans('global.list') }} {{ trans('cruds.task.title_singular') }} 
+    <div class="float-right">
+        @if(Request::is('admin/tasks/completed'))
+            <a href="{{ route('admin.tasks.index') }}" class="link-info"><strong>Przejdź Do Nie Wykonanych</strong></a>
+        @else
+            <a href="{{ url('/admin/tasks/completed') }}" class="link-info"><strong>Przejdź Do Wykonanych</strong></a>
+        @endif
+        </div><br>
         @can('company_create')
         <a class="btn btn-dark float-right" href="{{ route("admin.tasks.create") }}">
         <i class="fa fa-plus"></i>  {{ trans('global.add') }} {{ trans('cruds.task.title_plural') }}
             </a>
         @endcan
+
+        
         <div class="form-check p-1 float-right" id="filtr_kontrahent">
             <input class="form-check-input" type="checkbox" id="medycyna-checkbox" value="[5,6]" style="margin-right: 10px;">
             <label class="form-check-label" for="medycyna-checkbox" style="padding-right: 30px;">Medycyna</label>
@@ -16,8 +25,9 @@
             <label class="form-check-label" for="farmacja-checkbox" style="padding-right: 30px;">Farmacja</label>
             
             <input class="form-check-input" type="checkbox" id="przedsiebiorstwa-checkbox" value="[7,8]" style="margin-right: 10px;">
-            <label class="form-check-label" for="przedsiebiorstwa-checkbox">Przedsiębiorstwa</label>
+            <label class="form-check-label" for="przedsiebiorstwa-checkbox">Przedsiębiorstwa</label><br>
         </div>
+      
     </div>
 
     <div class="card-body">

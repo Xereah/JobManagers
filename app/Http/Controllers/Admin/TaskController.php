@@ -28,6 +28,17 @@ class TaskController extends Controller
         return view('admin.tasks.index', compact('tasks','user','user_all'));
     }
 
+    public function index_wykonane(Request $request)
+    {
+        $tasks = Task::all()
+        ->where('calendar_task',   '=', 0)
+        ->where('completed',   '=', 1);
+        $user = Auth::user();
+        $user_all = User::all();
+
+        return view('admin.tasks.index', compact('tasks','user','user_all'));
+    }
+
     public function calendar(Request $request, $selectedUserId)
     {
         $user = Auth::user();

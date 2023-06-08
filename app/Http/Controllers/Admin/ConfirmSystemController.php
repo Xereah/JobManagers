@@ -152,6 +152,7 @@ class ConfirmSystemController extends Controller
                     $created = Job::insert($data); 
                 }
                 if (!empty($request->comments[$key])) {
+                    $end = $now->copy()->addMinutes(30); // Dodanie 15 minut do godziny startu
                     $comments = explode("\n", $request->comments[$key]);
                     foreach ($comments as $comment)
                     {
@@ -160,7 +161,7 @@ class ConfirmSystemController extends Controller
                         'fk_company' => $request->fk_company,
                         'title' => trim($comment),
                         'start' => $now,
-                        'end' => $now,
+                        'end' => $end,
                         'execution_user' => $user_auth->id,
                         'fk_contract' => $contract,
                         'completed' => 0,
