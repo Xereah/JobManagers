@@ -19,7 +19,9 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        $tasks = Task::all();
+        $tasks = Task::all()
+        ->where('calendar_task',   '=', 0)
+        ->where('completed',   '=', 0);
         $user = Auth::user();
         $user_all = User::all();
 
@@ -34,7 +36,7 @@ class TaskController extends Controller
         if($request->ajax()) {   
             $data = Task::whereDate('start', '>=', $request->start)
                       ->whereDate('end',   '<=', $request->end)
-                      ->where('fk_user',   '=', $selectedUserId)
+                      ->where('execution_user',   '=', $selectedUserId)
                       ->get(['id', 'title', 'start', 'end', 'fk_company','description','category_color','recurring','taskEndDate',
                       'taskFrequency']);
             return response()->json($data);
@@ -47,7 +49,7 @@ class TaskController extends Controller
     {
         $company = $request->input('fk_company');
         $descriptions = $request->input('description');
-        $contract = DB::table('kontrahenci')->where('kontrahent_id', $company)->pluck('kontrahent_grupa')->first();
+        $contract = DB::table('kontrahenci')->where('kontrahent_id', $company)->pluck('kontrahent_id')->first();
         $now = Carbon::now();
         $user = Auth::user();
     
@@ -60,10 +62,11 @@ class TaskController extends Controller
                     'description' => $descriptions,
                     'fk_company' => $company,
                     'fk_contract' => $contract,
-                    'execution_user' => $user->id,
+                    'execution_user' => $request->fk_user,
                     'fk_user' => $request->fk_user,
                     'category_color' => $request->category_color,
                     'completed' => 0,
+                    'calendar_task' => 1,
                     'recurring' => $request->recurring,
                     'recurring_id' => $request->recurring_id,
                     'taskEndDate'=>$request->taskEndDate,
@@ -174,23 +177,26 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $company =$request->input('fk_company');
-        $contract = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_grupa')->first();
+        $company = $request->input('fk_company');
+        $contract = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_id')->first();
         $now = Carbon::now();
+        $start = Carbon::parse($request->start);
+        $end = $start->copy()->addMinutes(30); // Dodanie 15 minut do godziny startu
+        
         $data = array(     
             'title' => $request->task_title,
             'fk_company' =>  $company,
             'fk_contract' => $contract,
             'fk_user' => $request->fk_user,
-            'start' => $request->start,
-            'end' => $request->start,
-            'created_at' =>$now,
+            'start' => $start,
+            'end' => $end,
+            'created_at' => $now,
             'execution_user' => $request->execution_user,
-            'completed' =>  0,
-    
+            'completed' => 0,
         );
+        
         $created = Task::insert($data); 
-
+    
         return redirect()->route('admin.tasks.index')
             ->with('success', 'Pomyślnie dodano zadanie.');
     }
@@ -233,7 +239,7 @@ class TaskController extends Controller
         $task = Task::findOrFail($id);
         // $task->update($request->all());
         $company =$request->input('fk_company');
-        $contract = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_grupa')->first();
+        $contract = DB::table('kontrahenci')->where('kontrahent_id',  $company)->pluck('kontrahent_id')->first();
         $now = Carbon::now();
 
         $data = array(     

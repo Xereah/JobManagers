@@ -49,7 +49,7 @@ label {
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="taskModalLabel">Dodaj zadanie</h5>
+                <h5 class="modal-title" id="taskModalLabel"></h5>
                 <div class="text-right ml-auto">
                     <select name="category_color" id="category_color" class="form-control text-center">
                         <option value="">Kategoria</option>
@@ -216,7 +216,7 @@ $(document).ready(function() {
         header: {
             left: 'prev,next today',
             center: 'title',
-            right: 'month,agendaWeek,agendaDay,list'
+            right: 'month,agendaWeek,agendaDay'
         },
         views: {
             settimana: {

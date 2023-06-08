@@ -45,7 +45,7 @@
             </div>
             <div class="form-group ">
                             <label for="start">  Data wykonania</label>
-                            <input type='date' id="start" name="start" class="form-control input-group-addon" />
+                            <input type="datetime-local" id="start" name="start" class="form-control input-group-addon" />
                             </span>
 
              </div>

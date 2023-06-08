@@ -31,6 +31,7 @@ class Task extends Model
         'execution_date',
         'execution_user',
         'taskEndDate',
+        'calendar_task',
         'taskFrequency',
         'completed',
         'created_at',
