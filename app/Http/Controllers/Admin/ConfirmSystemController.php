@@ -102,7 +102,9 @@ class ConfirmSystemController extends Controller
         {   
             $order = $this->generateOrderNumber();
             $contract = $this->getContractId($request->fk_company);
-            $now = Carbon::now();
+            $now = Carbon::now()->addMinutes(120);
+
+      
            
             $fk_typetask = $request->input('fk_typetask',[]);
             $description = $request->input('description',[]);  
@@ -131,7 +133,7 @@ class ConfirmSystemController extends Controller
                     'fk_company' => $request->fk_company,
                     'fk_car' => $request->fk_car,
                     'start_car' =>$request->start_car,
-                    'end_car' => $request->start_car,
+                    'end_car' => $request->end_car,
                     'paid' => $request->paid,
                     'start_date' => $request->start_date,
                     'end_date' => $request->start_date,
@@ -152,7 +154,7 @@ class ConfirmSystemController extends Controller
                     $created = Job::insert($data); 
                 }
                 if (!empty($request->comments[$key])) {
-                    $end = $now->copy()->addMinutes(30); // Dodanie 15 minut do godziny startu
+                    $end = $now->copy()->addMinutes(30); // Dodanie 30 minut do godziny startu
                     $comments = explode("\n", $request->comments[$key]);
                     foreach ($comments as $comment)
                     {
@@ -177,7 +179,7 @@ class ConfirmSystemController extends Controller
                         'fk_company' => $request->fk_company,
                         'fk_car' => $request->fk_car,
                         'start_car' => $request->start_car,
-                        'end_car' => $request->start_car,
+                        'end_car' => $request->end_car,
                         'paid' => $request->paid,
                         'start_date' => $request->start_date,
                         'end_date' => $request->start_date,
@@ -200,7 +202,7 @@ class ConfirmSystemController extends Controller
                             'fk_company' => $request->fk_company,
                             'fk_car' => $request->fk_car,
                             'start_car' => $request->start_car,
-                            'end_car' => $request->start_car,
+                            'end_car' => $request->end_car,
                             'paid' => $request->paid,
                             'start_date' => $request->start_date,
                             'end_date' => $request->start_date,
@@ -313,7 +315,7 @@ class ConfirmSystemController extends Controller
             'description' => 'required',
         ]);
 
-        $now = Carbon::now();
+        $now = Carbon::now()->addMinutes(120);
         $contract = $this->getContractId($request->fk_company);
 
         $fk_typetask = $request->input('fk_typetask',[]);
@@ -393,6 +395,8 @@ class ConfirmSystemController extends Controller
                                      where('fk_company', $request->fk_company)
                                      ->where('title', trim($comment))
                                      ->first();
+
+               
                 if ($existingTask) {
                     $existingTask->update([
                         'execution_user' =>  $user_auth,
