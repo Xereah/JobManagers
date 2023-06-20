@@ -500,6 +500,8 @@ $(document).ready(function() {
                             id: clickedEvent.id,
                             title: taskTitle,
                             fk_company: fkCompany,
+                            start: taskDateTime,
+                            end: taskDateTimeEnd,
                             description: desc,
                             category_color: color,
                             taskFrequency: taskFrequency,

@@ -162,7 +162,7 @@ class ConfirmSystemController extends Controller
                         'title' => trim($comment),
                         'start' => $now,
                         'end' => $end,
-                        'execution_user' => $user_auth->id,
+                        'execution_user' => $request->fk_user[$key],
                         'fk_contract' => $contract,
                         'completed' => 0,
                         'created_at' => $now,

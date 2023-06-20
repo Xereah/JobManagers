@@ -20,7 +20,7 @@ class TaskController extends Controller
     public function index(Request $request)
     {
         $tasks = Task::all()
-        ->where('calendar_task',   '=', 0)
+        // ->where('calendar_task',   '=', 0)
         ->where('completed',   '=', 0);
         $user = Auth::user();
         $user_all = User::all();
@@ -31,7 +31,7 @@ class TaskController extends Controller
     public function index_wykonane(Request $request)
     {
         $tasks = Task::all()
-        ->where('calendar_task',   '=', 0)
+        // ->where('calendar_task',   '=', 0)
         ->where('completed',   '=', 1);
         $user = Auth::user();
         $user_all = User::all();
@@ -124,12 +124,19 @@ class TaskController extends Controller
                     $recurringId = DB::table('tasks')->where('id', $taskId)->pluck('recurring_id')->first();
                     $tasks = Task::where('recurring_id', $recurringId)->get();
                 
-                    foreach ($tasks as $task) {                               
+                    foreach ($tasks as $task) {     
+                        $originalStartDate = \Carbon\Carbon::parse($task->start)->format('Y-m-d');
+                        $originalEndDate = \Carbon\Carbon::parse($task->end)->format('Y-m-d');
+                        $updatedStartDate = \Carbon\Carbon::parse($request->start)->format('H:i:s');
+                        $updatedEndDate = \Carbon\Carbon::parse($request->end)->format('H:i:s');
+                                                 
                         $task->update([
                             'title' => $request->title,
                             'description' => $request->description,
                             'fk_company' => $request->fk_company,
                             'category_color' => $request->category_color,
+                            'start' => $originalStartDate . ' ' . $updatedStartDate,
+                            'end' => $originalEndDate . ' ' . $updatedEndDate,
                         ]);
                     }
                 
