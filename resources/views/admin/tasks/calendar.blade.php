@@ -214,7 +214,7 @@ $(document).ready(function() {
         columnFormat: 'DD.MM dddd',
         defaultView: 'agendaWeek',
         minTime: '08:00',
-        maxTime: '18:00',
+        maxTime: '17:30',
         header: {
             left: 'prev,next today',
             center: 'title',

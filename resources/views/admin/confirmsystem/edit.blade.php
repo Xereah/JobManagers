@@ -7,13 +7,13 @@
 }
 </style>
 <div class="card-header bg-dark col-md-8 mx-auto">
-{{ trans('cruds.confirm_system.title') }}
+    {{ trans('cruds.confirm_system.title') }}
 </div>
 <form action="{{ route("admin.ConfirmSystem.update", [$job->id]) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     <div class="card col-md-8 mx-auto" style="background-color:#F2F2F2; ">
-        <div class="card-horizontal" >
+        <div class="card-horizontal">
             <ul class="list-group py-3">
                 <li class="list-group-item"><input type="button"
                         class="btn btn-dark float-left btn-floating add col-md-12 addzadanie_pill"
@@ -37,7 +37,8 @@
                                 <label for="fk_company">{{ trans('cruds.job.fields.company') }}</label>
                                 <select name="fk_company" id="fk_company" class="form-control select2" required>
                                     @foreach($companies as $company)
-                                    <option value="{{ $company->kontrahent_id }}" @if($company->kontrahent_id == $job->fk_company)
+                                    <option value="{{ $company->kontrahent_id }}" @if($company->kontrahent_id ==
+                                        $job->fk_company)
                                         selected="selected" @endif>{{ $company -> kontrahent_kod }}</option>
                                     @endforeach
                                 </select>
@@ -75,21 +76,22 @@
 
                                 </select>
                             </div>
-                            <div class="col"> <label for="start_date">{{ trans('cruds.confirm_system.fields.task_date') }}</label>
+                            <div class="col"> <label
+                                    for="start_date">{{ trans('cruds.confirm_system.fields.task_date') }}</label>
                                 <input type='date' id="start_date" name="start_date"
                                     class="form-control input-group-addon"
                                     value="{{ old('start_date', isset($job) ? $job->start_date : '') }}" />
                             </div>
                             <div class="col-md-12">
-                                        <input name="order" hidden class="form-control" value="{{ $job->order }}">
-                                    </div>
+                                <input name="order" hidden class="form-control" value="{{ $job->order }}">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end py-2">
-          
+
 
             <!-- <a href="{{ url('/SendMail', [$job->id]) }}">
                 <input class="btn bg-dark  float-right" onclick="return confirm('{{ trans('global.areYouSure') }}');"
@@ -100,7 +102,7 @@
 
             </a>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#emailModal">
-            {{ trans('global.send') }} {{ trans('global.email') }}
+                {{ trans('global.send') }} {{ trans('global.email') }}
             </button>
         </div>
 
@@ -126,7 +128,8 @@
 
         <li class="nav-item">
             <a class="nav-link" id="pills-equipment_loan-tab" data-toggle="pill" href="#pills-equipment_loan" role="tab"
-                aria-controls="pills-equipment_loan" aria-selected="false">{{ trans('cruds.confirm_system.fields.rep_eq_company') }}</a>
+                aria-controls="pills-equipment_loan"
+                aria-selected="false">{{ trans('cruds.confirm_system.fields.rep_eq_company') }}</a>
         </li>
 
     </ul>
@@ -178,7 +181,8 @@
                                         </select>
                                     </div>
                                     <div class="col-md-5">
-                                        <label for="default-picker">{{ trans('cruds.job.fields.performed_singular') }}</label>
+                                        <label
+                                            for="default-picker">{{ trans('cruds.job.fields.performed_singular') }}</label>
                                         <select id="fk_user[]" name="fk_user[]" class="form-control select2 ">
                                             @foreach($user_all as $users)
                                             <option value="{{ $users ->id }}" @if($users ->id == $job->fk_user)
@@ -188,17 +192,17 @@
                                         </select>
                                     </div>
                                     <div class="col-md-2"> <label
-                                                for="paid_job">{{ trans('cruds.job.fields.paid') }}</label>
-                                                <select id="paid_job[]" name="paid_job[]" class="form-control select2">
-                                                    @if($job->paid_job==1)
-                                                    <option value="{{$job->paid}}">{{ trans('global.free') }}</option>
-                                                    @else
-                                                    <option value="{{$job->paid}}">{{ trans('global.paid') }}</option>
-                                                    @endif
-                                                    <option value="1">{{ trans('global.free') }}</option>
-                                                    <option value="2">{{ trans('global.paid') }}</option>
-                                                </select>
-                                        </div>
+                                            for="paid_job">{{ trans('cruds.job.fields.paid') }}</label>
+                                        <select id="paid_job[]" name="paid_job[]" class="form-control select2">
+                                            @if($job->paid_job==1)
+                                            <option value="{{$job->paid}}">{{ trans('global.free') }}</option>
+                                            @else
+                                            <option value="{{$job->paid}}">{{ trans('global.paid') }}</option>
+                                            @endif
+                                            <option value="1">{{ trans('global.free') }}</option>
+                                            <option value="2">{{ trans('global.paid') }}</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
@@ -207,8 +211,8 @@
                                             rows="5">{{$job->description}}</textarea>
 
                                     </div>
-                                   
-                                   
+
+
                                     <div class="col-md-12">
                                         <input name="user_order" hidden class="form-control"
                                             value="{{ $job->fk_user }}">
@@ -284,30 +288,32 @@
                             <div class="col-md-11">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <label for="default-picker">{{ trans('cruds.confirm_system.fields.goods_left') }}</label>
+                                        <label
+                                            for="default-picker">{{ trans('cruds.confirm_system.fields.goods_left') }}</label>
                                         <input name="id_towar[]" hidden class="form-control"
                                             value="{{ old('id', isset($jobs_towarys) ? $jobs_towarys->id : '') }}">
-                                        <input class="form-control" name="description_goods[]" value="{{$jobs_towarys->description_goods}}"
-                                            id="description_goods[]"
+                                        <input class="form-control" name="description_goods[]"
+                                            value="{{$jobs_towarys->description_goods}}" id="description_goods[]"
                                             rows="3"></input>
                                     </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="value_goods">{{ trans('cruds.job.fields.value_goods') }}</label>
-                                            <input type="value_goods" name="value_goods[]" value="{{$jobs_towarys->value_goods}}" class="form-control">
-                                        </div>
-                                        <div class="col-md-6"> <label
-                                                for="paid_goods">{{ trans('cruds.job.fields.paid') }}</label>
-                                                <select id="paid_goods[]" name="paid_goods[]" class="form-control select2">
-                                                    @if($jobs_towarys->paid_goods==1)
-                                                    <option value="{{$job->paid}}">{{ trans('global.free') }}</option>
-                                                    @else
-                                                    <option value="{{$job->paid}}">{{ trans('global.paid') }}</option>
-                                                    @endif
-                                                    <option value="1">{{ trans('global.free') }}</option>
-                                                    <option value="2">{{ trans('global.paid') }}</option>
-                                                </select>
-                                        </div>
-                                 
+                                    <div class="form-group col-md-6">
+                                        <label for="value_goods">{{ trans('cruds.job.fields.value_goods') }}</label>
+                                        <input type="value_goods" name="value_goods[]"
+                                            value="{{$jobs_towarys->value_goods}}" class="form-control">
+                                    </div>
+                                    <div class="col-md-6"> <label
+                                            for="paid_goods">{{ trans('cruds.job.fields.paid') }}</label>
+                                        <select id="paid_goods[]" name="paid_goods[]" class="form-control select2">
+                                            @if($jobs_towarys->paid_goods==1)
+                                            <option value="{{$job->paid}}">{{ trans('global.free') }}</option>
+                                            @else
+                                            <option value="{{$job->paid}}">{{ trans('global.paid') }}</option>
+                                            @endif
+                                            <option value="1">{{ trans('global.free') }}</option>
+                                            <option value="2">{{ trans('global.paid') }}</option>
+                                        </select>
+                                    </div>
+
 
                                 </div>
                             </div>
@@ -316,8 +322,7 @@
                 </div>
                 <div>
                     @can('job_delete')
-                    <a class="btn col-md-1 float-right  btn-danger"
-                        href="{{ url('/eq_delete', $jobs_towarys->id) }}"
+                    <a class="btn col-md-1 float-right  btn-danger" href="{{ url('/eq_delete', $jobs_towarys->id) }}"
                         onclick="return confirm('{{ trans('global.areYouSure') }}');">
                         Usuń
                     </a>
@@ -349,9 +354,10 @@
                             <div class="col-md-11">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label for="description">{{ trans('cruds.confirm_system.fields.rep_eq_left') }}</label>
+                                        <label
+                                            for="description">{{ trans('cruds.confirm_system.fields.rep_eq_left') }}</label>
                                         <input name="id_sprzet[]" id="id_sprzet[]" hidden class="form-control"
-                                            value="{{ old('id', isset($jobs_sprzetzasts) ? $jobs_sprzetzasts->id : '') }}">                                        
+                                            value="{{ old('id', isset($jobs_sprzetzasts) ? $jobs_sprzetzasts->id : '') }}">
                                         <select name="fk_rep_eq[]" id="fk_rep_eq[]" required disabled
                                             class="form-control select2" required>
                                             @foreach($repEquipment as $repEquipments)
@@ -363,15 +369,16 @@
                                         </select>
                                     </div>
                                     <div class="col-md-6"> <label
-                                                for="paid_goods">{{ trans('cruds.job.fields.paid') }}</label>
-                                                <select id="paid_goods[]" name="paid_goods[]" disabled class="form-control select2">
-                                                    @if($jobs_sprzetzasts->paid_eq==1)
-                                                    <option value="{{$job->paid}}">{{ trans('global.free') }}</option>
-                                                    @else
-                                                    <option value="{{$job->paid}}">{{ trans('global.paid') }}</option>
-                                                    @endif
-                                                </select>
-                                        </div>
+                                            for="paid_goods">{{ trans('cruds.job.fields.paid') }}</label>
+                                        <select id="paid_goods[]" name="paid_goods[]" disabled
+                                            class="form-control select2">
+                                            @if($jobs_sprzetzasts->paid_eq==1)
+                                            <option value="{{$job->paid}}">{{ trans('global.free') }}</option>
+                                            @else
+                                            <option value="{{$job->paid}}">{{ trans('global.paid') }}</option>
+                                            @endif
+                                        </select>
+                                    </div>
                                     <div class="col-md-12">
                                         <label for="description">{{ trans('cruds.job.fields.description') }}</label>
                                         <textarea required class="form-control" required disabled
@@ -400,24 +407,24 @@
 
 
         <div class="tab-pane fade" id="pills-equipment_loan" role="tabpanel" aria-labelledby="pills-equipment_loan-tab">
-            <table class=" table table-bordered table-hover datatable" id="example" >
+            <table class=" table table-bordered table-hover datatable" id="example">
                 <thead>
                     <tr>
 
                         <th>
-                        {{ trans('cruds.rep_eq.fields.number') }}
+                            {{ trans('cruds.rep_eq.fields.number') }}
                         </th>
                         <th>
-                        {{ trans('cruds.rep_eq.fields.category') }}
+                            {{ trans('cruds.rep_eq.fields.category') }}
                         </th>
                         <th>
-                        {{ trans('cruds.rep_eq.fields.device_name') }}
+                            {{ trans('cruds.rep_eq.fields.device_name') }}
                         </th>
                         <th>
-                        {{ trans('cruds.rep_eq.fields.entry_date') }}
+                            {{ trans('cruds.rep_eq.fields.entry_date') }}
                         </th>
                         <th>
-                        {{ trans('cruds.rep_eq.fields.comments') }}
+                            {{ trans('cruds.rep_eq.fields.comments') }}
                         </th>
                         <th>
 
@@ -463,45 +470,47 @@
         </div>
 </form>
 <div class="modal fade" id="emailModal" tabindex="-1" role="dialog" aria-labelledby="emailModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="emailModalLabel">Wybierz odbiorców</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      <form  action="{{ url('/SendMail', [$job->id]) }}"  id="emailForm">
-          @csrf          
-          <input type="hidden" name="job_id" value="{{ $job->id }}">
-          <div class="form-group">
-  <label>Odbiorcy:</label>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="emailModalLabel">Wybierz odbiorców</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url('/SendMail', [$job->id]) }}" id="emailForm">
+                    @csrf
+                    <input type="hidden" name="job_id" value="{{ $job->id }}">
+                    <div class="form-group">
+                        <label>Odbiorcy:</label>
 
-  @foreach($company_mails as $company_mail)
-  @if($company_mail != NULL)
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" name="recipients[]" value="{{ $company_mail }}">
-      <label class="form-check-label">{{ $company_mail }}</label>
+                        @foreach($company_mails as $company_mail)
+                        @if($company_mail != NULL)
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="recipients[]"
+                                value="{{ $company_mail }}">
+                            <label class="form-check-label">{{ $company_mail }}</label>
+                        </div>
+                        @else
+                        <p> Brak przypisanych adresów mailowych!.</p>
+                        @endif
+                        @endforeach
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            {{ trans('global.close') }}</button>
+                        <button type="submit" form="emailForm" class="btn btn-primary">
+                            {{ trans('global.send') }}</button>
+                    </div>
+
+            </div>
+        </div>
     </div>
-    @else
-  <p> Brak przypisanych adresów mailowych!.</p>
-  @endif
-  @endforeach
+    @endsection
 
-</div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal"> {{ trans('global.close') }}</button>
-        <button type="submit" form="emailForm" class="btn btn-primary"> {{ trans('global.send') }}</button>
-      </div>
-     
-    </div>
-  </div>
-</div>
-@endsection
-
-
-@section('scripts')
+    @section('scripts')
 <script type='text/javascript'>
 $(document).ready(function(){
 
