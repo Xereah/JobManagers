@@ -220,7 +220,12 @@ class PermissionsTableSeeder extends Seeder
                 'id'    => '53',
                 'title' => 'town_delete',
             ],
+            [
+                'id'    => '54',
+                'title' => 'ConfirmSystem_Access',
+            ],
 
+          
             
         ];
 

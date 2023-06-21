@@ -142,7 +142,7 @@
                     </a>
                 </li>
             @endcan
-            @can('user_access')
+            @can('ConfirmSystem_Access')
                             <li class="nav-item">
                             <a href="{{ route("admin.ConfirmSystem.index") }}" class="nav-link {{ request()->is('admin/ConfirmSystem') || request()->is('admin/ConfirmSystem/*') ? 'active' : '' }}">
                                     <i class="fa-fw fas fa-exclamation-triangle nav-icon">
