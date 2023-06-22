@@ -153,7 +153,7 @@
                             </li>
             @endcan
             <!-- Zadania -->
-            @can('job_access')
+            @can('calendar')
             <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle" href="#">
                         <i class="fa-fw fas fa-users nav-icon">
