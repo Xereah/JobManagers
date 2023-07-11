@@ -224,6 +224,10 @@ class PermissionsTableSeeder extends Seeder
                 'id'    => '54',
                 'title' => 'ConfirmSystem_Access',
             ],
+            [
+                'id'    => '55',
+                'title' => 'calendar',
+            ],
 
           
             

@@ -87,9 +87,9 @@ class UsersController extends Controller
     {
         abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $user->delete()->with('success', 'Pomyślnie usunięto użytkownika.');
+        $user->delete();
 
-        return back();
+        return back()->with('success', 'Pomyślnie usunięto użytkownika.');
     }
 
     public function massDestroy(MassDestroyUserRequest $request)
