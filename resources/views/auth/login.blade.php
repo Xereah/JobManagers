@@ -60,7 +60,7 @@ body{
                             </div>
                             <input name="login" type="text"
                                 class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" required autofocus
-                                placeholder="{{ trans('global.login_email') }}" value="{{ old('email', null) }}">
+                                placeholder="{{ trans('global.login_email') }} \ Login" value="{{ old('email', null) }}">
                             @if($errors->has('email'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('email') }}
