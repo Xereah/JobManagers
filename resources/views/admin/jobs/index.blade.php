@@ -350,7 +350,7 @@
         search: {
             return: true,
         },
-        stateSave: true,
+        stateSave: false,
         deferRender: true,
       
         ajax: "{{ route('admin.jobs.index') }}",
@@ -434,7 +434,7 @@ var table = $('#example').DataTable();
     table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
     } );
     $('#filtr_zlecen').on('change', function () {
-    table.columns($(this).parent().index() + ':visible').search('^' + this.value + '$', true, false).draw();
+    table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
     } );
     $('#filtr_firm').on('change', function () {
     table.columns($(this).parent().index() + ':visible').search('^' + this.value + '$', true, false).draw();
@@ -578,6 +578,7 @@ function saveColumnSettings() {
 }
 });
         </script>
+
 
 <!-- <script>
          // display a modal (medium modal)
