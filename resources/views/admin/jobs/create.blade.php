@@ -58,10 +58,10 @@
                     </select>
                 </div>
             </div>
-            <input type="button" class="btn btn-dark float-left btn-floating add col-md-2 resultbody"
-                    value="{{ trans('global.add') }} {{ trans('cruds.job.title_singular') }}">
-            <input class="btn btn-success float-right col-md-2" type="submit" value="{{ trans('global.save') }}">
-            
+             <input type="button" class="btn btn-dark float-left btn-floating add col-md-2 resultbody"
+                value="{{ trans('global.add') }} {{ trans('cruds.job.title_singular') }}">
+           <!-- <input class="btn btn-success float-right col-md-2" type="submit" value="{{ trans('global.save') }}"> -->
+
         </div>
     </div>
 
@@ -81,19 +81,19 @@
     </ul>
 
     <div class="tab-content col-md-8 mx-auto" id="pills-tabContent" style="background-color:#F2F2F2; ">
-        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" >
-            <div class="card-body" >
+        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+            <div class="card-body">
                 <div class="form-row ">
                     <div class="form-group col-md-4">
                         <label for="start_date">{{ trans('cruds.job.fields.startdate') }}</label>
-                        <input type='date' id="start_date[]" name="start_date[]" required class="form-control input-group-addon"
-                            value="{{ date("Y-m-d") }}" />
+                        <input type='date' id="start_date[]" name="start_date[]" required
+                            class="form-control input-group-addon" value="{{ date("Y-m-d") }}" />
                         </span>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="end_date">{{ trans('cruds.job.fields.enddate') }}</label>
-                        <input type='date' id="end_date[]" name="end_date[]" required class="form-control input-group-addon"
-                            value="{{ date("Y-m-d") }}" />
+                        <input type='date' id="end_date[]" name="end_date[]" required
+                            class="form-control input-group-addon" value="{{ date("Y-m-d") }}" />
                         @if($errors->has('end_date'))
                         <span class="text-danger">{{ $errors->first('end_date') }}</span>
                         @endif
@@ -132,17 +132,32 @@
                         <label for="fk_typetask">
                             {{ trans('cruds.job.fields.task_name') }}</label>
                         <select id='fk_typetask' name='fk_typetask[]' class="form-control " autocomplete="off" required>
-                                @foreach($list as $lists)
-                                <option value="{{ $lists->type_task_id }}" >{{ $lists->TaskId->name }}
-                                </option>
-                                @endforeach  
+                            @foreach($list as $lists)
+                            <option value="{{ $lists->type_task_id }}">{{ $lists->TaskId->name }}
+                            </option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-12">
                         <label for="description">{{ trans('cruds.job.fields.description') }}</label>
-                        <textarea class="form-control" name="description[]" id="comments[]" rows="3" required></textarea>
+                        <textarea class="form-control" name="description[]" id="comments[]" rows="3"
+                            required></textarea>
+                    </div>
+
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6">
+                               
+                            </div>
+
+                            <div class="col-md-6">
+                                <input class="btn btn-success float-right " type="submit"
+                                    value="{{ trans('global.save') }}">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -156,6 +171,7 @@
 </form>
 
 @endsection
+
 
 @section('scripts')
 
@@ -282,6 +298,16 @@ $(document).on('change', '#fk_tasktype', function() {
                         '<label for="description">{{ trans('cruds.job.fields.description') }}</label>'+
                         '<textarea class="form-control" name="description[]" id="comments[]" rows="3" required></textarea>'+
                     '</div>'+
+                    '<div class="container">'+
+                        '<div class="row">'+
+                            '<div class="col-md-6">'+
+                            '</div>'+
+                            '<div class="col-md-6">'+
+                                '<input class="btn btn-success float-right " type="submit"'+
+                                    'value="{{ trans('global.save') }}">'+
+                            '</div>'+
+                        '</div>'+
+                    '</div>'+
                 '</div>'+
             '</div>';
             var title = 'Nowe Zlecenie';
@@ -319,6 +345,5 @@ $(document).on('change', '#fk_tasktype', function() {
 <script>
     $('form').validate();
 </script>
-
 
 @endsection

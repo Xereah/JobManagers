@@ -92,7 +92,7 @@ class RepEquipmentController extends Controller
         $now = Carbon::now();
         $data =array(
             'entry_date' => $now,
-            'comments' => 'Przebywa na serwisie KK',
+            'comments' => '',
             'company_place' => $company_place,
             'is_loan' =>0,
          );
@@ -111,7 +111,7 @@ class RepEquipmentController extends Controller
         $now = Carbon::now();
         $data =array(
             'entry_date' => $now,
-            'comments' => 'Przebywa na serwisie KK',
+            'comments' => '',
             'company_place' => $company_place,
             'is_loan' =>0,
          );

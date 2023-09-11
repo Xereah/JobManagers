@@ -22,6 +22,8 @@ class RepEquipment extends Model
         'eq_number',
         'eq_name',
         'serial_number',
+        'eq_specification',
+        'eq_active',
         'entry_date',
         'comments',
         'company_place',

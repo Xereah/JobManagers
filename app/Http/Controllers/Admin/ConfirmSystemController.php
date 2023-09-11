@@ -43,7 +43,7 @@ class ConfirmSystemController extends Controller
         $user_all = User::all()->unique();
         $TypeTask = TypeTask::all();
         $car = Car::all();
-        $repEquipment=RepEquipment::all()->where('is_loan','!=',1);
+        $repEquipment=RepEquipment::all()->where('is_loan','!=',1)->where('eq_active','!=',1);
         $TaskType = TaskType::orderby("id","asc")->select('id','name')->get();
         return view('admin.confirmsystem.index', compact('companies','user','user_all','TypeTask','TaskType','car','repEquipment'));
     }
@@ -295,7 +295,7 @@ class ConfirmSystemController extends Controller
         $company_mails = explode(';', $company_mails);
         
         $repEquipment_loan=RepEquipment::all()->where('company_place', '==', $jobi_loan);
-        $repEquipment_loan_add=RepEquipment::all()->where('is_loan','!=',1);
+        $repEquipment_loan_add=RepEquipment::all()->where('is_loan','!=',1)->where('eq_active','!=',1);
 
         return view('admin.confirmsystem.edit', compact('companies','company_mails','job','TaskType','TypeTask','user_all','jobs','Notification','car','user','repEquipment',
         'jobs_towary','jobs_sprzetzast','repEquipment_loan','repEquipment_loan_add'));

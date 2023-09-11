@@ -2,19 +2,19 @@
     <nav class="sidebar-nav">
 
         <ul class="nav">
+            <!-- Zlecenia -->
             @can('job_access')
             <li class="nav-item">
                 <a href="{{ route("admin.jobs.index") }}"
                     class="nav-link {{ request()->is('admin/jobs') || request()->is('admin/jobs/*') ? 'active' : '' }}">
                     <i class="fa-fw fas fa-window-restore nav-icon"></i>
-
-
                     </i>
                     {{ trans('cruds.job.title') }}
                 </a>
             </li>
             @endcan
             @can('ConfirmSystem_Access')
+            <!-- System Potwierdzeń -->
             <li class="nav-item">
                 <a href="{{ route("admin.ConfirmSystem.index") }}"
                     class="nav-link {{ request()->is('admin/ConfirmSystem') || request()->is('admin/ConfirmSystem/*') ? 'active' : '' }}">
@@ -25,7 +25,7 @@
                 </a>
             </li>
             @endcan
-            <!-- RepEquipment -->
+            <!-- Sprzęt zast. -->
             @can('equipment_access')
             <li class="nav-item">
                 <a href="{{ route("admin.repequipment.index") }}"
@@ -42,7 +42,6 @@
             <li class="nav-item nav-dropdown">
                 <a class="nav-link  nav-dropdown-toggle" href="#">
                     <i class="fa-fw fas fa-users nav-icon">
-
                     </i>
                     {{ trans('cruds.task.title') }}
                 </a>
@@ -70,23 +69,7 @@
             </li>
             @endcan
 
-
-
-            @can('job_create')
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin.jobs.create') }}">
-                    <i class="fa-fw fas fa-window-restore nav-icon"></i>
-
-
-                    </i>
-                    {{ trans('global.add') }} {{ trans('cruds.job.title_singular') }}
-                </a>
-            </li>
-            @endcan
-
-
-
-
+            <!-- Ustawienia -->
             <li class="nav-item nav-dropdown">
                 <a class="nav-link  nav-dropdown-toggle" href="#">
                     <i class="fa-fw fas fa fa-address-book nav-icon">
@@ -236,54 +219,33 @@
         </ul>
         </li>
 
+        @can('job_create')
+        <li class="nav-item">
+            <a class="nav-link" style="text-decoration: none;
+        background-color: transparent !important;">
+            </a>
+        </li>
+        @endcan
+        @can('job_create')
+        <li class="nav-item">
+            <a class="nav-link" style="text-decoration: none;
+        background-color: transparent !important;">
+            </a>
+        </li>
+        @endcan
 
+        <!-- Dodaj zlecenie -->
 
+        @can('job_create')
+        <li class="nav-item">
+            <a class="nav-link  " href="{{ route('admin.jobs.create') }}">
+                <i class="fa-fw fas fa-clipboard nav-icon"></i>
+                </i>
+                {{ trans('global.add') }} {{ trans('cruds.job.title_singular') }}
+            </a>
+        </li>
+        @endcan
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <!-- @can('user_access')
-                            <li class="nav-item">
-                                <a href="{{ url('test') }}">
-                                    <i class="fa-fw fas fa-user nav-icon">
-
-                                    </i>
-                                  Test
-                                </a>
-                            </li>
-                        @endcan -->
-        <!-- <li class="nav-item">
-                <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                    <i class="nav-icon fas fa-fw fa-sign-out-alt">
-
-                    </i>
-                    {{ trans('global.logout') }}
-                </a>
-            </li> -->
         </ul>
 
     </nav>

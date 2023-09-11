@@ -56,7 +56,7 @@
             </div>
             <input type="button" class="btn btn-dark float-left btn-floating add col-md-2 resultbody"
                 value="{{ trans('global.add') }} {{ trans('cruds.job.title_singular') }}">
-            <input class="btn btn-success float-right col-md-2" type="submit" value="{{ trans('global.save') }}">
+            <!-- <input class="btn btn-success float-right col-md-2" type="submit" value="{{ trans('global.save') }}"> -->
             <a href="{{ route('admin.jobs.show', $job->id) }}">
                 <input class="btn btn-info col-md-2  float-right" type="button"
                     value="{{ trans('global.datatables.print') }}"></a>
@@ -170,8 +170,9 @@
                             </div>
                         </div>
                         <div>
+                        <input class="btn btn-success float-right col-md-1" type="submit" value="{{ trans('global.save') }}">
                         @can('job_delete')
-                    <a class="btn btn-xs col-md-1 float-right  btn-danger" href="{{ url('/job_delete', $job->id) }}"
+                    <a class="btn btn-xl col-md-1 float-right  btn-danger"  href="{{ url('/job_delete', $job->id) }}"
                         onclick="return confirm('{{ trans('global.areYouSure') }}');">
                         Usuń
                     </a>
@@ -329,6 +330,16 @@ $(document).on('change', '#fk_tasktype', function() {
                     '<div class="form-group col-md-12">'+
                         '<label for="description">{{ trans('cruds.job.fields.description') }}</label>'+
                         '<textarea class="form-control" name="description_new[]" id="description_new[]" required rows="3"></textarea>'+
+                    '</div>'+
+                    '<div class="container">'+
+                        '<div class="row">'+
+                            '<div class="col-md-6">'+
+                            '</div>'+
+                            '<div class="col-md-6">'+
+                                '<input class="btn btn-success float-right " type="submit"'+
+                                    'value="{{ trans('global.save') }}">'+
+                            '</div>'+
+                        '</div>'+
                     '</div>'+
                 '</div>'+
             '</div>';
