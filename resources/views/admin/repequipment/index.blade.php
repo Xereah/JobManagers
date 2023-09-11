@@ -20,7 +20,6 @@
                         <th><input id="filtr_numer" class="form-control" /></th>
                         <th><input id="filtr_urzadzen" class="form-control" /></th>
                         <th><input id="filtr_kategorii" class="form-control" /></th>
-                        <th><input id="filtr_seryjny" class="form-control" /></th>
                         <th><input id="filtr_miejsca" class="form-control" /></th>
                         <th><input id="filtr_daty" class="form-control" /></th>
                         <th><input id="filtr_uwagi" type="text" class="form-control"></th>
@@ -40,9 +39,6 @@
                         </th>
                         <th>
                         {{ trans('cruds.rep_eq.fields.device_name') }}
-                        </th>
-                        <th>
-                        {{ trans('cruds.rep_eq.fields.serial_number') }}
                         </th>
                         <th>
                         {{ trans('cruds.rep_eq.fields.place') }}
@@ -76,10 +72,6 @@
                         </td>
                         <td>
                             {{$RepEquipments->eq_name}}
-                        </td>
-                        
-                        <td>
-                            {{$RepEquipments->serial_number}}
                         </td>
                         <td>
                             @if(!empty($RepEquipments->company->kontrahent_kod))
@@ -168,9 +160,6 @@ var table = $('#example').DataTable();
     table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
     } );
     $('#filtr_kategorii').on('change', function () {
-    table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
-    } );
-    $('#filtr_seryjny').on('change', function () {
     table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
     } );
     $('#filtr_miejsca').on('change', function () {

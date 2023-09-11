@@ -462,20 +462,55 @@ var table = $('#example').DataTable();
     });
     table.column(12).search(values.join('|'), true, false).draw();
      });
-    $('#min, #max').on('change', function () {
-  var minDate = $('#min').val().split('/').reverse().join('-'); // Konwertuj datę minimalną na format "yyyy-mm-dd"
-  var maxDate = $('#max').val().split('/').reverse().join('-'); // Konwertuj datę maksymalną na format "yyyy-mm-dd"
-  var dates = [];
+//     $('#min, #max').on('change', function () {
+//   var minDate = $('#min').val().split('/').reverse().join('-'); // Konwertuj datę minimalną na format "yyyy-mm-dd"
+//   var maxDate = $('#max').val().split('/').reverse().join('-'); // Konwertuj datę maksymalną na format "yyyy-mm-dd"
+//   var dates = [];
 
-  // Iteruj po wszystkich datach między minimalną i maksymalną datą
-  for (var d = new Date(minDate); d <= new Date(maxDate); d.setDate(d.getDate() + 1)) {
-    var date = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
-    dates.push(date);
+//   // Iteruj po wszystkich datach między minimalną i maksymalną datą
+//   for (var d = new Date(minDate); d <= new Date(maxDate); d.setDate(d.getDate() + 1)) {
+//     var date = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+//     dates.push(date);
+//   }
+
+//   // Dodaj filtr po stronie serwera do parametrów wyszukiwania DataTables
+//   table.column(7).search(dates.join('|'), true, false).draw();
+// });  
+$(document).ready(function () {
+  // Ustaw datę początkową na tydzień wstecz
+  var weekAgo = new Date();
+  weekAgo.setDate(weekAgo.getDate() - 7);
+  var minDate = weekAgo.getFullYear() + '-' + ('0' + (weekAgo.getMonth() + 1)).slice(-2) + '-' + ('0' + weekAgo.getDate()).slice(-2);
+  $('#min').val(minDate);
+
+  // Ustaw datę końcową na dzisiejszą datę
+  var today = new Date();
+  var maxDate = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+  $('#max').val(maxDate);
+
+  // Funkcja do filtrowania
+  function filterTable() {
+    var minDate = $('#min').val().split('/').reverse().join('-');
+    var maxDate = $('#max').val().split('/').reverse().join('-');
+    var dates = [];
+
+    for (var d = new Date(minDate); d <= new Date(maxDate); d.setDate(d.getDate() + 1)) {
+      var date = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+      dates.push(date);
+    }
+
+    table.column(7).search(dates.join('|'), true, false).draw();
   }
 
-  // Dodaj filtr po stronie serwera do parametrów wyszukiwania DataTables
-  table.column(7).search(dates.join('|'), true, false).draw();
-});    
+  // Wywołaj filtrację przy załadowaniu strony
+  filterTable();
+
+  // Obsłuż zdarzenie zmiany wartości w inputach
+  $('#min, #max').on('change', function () {
+    filterTable();
+  });
+});
+
   });
 </script>
 
@@ -608,5 +643,4 @@ function saveColumnSettings() {
         });
 
     </script> -->
-
 @endsection
