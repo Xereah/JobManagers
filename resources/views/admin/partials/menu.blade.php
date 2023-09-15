@@ -4,7 +4,8 @@ nav .navbar-nav li a {
 }
 
 .active-link {
-    background-color: 	#5A5A5A !important;
+    background-color: 	#A1CAF1 !important;
+    color:black !important;
     /* Inne style, które chcesz zastosować dla aktywnego linku */
 }
 </style>

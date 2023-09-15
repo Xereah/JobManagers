@@ -19,6 +19,7 @@
 
 <div class="card-header bg-dark col-md-8 mx-auto">
     {{ trans('cruds.job.fields.about') }}
+    <a href="{{ route("admin.jobs.index") }}"  style="float: right;">X</a>
 </div>
 
 
@@ -177,7 +178,7 @@
                         Usuń
                     </a>
                     @endcan
-                    <a href="{{ url()->previous() }}" class="btn btn-danger" style="float: right;">Powrót</a>
+                    <a href="{{ route("admin.jobs.index") }}" class="btn btn-danger" style="float: right;">Zamknij</a>
                 </div>
                     </div>
                 </div>

@@ -31,8 +31,8 @@
 }
 
 body{
-    font-size: 16px;
-     /* line-height: 1; */
+    font-size: 15px;
+     line-height: 0.9; 
 }
 .jsv-error {
     color: #dc3545 !important; /* czerwony kolor tekstu dla błędów */
