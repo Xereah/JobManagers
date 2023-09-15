@@ -8,6 +8,7 @@
 </style>
 <div class="card-header bg-dark col-md-8 mx-auto">
     {{ trans('cruds.confirm_system.title') }}
+    <a href="{{ route("admin.jobs.index") }}" class="btn-dark" style="float: right;">Powrót</a>
 </div>
 <form action="{{ route("admin.ConfirmSystem.store") }}" method="POST" enctype="multipart/form-data">
     @csrf
@@ -119,12 +120,12 @@
                             </div>
                             <div class="col-md-11">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-5">
                                         <label for="default-picker">{{ trans('cruds.job.fields.start') }}</label>
                                         <input type="time" id="start[]" name="start[]" class="form-control"
                                             placeholder="Select time" required>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-5">
                                         <label for="default-picker">{{ trans('cruds.job.fields.end') }}</label>
                                         <input type="time" id="end[]" name="end[]" class="form-control"
                                             placeholder="Select time" required>
@@ -134,7 +135,10 @@
                                                 </span>
                                             @endif
                                     </div>
-                                  
+                                    <div class="form-group col-md-2">
+                                        <label for="rns">{{ trans('cruds.job.fields.rns') }}</label>
+                                        <input type="number" name="rns[]" class="form-control">
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-5">
@@ -390,13 +394,17 @@ $(function() {
                             '</div>'+
                             '<div class="col-md-11">'+
                                 '<div class="row">'+
-                                    '<div class="col-md-6">'+
+                                    '<div class="col-md-5">'+
                                         '<label for="default-picker">{{ trans('cruds.job.fields.start') }}</label>'+
                                         '<input type="time" id="start[]" name="start[]" class="form-control">'+
                                     '</div>'+
-                                    '<div class="col-md-6">'+
+                                    '<div class="col-md-5">'+
                                         '<label for="default-picker">{{ trans('cruds.job.fields.end') }}</label>'+
                                         '<input type="time" id="end[]" name="end[]" class="form-control">'+
+                                    '</div>'+
+                                    '<div class="form-group col-md-2">'+
+                                        '<label for="rns">{{ trans('cruds.job.fields.rns') }}</label>'+
+                                        '<input type="number" name="rns[]" class="form-control">'+
                                     '</div>'+
                                 '</div>'+
                                 '<div class="row">'+
@@ -560,7 +568,7 @@ $(function() {
                                         '<select name="fk_rep_eq[]" id="fk_rep_eq[]" class="form-control select2"required>'+
                                             '<option value=""></option>'+
                                             '@foreach($repEquipment as $repEquipments)'+
-                                            '<option value="{{ $repEquipments->id }}">{{ $repEquipments -> eq_number }}'+
+                                            '<option value="{{ $repEquipments->id }}">{{ $repEquipments -> eq_number }} '+
                                                 '{{ $repEquipments -> eq_name }}</option>'+
                                             '@endforeach'+
                                         '</select>'+

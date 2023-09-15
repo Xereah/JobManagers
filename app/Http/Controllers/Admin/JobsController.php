@@ -38,18 +38,18 @@ class JobsController extends Controller
                 $pos = strpos($job->order, $order_querry);
 
                 if($pos === false)
-                return '<a class="text-success" data-toggle="tooltip" title="' . $job->description .'" href="'.route('admin.jobs.edit', $job->id).'">'.$job->type_task->name .'</a>';
+                return '<a class="text-dark font-weight-bold" data-toggle="tooltip" title="' . $job->description .'" href="'.route('admin.jobs.edit', $job->id).'">'.$job->type_task->name .'</a>';
                 else
-                return '<a class="text-info" data-toggle="tooltip" title="' . $job->description . '" href="'.route('admin.ConfirmSystem.edit', $job->id) . '">' . $job->type_task->name . '</a>';
+                return '<a class="text-dark font-weight-bold" data-toggle="tooltip" title="' . $job->description . '" href="'.route('admin.ConfirmSystem.edit', $job->id) . '">' . $job->type_task->name . '</a>';
             })
             ->editColumn('order', function ($job) {
                 $order_querry="SRW/";
                 $pos = strpos($job->order, $order_querry);
 
                 if($pos === false)
-                return '<a class="text-success" data-toggle="tooltip" title="' . $job->description .'" href="'.route('admin.jobs.edit', $job->id).'">'.$job->order .'</a>';
+                return '<a class="text-dark font-weight-bold" data-toggle="tooltip" title="' . $job->description .'" href="'.route('admin.jobs.edit', $job->id).'">'.$job->order .'</a>';
                 else
-                return '<a class="text-info" href="'.route('admin.ConfirmSystem.edit', $job->id) . '">' . $job->order . '</a>';
+                return '<a class="text-dark font-weight-bold" href="'.route('admin.ConfirmSystem.edit', $job->id) . '">' . $job->order . '</a>';
             })
             ->editColumn('fk_user', function ($job) {
                 $zmienna1=$job->user->name;
@@ -229,7 +229,7 @@ class JobsController extends Controller
                 $created = Job::insert($data); 
                 }
              }  
-         return redirect()->route('admin.jobs.index')->with('success', 'Pomyślnie dodano nowe zadanie.'); 
+         return redirect()->back()->with('success', 'Pomyślnie dodano nowe zadanie.'); 
         } catch (\Exception $e) {
             // Błąd podczas tworzenia nowego zadania
             return redirect()->back()->with('error', 'Nie udało się dodać nowego zadania. ' . $e->getMessage());

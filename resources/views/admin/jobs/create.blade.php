@@ -19,8 +19,9 @@
 
 
 <div class="card-header bg-dark col-md-8 mx-auto">
-    {{ trans('cruds.job.fields.about') }}
+    <span>{{ trans('cruds.job.fields.about') }}</span>
 </div>
+
 
 
 <form action="{{ url('/job/store/add/new') }}" method="post">
@@ -156,6 +157,7 @@
                             <div class="col-md-6">
                                 <input class="btn btn-success float-right " type="submit"
                                     value="{{ trans('global.save') }}">
+                                    <a href="{{ url()->previous() }}" class="btn btn-danger" style="float: right;">Powrót</a>
                             </div>
                         </div>
                     </div>

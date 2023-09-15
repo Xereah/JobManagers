@@ -148,7 +148,8 @@ class ConfirmSystemController extends Controller
                     'order' =>$order,
                     'description' =>$request->description[$key],
                     'paid_job'=>$request->paid_job[$key],
-                    'comments' => $comments1,                
+                    'comments' => $comments1, 
+                    'rns' => $request->rns[$key],               
                 );  
                 if(!empty($description[$key]) && isset($request->start[$key]) && isset($request->end[$key])) { 
                     $created = Job::insert($data); 
@@ -369,7 +370,8 @@ class ConfirmSystemController extends Controller
                 'fk_user' =>  $request->fk_user[$key],
                 'description' =>$request->description[$key],
                 'paid_job'=>$request->paid_job[$key],
-                'comments' =>  $comments1,                                 
+                'comments' =>  $comments1,   
+                'rns' => $request->rns[$key],                              
             ); 
             
              

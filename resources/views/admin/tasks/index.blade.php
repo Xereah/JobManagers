@@ -10,7 +10,7 @@
             <a href="{{ url('/admin/tasks/completed') }}" class="link-info"><strong>Przejdź Do Wykonanych</strong></a>
         @endif
         </div><br>
-        @can('company_create')
+        @can('job_create')
         <a class="btn btn-dark float-right" href="{{ route("admin.tasks.create") }}">
         <i class="fa fa-plus"></i>  {{ trans('global.add') }} {{ trans('cruds.task.title_plural') }}
             </a>

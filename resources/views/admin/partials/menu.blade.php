@@ -1,3 +1,13 @@
+<style>
+nav .navbar-nav li a {
+    background-color: white !important;
+}
+
+.active-link {
+    background-color: 	#5A5A5A !important;
+    /* Inne style, które chcesz zastosować dla aktywnego linku */
+}
+</style>
 <div class="sidebar ">
     <nav class="sidebar-nav">
 
@@ -6,7 +16,7 @@
             @can('job_access')
             <li class="nav-item">
                 <a href="{{ route("admin.jobs.index") }}"
-                    class="nav-link {{ request()->is('admin/jobs') || request()->is('admin/jobs/*') ? 'active' : '' }}">
+                    class="nav-link {{ request()->is('admin/jobs') || request()->is('admin/jobs/*') ? 'active-link' : '' }}">
                     <i class="fa-fw fas fa-window-restore nav-icon"></i>
                     </i>
                     {{ trans('cruds.job.title') }}
@@ -17,7 +27,7 @@
             <!-- System Potwierdzeń -->
             <li class="nav-item">
                 <a href="{{ route("admin.ConfirmSystem.index") }}"
-                    class="nav-link {{ request()->is('admin/ConfirmSystem') || request()->is('admin/ConfirmSystem/*') ? 'active' : '' }}">
+                    class="nav-link {{ request()->is('admin/ConfirmSystem') || request()->is('admin/ConfirmSystem/*') ? 'active-link' : '' }}">
                     <i class="fa-fw fas fa-exclamation-triangle nav-icon">
 
                     </i>
@@ -29,7 +39,7 @@
             @can('equipment_access')
             <li class="nav-item">
                 <a href="{{ route("admin.repequipment.index") }}"
-                    class="nav-link {{ request()->is('admin/repequipment') || request()->is('admin/repequipment/*') ? 'active' : '' }}">
+                    class="nav-link {{ request()->is('admin/repequipment') || request()->is('admin/repequipment/*') ? 'active-link' : '' }}">
                     <i class="fa-fw fas fa-desktop nav-icon">
 
                     </i>
@@ -45,28 +55,28 @@
                     </i>
                     {{ trans('cruds.task.title') }}
                 </a>
-                <ul class="nav-dropdown-items">
-
+                <ul class="nav-dropdown-items" style="padding-left: 10%;">
                     <li class="nav-item">
                         <a href="{{ route("admin.tasks.index") }}"
-                            class="nav-link {{ request()->is('admin/tasks') || request()->is('admin/tasks/*') ? 'active' : '' }}">
+                            class="nav-link {{ request()->is('admin/tasks') || request()->is('admin/tasks/*') ? 'active-link' : '' }}">
                             <i class="fa-fw fas fa-tasks nav-icon">
                             </i>
-                            {{ trans('cruds.task.title') }}
+                            <!-- {{ trans('cruds.task.title') }} --> Lista
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a href="{{ url('/calendar/' . Auth::id()) }}"
-                            class="nav-link {{ request()->is('admin/calendar') || request()->is('admin/calendar/*') ? 'active' : '' }}">
+                            class="nav-link {{ request()->is('admin/calendar') || request()->is('admin/calendar/*') ? 'active-link' : '' }}">
                             <i class="fa-fw fas fa-calendar nav-icon">
                             </i>
                             Kalendarz
                         </a>
                     </li>
-
                 </ul>
             </li>
+
+
             @endcan
 
             <!-- Ustawienia -->
@@ -86,11 +96,11 @@
                             </i>
                             {{ trans('cruds.userManagement.title') }}
                         </a>
-                        <ul class="nav-dropdown-items">
+                        <ul class="nav-dropdown-items" style="padding-left: 10%;">
                             @can('permission_access')
                             <li class="nav-item">
                                 <a href="{{ route("admin.permissions.index") }}"
-                                    class="nav-link {{ request()->is('admin/permissions') || request()->is('admin/permissions/*') ? 'active' : '' }}">
+                                    class="nav-link {{ request()->is('admin/permissions') || request()->is('admin/permissions/*') ? 'active-link' : '' }}">
                                     <i class="fa-fw fas fa-unlock-alt nav-icon">
 
                                     </i>
@@ -101,7 +111,7 @@
                             @can('role_access')
                             <li class="nav-item">
                                 <a href="{{ route("admin.roles.index") }}"
-                                    class="nav-link {{ request()->is('admin/roles') || request()->is('admin/roles/*') ? 'active' : '' }}">
+                                    class="nav-link {{ request()->is('admin/roles') || request()->is('admin/roles/*') ? 'active-link' : '' }}">
                                     <i class="fa-fw fas fa-briefcase nav-icon">
 
                                     </i>
@@ -112,7 +122,7 @@
                             @can('user_access')
                             <li class="nav-item">
                                 <a href="{{ route("admin.users.index") }}"
-                                    class="nav-link {{ request()->is('admin/users') || request()->is('admin/users/*') ? 'active' : '' }}">
+                                    class="nav-link {{ request()->is('admin/users') || request()->is('admin/users/*') ? 'active-link' : '' }}">
                                     <i class="fa-fw fas fa-user nav-icon">
 
                                     </i>
@@ -133,11 +143,11 @@
                             </i>
                             {{ trans('cruds.dictionaries.title') }}
                         </a>
-                        <ul class="nav-dropdown-items">
+                        <ul class="nav-dropdown-items" style="padding-left: 10%;">
                             @can('TaskType_access')
                             <li class="nav-item">
                                 <a href="{{ route("admin.tasktype.index") }}"
-                                    class="nav-link {{ request()->is('admin/tasktype') || request()->is('admin/tasktype/*') ? 'active' : '' }}">
+                                    class="nav-link {{ request()->is('admin/tasktype') || request()->is('admin/tasktype/*') ? 'active-link' : '' }}">
                                     <i class="fa-fw fas fa-tasks nav-icon">
 
                                     </i>
@@ -148,7 +158,7 @@
                             @can('TypeTask_access')
                             <li class="nav-item">
                                 <a href="{{ route("admin.typetask.index") }}"
-                                    class="nav-link {{ request()->is('admin/typetask') || request()->is('admin/typetask/*') ? 'active' : '' }}">
+                                    class="nav-link {{ request()->is('admin/typetask') || request()->is('admin/typetask/*') ? 'active-link' : '' }}">
                                     <i class="fa-fw fas fa-book nav-icon">
 
                                     </i>
@@ -159,7 +169,7 @@
                             @can('car_access')
                             <li class="nav-item">
                                 <a href="{{ route("admin.car.index") }}"
-                                    class="nav-link {{ request()->is('admin/car') || request()->is('admin/car/*') ? 'active' : '' }}">
+                                    class="nav-link {{ request()->is('admin/car') || request()->is('admin/car/*') ? 'active-link' : '' }}">
                                     <i class="fa-fw fas fa-car nav-icon">
 
                                     </i>
@@ -170,7 +180,7 @@
                             @can('town_access')
                             <li class="nav-item">
                                 <a href="{{ route("admin.miasta.index") }}"
-                                    class="nav-link {{ request()->is('admin/miasta') || request()->is('admin/miasta/*') ? 'active' : '' }}">
+                                    class="nav-link {{ request()->is('admin/miasta') || request()->is('admin/miasta/*') ? 'active-link' : '' }}">
                                     <i class="fa-fw fas fa-city nav-icon">
                                     </i>
                                     {{ trans('cruds.miasta.title_singular') }}
@@ -181,17 +191,17 @@
                         </ul>
                         @can('user_management_access')
                     <li class="nav-item nav-dropdown">
-                        <a class="nav-link  nav-dropdown-toggle" href="#">
+                        <a class="nav-link nav-dropdown-toggle" href="#">
                             <i class="fa-fw fas fa-cog nav-icon">
 
                             </i>
                             Konfiguracja
                         </a>
-                        <ul class="nav-dropdown-items">
+                        <ul class="nav-dropdown-items" style="padding-left: 10%;">
                             @can('mail_config_access')
                             <li class="nav-item">
                                 <a href="{{ url('/configuration/mail') }}"
-                                    class="nav-link {{ request()->is('admin/settings') || request()->is('admin/settings/*') ? 'active' : '' }}">
+                                    class="nav-link   {{ request()->is('admin/settings') || request()->is('admin/settings/*') ? 'active-link' : '' }}">
                                     <i class="fa-fw fas fa-envelope nav-icon">
 
                                     </i>
@@ -204,11 +214,13 @@
                     @endcan
             </li>
             @endcan
-            <!-- COMPANY -->
-            @can('company_access')
+        </ul>
+        </li>
+   <!-- COMPANY -->
+   @can('company_access')
             <li class="nav-item">
                 <a href="{{ route("admin.companies.index") }}"
-                    class="nav-link {{ request()->is('admin/companies') || request()->is('admin/companies/*') ? 'active' : '' }}">
+                    class="nav-link {{ request()->is('admin/companies') || request()->is('admin/companies/*') ? 'active-link' : '' }}">
                     <i class="fa-fw fas fa-handshake nav-icon">
 
                     </i>
@@ -216,9 +228,6 @@
                 </a>
             </li>
             @endcan
-        </ul>
-        </li>
-
         @can('job_create')
         <li class="nav-item">
             <a class="nav-link" style="text-decoration: none;

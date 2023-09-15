@@ -93,9 +93,7 @@
         <div class="d-grid gap-2 d-md-flex justify-content-md-end py-2">
 
 
-            <!-- <a href="{{ url('/SendMail', [$job->id]) }}">
-                <input class="btn bg-dark  float-right" onclick="return confirm('{{ trans('global.areYouSure') }}');"
-                    type="button" value="{{ trans('global.send') }} {{ trans('global.email') }}"></a> -->
+        <a href="{{ route("admin.jobs.index") }}" class="btn btn-danger" style="float: left;">Powrót</a>
 
             <a href="{{ route('admin.ConfirmSystem.show', $job->id) }}">
                 <input class="btn bg-success  float-right" type="button" value="{{ trans('global.datatables.print') }}">
@@ -154,17 +152,22 @@
                             </div>
                             <div class="col-md-11">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-5">
                                         <input name="id_opis[]" hidden class="form-control"
                                             value="{{ old('id', isset($job) ? $job->id : '') }}">
                                         <label for="default-picker">{{ trans('cruds.job.fields.start') }}</label>
                                         <input type="time" id="start" name="start[]" class="form-control"
                                             value="{{ old('start', isset($job) ? $job->start : '') }}">
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-5">
                                         <label for="default-picker">{{ trans('cruds.job.fields.end') }}</label>
                                         <input type="time" id="end" name="end[]" class="form-control"
                                             value="{{ old('end', isset($job) ? $job->end : '') }}">
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label for="rns">{{ trans('cruds.job.fields.rns') }}</label>
+                                        <input type="number" name="rns[]" class="form-control"
+                                        value="{{ old('rns', isset($job) ? $job->rns : '') }}">
                                     </div>
                                 </div>
                                 <div class="row">
@@ -224,11 +227,12 @@
                 </div>
                 <div>
                     @can('job_delete')
-                    <a class="btn col-md-1 float-right  btn-danger" href="{{ url('/eq_delete', $job->id) }}"
+                    <a class="btn col-md-1 float-left  btn-danger" href="{{ url('/eq_delete', $job->id) }}"
                         onclick="return confirm('{{ trans('global.areYouSure') }}');">
                         Usuń
                     </a>
                     @endcan
+                    <input class="btn btn-success float-right col-md-1" type="submit" value="{{ trans('global.save') }}">
                 </div>
             </div>
             @endforeach
@@ -327,6 +331,7 @@
                         Usuń
                     </a>
                     @endcan
+                    <input class="btn btn-success float-right col-md-1" type="submit" value="{{ trans('global.save') }}">
                 </div>
             </div>
             @endforeach
@@ -398,6 +403,7 @@
                         Usuń
                     </a>
                     @endcan
+                    <input class="btn btn-success float-right col-md-1" type="submit" value="{{ trans('global.save') }}">
                 </div>
             </div>
             @endforeach
@@ -574,13 +580,18 @@ $(function() {
                             '</div>'+
                             '<div class="col-md-11">'+
                                 '<div class="row">'+
-                                    '<div class="col-md-6">'+
+                                    '<div class="col-md-5">'+
                                         '<label for="default-picker">{{ trans('cruds.job.fields.start') }}</label>'+
                                         '<input type="time" id="start[]" name="start[]" class="form-control">'+
                                     '</div>'+
-                                    '<div class="col-md-6">'+
+                                    '<div class="col-md-5">'+
                                         '<label for="default-picker">{{ trans('cruds.job.fields.end') }}</label>'+
                                         '<input type="time" id="end[]" name="end[]" class="form-control">'+
+                                    '</div>'+
+                                    '<div class="form-group col-md-2">'+
+                                        '<label for="rns">{{ trans('cruds.job.fields.rns') }}</label>'+
+                                        '<input type="number" name="rns[]" class="form-control"'+
+                                        'value="{{ old('rns', isset($job) ? $job->rns : '') }}">'+
                                     '</div>'+
                                 '</div>'+
                                 '<div class="row">'+

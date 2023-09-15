@@ -172,11 +172,12 @@
                         <div>
                         <input class="btn btn-success float-right col-md-1" type="submit" value="{{ trans('global.save') }}">
                         @can('job_delete')
-                    <a class="btn btn-xl col-md-1 float-right  btn-danger"  href="{{ url('/job_delete', $job->id) }}"
+                    <a class="btn btn-xl col-md-1 float-left  btn-danger"  href="{{ url('/job_delete', $job->id) }}"
                         onclick="return confirm('{{ trans('global.areYouSure') }}');">
                         Usuń
                     </a>
                     @endcan
+                    <a href="{{ url()->previous() }}" class="btn btn-danger" style="float: right;">Powrót</a>
                 </div>
                     </div>
                 </div>
