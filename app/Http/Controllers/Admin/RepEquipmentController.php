@@ -101,6 +101,24 @@ class RepEquipmentController extends Controller
     }
 
 
+    public function wyp_sprz(Request $request)
+    {
+        abort_if(Gate::denies('equipment_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $rep_eq_id = $request->fk_rep_eq;
+
+        $now = Carbon::now();
+        $data =array(
+            'entry_date' => $now,
+            'comments' => $request->description,
+            'company_place' => $request->fk_company,
+            'is_loan' =>1,
+         );
+         $created = RepEquipment::where('id',$rep_eq_id)->update($data);
+        return back()->with('success', 'Pomyślnie wypożyczono sprzęt.'); 
+    }
+
+
     public function is_loan_delete($id)
     {
         abort_if(Gate::denies('equipment_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');

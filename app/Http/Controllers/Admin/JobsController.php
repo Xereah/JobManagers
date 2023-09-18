@@ -86,7 +86,7 @@ class JobsController extends Controller
                 return  '';
             })
             ->editColumn('fk_company', function ($job) {
-                return  $job->company->kontrahent_kod;
+                return  $job->fk_company;
             })
             ->editColumn('comments', function ($job) {
                 return  $job->comments;

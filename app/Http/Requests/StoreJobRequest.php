@@ -75,12 +75,7 @@ class StoreJobRequest extends FormRequest
                 'required',
                 'integer',
             ],
-            'rns' => [
-                'numeric',
-                'integer',
-                'regex:/^[0-9]+$/',
-                'min:0',
-            ],
+          
             'start_date[]' => [
                 'required',
                 'date',
@@ -112,10 +107,6 @@ class StoreJobRequest extends FormRequest
                 'max:255',
                 
             ],
-
-
-
-
             'fk_tasktype_new[]' => [
                 'required',
                 'numeric',
@@ -124,12 +115,6 @@ class StoreJobRequest extends FormRequest
             'paid_new[]' => [
                 'required',
                 'integer',
-            ],
-            'rns_new[]' => [
-                'numeric',
-                'integer',
-                'regex:/^[0-9]+$/',
-                'min:0',
             ],
             'start_date_new[]' => [
                 'required',

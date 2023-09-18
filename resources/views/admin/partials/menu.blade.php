@@ -4,8 +4,8 @@ nav .navbar-nav li a {
 }
 
 .active-link {
-    background-color: 	#A1CAF1 !important;
-    color:black !important;
+    background-color: #A1CAF1 !important;
+    color: black !important;
     /* Inne style, które chcesz zastosować dla aktywnego linku */
 }
 </style>
@@ -217,18 +217,18 @@ nav .navbar-nav li a {
             @endcan
         </ul>
         </li>
-   <!-- COMPANY -->
-   @can('company_access')
-            <li class="nav-item">
-                <a href="{{ route("admin.companies.index") }}"
-                    class="nav-link {{ request()->is('admin/companies') || request()->is('admin/companies/*') ? 'active-link' : '' }}">
-                    <i class="fa-fw fas fa-handshake nav-icon">
+        <!-- COMPANY -->
+        @can('company_access')
+        <li class="nav-item">
+            <a href="{{ route("admin.companies.index") }}"
+                class="nav-link {{ request()->is('admin/companies') || request()->is('admin/companies/*') ? 'active-link' : '' }}">
+                <i class="fa-fw fas fa-handshake nav-icon">
 
-                    </i>
-                    {{ trans('cruds.company.title') }}
-                </a>
-            </li>
-            @endcan
+                </i>
+                {{ trans('cruds.company.title') }}
+            </a>
+        </li>
+        @endcan
         @can('job_create')
         <li class="nav-item">
             <a class="nav-link" style="text-decoration: none;
@@ -256,6 +256,18 @@ nav .navbar-nav li a {
         </li>
         @endcan
 
+
+
+        @can('job_create')
+        <li class="nav-item">
+            <a class="nav-link" href="#exampleModal" data-toggle="modal">
+                <i class="fa-fw fas fa-desktop nav-icon">
+                </i>
+                Wyp. sprzęt zast.
+            </a>
+        </li>
+        @endcan
+
         </ul>
 
     </nav>
@@ -270,4 +282,52 @@ nav .navbar-nav li a {
             {{ trans('global.logout') }}
         </a>
     </li>
+</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Wypożyczenie sprzętu zastępczego</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url("/wyp_sprz") }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
+                        <label for="name">Sprzęt*</label>
+                        <select name="fk_rep_eq" id="fk_rep_eq" class="form-control select2" required>
+                            <option value=""></option>
+                            @foreach($RepEquipment1 as $repEquipments)
+                            <option value="{{ $repEquipments->id }}">{{ $repEquipments -> eq_number }}
+                                {{ $repEquipments -> eq_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
+                        <label for="name">Klient*</label>
+                        <select name="fk_company" id="fk_company" class="form-control select2" required>
+                            <option value=""></option>
+                            @foreach($companies as $company)
+                            <option value="{{ $company->kontrahent_id }}">{{ $company -> kontrahent_kod }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">{{ trans('cruds.job.fields.description') }}</label>
+                        <textarea class="form-control" name="description" id="comments" rows="3" required></textarea>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                    <button type="submit" class="btn btn-primary">Zapisz</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>

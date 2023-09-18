@@ -8,6 +8,7 @@
 </style>
 <div class="card-header bg-dark col-md-8 mx-auto">
     {{ trans('cruds.confirm_system.title') }}
+    <a href="{{ route("admin.jobs.index") }}"  style="float: right; color:white;" class="font-weight-bold">X</a>
 </div>
 <form action="{{ route("admin.ConfirmSystem.update", [$job->id]) }}" method="POST" enctype="multipart/form-data">
     @csrf
@@ -25,9 +26,9 @@
                         class="btn btn-primary float-left btn-floating addsprzet col-md-12 addsprzet_pill"
                         value="{{ trans('global.add') }} {{ trans('cruds.rep_eq.title') }}">
                 </li>
-                <li class="list-group-item"><input class="btn btn-success float-right col-md-12 " type="submit"
+                <!-- <li class="list-group-item"><input class="btn btn-success float-right col-md-12 " type="submit"
                         value="{{ trans('global.update') }}">
-                </li>
+                </li> -->
             </ul>
             <div class="card-body">
                 <div class="card " style="background-color:#F2F2F2; ">
@@ -93,7 +94,7 @@
         <div class="d-grid gap-2 d-md-flex justify-content-md-end py-2">
 
 
-        <a href="{{ route("admin.jobs.index") }}" class="btn btn-danger" style="float: left;">Powrót</a>
+        <!-- <a href="{{ route("admin.jobs.index") }}" class="btn btn-danger" style="float: left;">Powrót</a> -->
 
             <a href="{{ route('admin.ConfirmSystem.show', $job->id) }}">
                 <input class="btn bg-success  float-right" type="button" value="{{ trans('global.datatables.print') }}">
@@ -139,7 +140,7 @@
                 <div>
                     <div class="container py-2">
                         <div class="row">
-                            <div class="col-md-1 bg-dark">
+                            <!-- <div class="col-md-1 bg-dark">
                                 <p style="text-align:center;">
                                     <span></span><br>
                                     <span></span><br>
@@ -149,8 +150,8 @@
                                     <span>I</span><br>
                                     <span>S</span><br>
                                 </p>
-                            </div>
-                            <div class="col-md-11">
+                            </div> -->
+                            <div class="col-md-12">
                                 <div class="row">
                                     <div class="col-md-5">
                                         <input name="id_opis[]" hidden class="form-control"
@@ -166,7 +167,7 @@
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label for="rns">{{ trans('cruds.job.fields.rns') }}</label>
-                                        <input type="number" name="rns[]" class="form-control"
+                                        <input type="text" name="rns[]" class="form-control"
                                         value="{{ old('rns', isset($job) ? $job->rns : '') }}">
                                     </div>
                                 </div>
@@ -227,7 +228,7 @@
                 </div>
                 <div>
                     @can('job_delete')
-                    <a class="btn col-md-1 float-left  btn-danger" href="{{ url('/eq_delete', $job->id) }}"
+                    <a class="btn col-md-1 float-right  btn-danger" href="{{ url('/eq_delete', $job->id) }}"
                         onclick="return confirm('{{ trans('global.areYouSure') }}');">
                         Usuń
                     </a>
@@ -243,7 +244,7 @@
                 <div>
                     <div class="container">
                         <div class="row">
-                            <div class="col-md-1 bg-success">
+                            <!-- <div class="col-md-1 bg-success">
                                 <p style="text-align:center;">
                                     <span></span><br>
                                     <span>U</span><br>
@@ -253,9 +254,9 @@
                                     <span>I</span><br>
                                     <span></span><br>
                                 </p>
-                            </div>
-                            <div class="col-md-11">
-                                <div class="col-md-11 py-2">
+                            </div> -->
+                            <div class="col-md-12">
+                                <div class="col-md-12 py-2">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <label for="description">{{ trans('cruds.job.fields.comments') }}</label>
@@ -264,6 +265,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <input class="btn btn-success float-right" type="submit" value="{{ trans('global.save') }}">
                             </div>
                         </div>
                     </div>
@@ -277,7 +279,7 @@
                 <div>
                     <div class="container py-2">
                         <div class="row">
-                            <div class="col-md-1 bg-danger">
+                            <!-- <div class="col-md-1 bg-danger">
                                 <p style="text-align:center;">
                                     <span></span><br>
                                     <span>T</span><br>
@@ -287,9 +289,9 @@
                                     <span>R</span><br>
                                     <span>Y</span><br>
                                 </p>
-                            </div>
+                            </div> -->
 
-                            <div class="col-md-11">
+                            <div class="col-md-12">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <label
@@ -345,7 +347,7 @@
                 <div>
                     <div class="container py-2">
                         <div class="row">
-                            <div class="col-md-1 bg-info">
+                            <!-- <div class="col-md-1 bg-info">
                                 <p style="text-align:center;">
                                     <span></span><br>
                                     <span>S</span><br>
@@ -355,8 +357,8 @@
                                     <span>Ę</span><br>
                                     <span>T</span><br>
                                 </p>
-                            </div>
-                            <div class="col-md-11">
+                            </div> -->
+                            <div class="col-md-12">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label
@@ -432,9 +434,9 @@
                         <th>
                             {{ trans('cruds.rep_eq.fields.comments') }}
                         </th>
-                        <th>
+                        <!-- <th>
 
-                        </th>
+                        </th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -456,7 +458,7 @@
                         <td>
                             {{$RepEquipments->comments}}
                         </td>
-                        <td>
+                        <!-- <td>
 
 
                             @can('equipment_edit')
@@ -467,7 +469,7 @@
                             </a>
                             @endcan
 
-                        </td>
+                        </td> -->
 
                     </tr>
                     @endforeach
@@ -567,18 +569,18 @@ $(function() {
                 '<div>'+
                     '<div class="container">'+
                         '<div class="row">'+
-                            '<div class="col-md-1 bg-dark">'+
-                                '<p style="text-align:center;">'+
-                                    '<span></span><br>'+
-                                    '<span></span><br>'+
-                                    '<span></span><br>'+
-                                    '<span>O</span><br>'+
-                                    '<span>P</span><br>'+
-                                    '<span>I</span><br>'+
-                                    '<span>S</span><br>'+
-                                '</p>'+
-                            '</div>'+
-                            '<div class="col-md-11">'+
+                            // '<div class="col-md-1 bg-dark">'+
+                            //     '<p style="text-align:center;">'+
+                            //         '<span></span><br>'+
+                            //         '<span></span><br>'+
+                            //         '<span></span><br>'+
+                            //         '<span>O</span><br>'+
+                            //         '<span>P</span><br>'+
+                            //         '<span>I</span><br>'+
+                            //         '<span>S</span><br>'+
+                            //     '</p>'+
+                            // '</div>'+
+                            '<div class="col-md-12">'+
                                 '<div class="row">'+
                                     '<div class="col-md-5">'+
                                         '<label for="default-picker">{{ trans('cruds.job.fields.start') }}</label>'+
@@ -590,7 +592,7 @@ $(function() {
                                     '</div>'+
                                     '<div class="form-group col-md-2">'+
                                         '<label for="rns">{{ trans('cruds.job.fields.rns') }}</label>'+
-                                        '<input type="number" name="rns[]" class="form-control"'+
+                                        '<input type="text" name="rns[]" class="form-control"'+
                                         'value="{{ old('rns', isset($job) ? $job->rns : '') }}">'+
                                     '</div>'+
                                 '</div>'+
@@ -657,18 +659,18 @@ $(function() {
                 '<div>'+
                     '<div class="container">'+
                     '<div class="row">'+
-                            '<div class="col-md-1 bg-danger">'+
-                                '<p style="text-align:center;">'+
-                                    '<span></span><br>'+
-                                    '<span>T</span><br>'+
-                                    '<span>0</span><br>'+
-                                    '<span>W</span><br>'+
-                                    '<span>A</span><br>'+
-                                    '<span>R</span><br>'+
-                                    '<span>Y</span><br>'+
-                                '</p>'+
-                            '</div>'+
-                            '<div class="col-md-11">'+
+                            // '<div class="col-md-1 bg-danger">'+
+                            //     '<p style="text-align:center;">'+
+                            //         '<span></span><br>'+
+                            //         '<span>T</span><br>'+
+                            //         '<span>0</span><br>'+
+                            //         '<span>W</span><br>'+
+                            //         '<span>A</span><br>'+
+                            //         '<span>R</span><br>'+
+                            //         '<span>Y</span><br>'+
+                            //     '</p>'+
+                            // '</div>'+
+                            '<div class="col-md-12">'+
                             '<div class="form-row ">'+
                                             '<label for="description_goods">{{ trans('cruds.confirm_system.fields.goods_left') }}</label>'+
                                             '<input class="form-control" name="description_goods[]"  id="description_goods[]" rows="3"></input>'+
@@ -712,18 +714,18 @@ $(function() {
                 '<div>'+
                     '<div class="container">'+
                     '<div class="row">'+
-                            '<div class="col-md-1 bg-primary">'+
-                                '<p style="text-align:center;">'+
-                                    '<span></span><br>'+
-                                    '<span>S</span><br>'+
-                                    '<span>P</span><br>'+
-                                    '<span>R</span><br>'+
-                                    '<span>Z</span><br>'+
-                                    '<span>Ę</span><br>'+
-                                    '<span>T</span><br>'+
-                                '</p>'+
-                            '</div>'+
-                            '<div class="col-md-11 py-2">'+
+                            // '<div class="col-md-1 bg-primary">'+
+                            //     '<p style="text-align:center;">'+
+                            //         '<span></span><br>'+
+                            //         '<span>S</span><br>'+
+                            //         '<span>P</span><br>'+
+                            //         '<span>R</span><br>'+
+                            //         '<span>Z</span><br>'+
+                            //         '<span>Ę</span><br>'+
+                            //         '<span>T</span><br>'+
+                            //     '</p>'+
+                            // '</div>'+
+                            '<div class="col-md-12 py-2">'+
                                     '<div class="form-row">'+
                                         '<div class="form-group col-md-6">'+
                                         '<label for="description">{{ trans('cruds.confirm_system.fields.rep_eq_left') }}</label>'+

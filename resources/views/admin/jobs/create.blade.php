@@ -20,6 +20,7 @@
 
 <div class="card-header bg-dark col-md-8 mx-auto">
     <span>{{ trans('cruds.job.fields.about') }}</span>
+    <a href="{{ route("admin.jobs.index") }}"  style="float: right; color:white;" class="font-weight-bold">X</a>
 </div>
 
 
@@ -102,7 +103,7 @@
                     </div>
                     <div class="form-group col-md-4">
                         <label for="rns">{{ trans('cruds.job.fields.rns') }}</label>
-                        <input type="number" name="rns[]" class="form-control">
+                        <input type="text" name="rns[]" class="form-control">
                     </div>
                     <div class="form-group col-md-4">
                         <label for="default-picker">{{ trans('cruds.job.fields.start') }}</label>
@@ -157,7 +158,7 @@
                             <div class="col-md-6">
                                 <input class="btn btn-success float-right " type="submit"
                                     value="{{ trans('global.save') }}">
-                                    <a href="{{ url()->previous() }}" class="btn btn-danger" style="float: right;">Powrót</a>
+                                    <!-- <a href="{{ url()->previous() }}" class="btn btn-danger" style="float: right;">Powrót</a> -->
                             </div>
                         </div>
                     </div>
@@ -234,9 +235,6 @@ $(document).on('change', '#fk_tasktype', function() {
 // });
 </script>
 
-
-
-
 <script>
     $(document).ready(function() {
         $('.add').click(function() {
@@ -258,7 +256,7 @@ $(document).on('change', '#fk_tasktype', function() {
                     '</div>'+
                     '<div class="form-group col-md-4">'+
                         '<label for="rns">{{ trans('cruds.job.fields.rns') }}</label>'+
-                        '<input type="number" name="rns[]" class="form-control">'+
+                        '<input type="text" name="rns[]" class="form-control">'+
                     '</div>'+
                     '<div class="form-group col-md-4">'+
                         '<label for="default-picker">{{ trans('cruds.job.fields.start') }}</label>'+

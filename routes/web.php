@@ -31,6 +31,8 @@ Route::get('/is_loan_delete/{id}', [App\Http\Controllers\Admin\RepEquipmentContr
 Route::get('/eq_delete/{id}', [App\Http\Controllers\Admin\RepEquipmentController::class, 'delete'])->name('delete');
 Route::get('/job_delete/{id}', [App\Http\Controllers\Admin\JobsController::class, 'destroy'])->name('destroy');
 
+Route::post('/wyp_sprz', [App\Http\Controllers\Admin\RepEquipmentController::class, 'wyp_sprz'])->name('wyp_sprz');
+
 Route::get('/is_done/{id}', [App\Http\Controllers\Admin\TaskController::class, 'is_done'])->name('is_done');
 
 
