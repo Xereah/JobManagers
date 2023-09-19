@@ -8,6 +8,11 @@
             <i class="fa fa-plus"></i> {{ trans('global.add') }} {{ trans('cruds.rep_eq.title') }}
         </a>
         @endcan
+        <div class="form-check p-2 float-right" id="filtr_statusu">
+    <input class="form-check-input" type="checkbox" id="paid-checkbox" value="Aktywny">
+    <label class="form-check-label" for="paid-checkbox">Aktywne</label>
+</div>
+
     </div>
 
     <div class="card-body">
@@ -199,6 +204,19 @@ $(document).ready(function() {
     $('#filtr_uwagi').on('change', function() {
         table.columns($(this).parent().index() + ':visible').search(this.value).draw();
     });
+    $('#filtr_statusu input[type="checkbox"]').prop('checked', true);
+    function applyFilter() {
+        var checkedBoxes = $('#filtr_statusu input[type="checkbox"]:checked');
+        var values = [];
+        $.each(checkedBoxes, function (index, element) {
+            values.push($(element).val());
+        });
+        table.column(4).search(values.join('|'), true, false).draw();
+    }
+
+    applyFilter(); // Wywołaj funkcję filtrującą od razu po załadowaniu strony
+
+    $('#filtr_statusu input[type="checkbox"]').on('change', applyFilter);
 
     $('#btnSearch').click(function() {
         table.columns([1, 2, 3, 4, 5, 6, 7]).search('').draw();

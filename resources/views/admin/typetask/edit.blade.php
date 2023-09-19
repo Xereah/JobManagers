@@ -22,6 +22,18 @@
                     {{ trans('cruds.category.fields.name_helper') }}
                 </p>
             </div>
+            <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
+                <label for="name">Skrót*</label>
+                <input type="text" id="short" name="short" class="form-control" value="{{ old('short', isset($typetask) ? $typetask->short : '') }}" required>
+                @if($errors->has('short'))
+                    <em class="invalid-feedback">
+                        {{ $errors->first('short') }}
+                    </em>
+                @endif
+                <p class="helper-block">
+                    {{ trans('cruds.category.fields.name_helper') }}
+                </p>
+            </div>
             <div>
                 <input class="btn btn-success float-right" type="submit" value="{{ trans('global.save') }}">
             </div>

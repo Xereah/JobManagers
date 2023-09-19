@@ -38,18 +38,18 @@ class JobsController extends Controller
                 $pos = strpos($job->order, $order_querry);
 
                 if($pos === false)
-                return '<a class="text-dark font-weight-bold" data-toggle="tooltip" title="' . $job->description .'" href="'.route('admin.jobs.edit', $job->id).'">'.$job->type_task->name .'</a>';
+                return '<a class="text-dark" data-toggle="tooltip" title="' . $job->type_task->name .'" href="'.route('admin.jobs.edit', $job->id).'">'.$job->type_task->short .'</a>';
                 else
-                return '<a class="text-dark font-weight-bold" data-toggle="tooltip" title="' . $job->description . '" href="'.route('admin.ConfirmSystem.edit', $job->id) . '">' . $job->type_task->name . '</a>';
+                return '<a class="text-dark" data-toggle="tooltip" title="' . $job->type_task->name . '" href="'.route('admin.ConfirmSystem.edit', $job->id) . '">' . $job->type_task->short . '</a>';
             })
             ->editColumn('order', function ($job) {
                 $order_querry="SRW/";
                 $pos = strpos($job->order, $order_querry);
 
                 if($pos === false)
-                return '<a class="text-dark font-weight-bold" data-toggle="tooltip" title="' . $job->description .'" href="'.route('admin.jobs.edit', $job->id).'">'.$job->order .'</a>';
+                return '<a class="text-dark" data-toggle="tooltip" title="' . $job->description .'" href="'.route('admin.jobs.edit', $job->id).'">'.$job->order .'</a>';
                 else
-                return '<a class="text-dark font-weight-bold" href="'.route('admin.ConfirmSystem.edit', $job->id) . '">' . $job->order . '</a>';
+                return '<a class="text-dark" href="'.route('admin.ConfirmSystem.edit', $job->id) . '">' . $job->order . '</a>';
             })
             ->editColumn('fk_user', function ($job) {
                 $zmienna1=$job->user->name;
@@ -86,14 +86,14 @@ class JobsController extends Controller
                 return  '';
             })
             ->editColumn('fk_company', function ($job) {
-                return  $job->fk_company;
+                return  $job->company->kontrahent_kod;
             })
             ->editColumn('comments', function ($job) {
                 return  $job->comments;
             })
             ->editColumn('fk_contract', function ($job) {
-                return  $job->contract->contract_name;
-            })        
+                return  $job->fk_contract;
+            })            
             ->editColumn('paid', function ($job) {
                 if($job->paid==1)
                 return  "Bezpłatne";
@@ -102,11 +102,11 @@ class JobsController extends Controller
             })
             ->editColumn('description', function ($job) {
                 if(!(is_null($job->description)))
-                    return  '<div style="text-align:left; max-height: 75px; overflow: auto;">' . $job->description . '</div>';
+                    return  '<div style="white-space: nowrap;text-align:left;" title="' . $job->description .'">' . $job->description . '</div>';
                 elseif(!(is_null($job->description_goods)))
-                    return '<div style="text-align:left; max-height: 75px; overflow: auto;">' . $job->description_goods . '</div>';
+                    return '<div style="white-space: nowrap;text-align:left;" title="' . $job->description_goods .'">' . $job->description_goods . '</div>';
                 elseif(!(is_null($job->fk_rep_eq)))
-                    return '<div style="text-align:left; max-height: 75px; overflow: auto;">' . $job->repeq->eq_number . ' ' . $job->repeq->eq_name . '</div>';
+                    return '<div style="white-space: nowrap;text-align:left;" title="' . $job->repeq->eq_number . ' ' . $job->repeq->eq_name  .'">' . $job->repeq->eq_number . ' ' . $job->repeq->eq_name . '</div>';
             })        
                 ->addIndexColumn()
                 ->rawColumns(['fk_typetask','order','fk_user','start_date','end_date','fk_tasktype','id','description'])

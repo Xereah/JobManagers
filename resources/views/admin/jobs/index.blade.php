@@ -14,11 +14,11 @@
 <!-- Nagłówek -->
 <div class="card">
     <div class="card-header bg-dark">
-   {{ trans('global.list') }} {{ trans('cruds.job.title_plural') }} 
+   <!-- {{ trans('global.list') }} {{ trans('cruds.job.title_plural') }}  -->
 
         @can('job_create')
         <!-- <a class="btn btn-dark float-right" data-attr="{{ route('admin.jobs.create') }}" ddata-toggle="modal" id="mediumButton" data-target="#mediumModal"><i -->
-        <a class="btn btn-dark float-right" href="{{ route('admin.jobs.create') }}"><i
+        <a class="btn btn-dark float-left" href="{{ route('admin.jobs.create') }}"><i
         class="fa fa-plus"></i>
             {{ trans('global.add') }} {{ trans('cruds.job.title_singular') }}
         </a>
@@ -26,7 +26,7 @@
             data-target="#myModal2"><i class="fa fa-filter"></i> {{ trans('cruds.job.fields.filtrs') }} </button>
         @endcan
 
-        <div class="form-check p-1 float-right"  id="filtr_platnosci">
+        <div class="form-check p-2 float-right"  id="filtr_platnosci">
             <input class="form-check-input" type="checkbox" id="paid-checkbox" value="2">
             <label class="form-check-label" for="paid-checkbox">{{ trans('cruds.job.fields.paid_singular') }}</label>
         </div>

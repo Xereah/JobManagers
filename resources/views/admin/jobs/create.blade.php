@@ -61,7 +61,7 @@
                 </div>
             </div>
              <input type="button" class="btn btn-dark float-left btn-floating add col-md-2 resultbody"
-                value="{{ trans('global.add') }} {{ trans('cruds.job.title_singular') }}">
+                value="{{ trans('global.add') }} {{ trans('cruds.job.fields.task_name_s') }}">
            <!-- <input class="btn btn-success float-right col-md-2" type="submit" value="{{ trans('global.save') }}"> -->
 
         </div>
@@ -72,7 +72,7 @@
     <ul class="nav nav-tabs col-md-8 mx-auto" id="myTab" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
-                aria-controls="pills-home" aria-selected="true">{{ trans('cruds.job.title_singular') }} </a>
+                aria-controls="pills-home" aria-selected="true">{{ trans('cruds.job.fields.task_name_s') }} </a>
         </li>
 
         <!-- <li class="nav-item">
@@ -310,7 +310,7 @@ $(document).on('change', '#fk_tasktype', function() {
                     '</div>'+
                 '</div>'+
             '</div>';
-            var title = 'Nowe Zlecenie';
+            var title = 'Nowe Zadanie';
             var tabId = 'tab-' + new Date().getTime();
             
             // dodanie zakładki do listy

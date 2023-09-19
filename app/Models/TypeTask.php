@@ -19,6 +19,7 @@ class TypeTask extends Model
 
     protected $fillable = [
         'name',
+        'short',
         'created_at',
         'updated_at',
         'deleted_at',

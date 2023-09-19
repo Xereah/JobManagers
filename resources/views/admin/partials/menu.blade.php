@@ -13,6 +13,17 @@ nav .navbar-nav li a {
     <nav class="sidebar-nav">
 
         <ul class="nav">
+            <!-- Dodaj zlecenie -->
+
+            @can('job_create')
+            <li class="nav-item">
+                <a class="nav-link  " href="{{ route('admin.jobs.create') }}">
+                    <i class="fa-fw fas fa-clipboard nav-icon"></i>
+                    </i>
+                    {{ trans('global.add') }} {{ trans('cruds.job.title_singular') }}
+                </a>
+            </li>
+            @endcan
             <!-- Zlecenia -->
             @can('job_access')
             <li class="nav-item">
@@ -90,7 +101,7 @@ nav .navbar-nav li a {
                 </a>
                 <ul class="nav-dropdown-items">
                     @can('user_management_access')
-                    <li class="nav-item nav-dropdown">
+                    <li class="nav-item nav-dropdown" style="padding-left: 10%;">
                         <a class="nav-link  nav-dropdown-toggle" href="#">
                             <i class="fa-fw fas fa-users nav-icon">
 
@@ -137,7 +148,7 @@ nav .navbar-nav li a {
                     </li>
                     @endcan
                     @can('user_dictionaries_access')
-                    <li class="nav-item nav-dropdown">
+                    <li class="nav-item nav-dropdown" style="padding-left: 10%;">
                         <a class="nav-link  nav-dropdown-toggle" href="#">
                             <i class="fa-fw fas fa fa-address-book nav-icon">
 
@@ -191,7 +202,7 @@ nav .navbar-nav li a {
                             @endcan
                         </ul>
                         @can('user_management_access')
-                    <li class="nav-item nav-dropdown">
+                    <li class="nav-item nav-dropdown" style="padding-left: 10%;">
                         <a class="nav-link nav-dropdown-toggle" href="#">
                             <i class="fa-fw fas fa-cog nav-icon">
 
@@ -243,20 +254,6 @@ nav .navbar-nav li a {
             </a>
         </li>
         @endcan
-
-        <!-- Dodaj zlecenie -->
-
-        @can('job_create')
-        <li class="nav-item">
-            <a class="nav-link  " href="{{ route('admin.jobs.create') }}">
-                <i class="fa-fw fas fa-clipboard nav-icon"></i>
-                </i>
-                {{ trans('global.add') }} {{ trans('cruds.job.title_singular') }}
-            </a>
-        </li>
-        @endcan
-
-
 
         @can('job_create')
         <li class="nav-item">
@@ -320,6 +317,22 @@ nav .navbar-nav li a {
                             @endforeach
                         </select>
                     </div>
+
+                    <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
+                    <label for="fk_user">Wypożyczył</label>
+                    <?php
+                     $loggedInUserId = Auth::user();
+                    ?>
+                    <select id="fk_user" name="fk_user" class="form-control ">                     
+                        @foreach($user_all as $users)
+                        <option value="{{ $users->id }}" @if($users ->id == $loggedInUserId-> id)
+                            selected="selected" @endif>{{ $users->name }} {{ $users->surname }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                    
                     <div class="form-group">
                         <label for="description">{{ trans('cruds.job.fields.description') }}</label>
                         <textarea class="form-control" name="description" id="comments" rows="3" required></textarea>

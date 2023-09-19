@@ -32,6 +32,9 @@ class UpdateTypeTaskRequest extends FormRequest
             'name' => [
                 'required',
             ],
+            'short' => [
+                'required',
+            ],
         ];
     }
 }

@@ -23,6 +23,9 @@
                             {{ trans('cruds.typetask.fields.name') }}
                         </th>
                         <th>
+                            Skrót
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -35,6 +38,9 @@
                             </td>
                             <td>
                                 {{ $typetasks->name ?? '' }}
+                            </td>
+                            <td>
+                                {{ $typetasks->short ?? '' }}
                             </td>
                             <td width="10">
                                 <div class="btn-group" role="group">

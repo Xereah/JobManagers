@@ -21,6 +21,8 @@
                <th><input id="filtr_nazwa" class="form-control" /></th>
                <th><input id="filtr_miasto" class="form-control" /></th>
                <th><input id="filtr_ulica" class="form-control" /></th>
+               <th><input id="filtr_kod_pocztowy" class="form-control" /></th>
+               <th><input id="filtr_nip" class="form-control" /></th>
                <th><select class="form-control" id="filtr_umowa">
                         <option> </option>
                                 @foreach($contracts as $key => $contract)
@@ -28,7 +30,7 @@
                                 @endforeach
                             </select></th>
                <th><input id="filtr_email" class="form-control" /></th>   
-               <th></th>       
+                
            </tr>
                     <tr>
                         <th width="10">
@@ -48,14 +50,17 @@
                             {{ trans('cruds.company.fields.street') }}
                         </th>
                         <th>
+                            {{ trans('cruds.company.fields.zipcode') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.company.fields.nip') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.company.fields.contract') }}
                         </th>
                         <th>
                             {{ trans('cruds.company.fields.email') }}
                         </th>                       
-                         <th>
-                        {{ trans('cruds.company.fields.action') }}
-                        </th> 
                     </tr>
                 </thead>
                 <tbody>
@@ -75,7 +80,13 @@
                             </td>  
                             <td>
                                 {{ $company->kontrahent_ulica ?? '' }}  {{ $company->kontrahent_nrdomu ?? '' }}
-                            </td>    
+                            </td> 
+                            <td>
+                                {{ $company->kontrahent_kodpocztowy?? '' }}
+                            </td>  
+                            <td>
+                                {{ $company->kontrahent_nip?? '' }}
+                            </td>   
                             <td>
                                 {{ $company->kontrahent_grupa ?? '' }}
                             </td>                
@@ -83,26 +94,6 @@
                                 {{ $company->kontrahent_email ?? '' }}
                             </td>  
                         
-                            <td width="10" align="center">
-                                <div class="btn-group" role="group">
-                                @can('company_edit')
-                                    <a class="btn  btn-info" href="{{ route('admin.companies.edit', $company->kontrahent_id) }}" title="{{ trans('global.edit') }}">
-                                    <i class="fas fa-edit"></i>
-                                    </a>
-                                @endcan
-                                <!-- @can('company_delete')
-                                <form action="{{ route('admin.companies.destroy', $company->kontrahent_id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                    <input type="hidden" name="_method" value="DELETE">
-                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                    <button type="submit" class="btn  btn-danger" title="{{ trans('global.delete') }}">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
-                                @endcan  -->
-                                </div>
-
-                            </td> 
-
                         </tr>
                     @endforeach
                 </tbody>
@@ -145,12 +136,15 @@ var table = $('#example').DataTable();
     $('#filtr_email').on( 'change', function () {
     table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
     } );
-    $('#filtr_odleglosc').on( 'change', function () {
+    $('#filtr_kod_pocztowy').on( 'change', function () {
+    table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
+    } );
+    $('#filtr_nip').on( 'change', function () {
     table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
     } );
     $('#btnSearch').click(function (){
-        table.columns([1,2,3,4,5,7,9,10]).search('').draw();
-       });
+        table.columns([1,2,3,4,5,6]).search('').draw();
+    });
 
  
 });

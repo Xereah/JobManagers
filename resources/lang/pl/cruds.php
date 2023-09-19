@@ -139,6 +139,7 @@ return [
             'action'             => 'Action',
             'distance'             => 'Odległość',
             'lp'             => 'Lp.',
+            'nip'             => 'NIP',
         ],
 
     ],
@@ -266,6 +267,7 @@ return [
             'detail'                               => 'Szczegóły',
             'order'                                => 'Zlecenie',
             'task_name'                                => 'Zadania',
+            'task_name_s'                                => 'Zadanie',
             'task'                                => 'Projekt',
             'value'                                => 'Wartość',
             'comments'                                => 'Uwagi',

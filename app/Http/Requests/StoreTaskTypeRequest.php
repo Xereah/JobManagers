@@ -32,6 +32,9 @@ class StoreTaskTypeRequest extends FormRequest
             'name' => [
                 'required',
             ],
+            'short' => [
+                'required',
+            ],
         ];
     }
 }

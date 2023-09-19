@@ -56,7 +56,7 @@
                 </div>
             </div>
             <input type="button" class="btn btn-dark float-left btn-floating add col-md-2 resultbody"
-                value="{{ trans('global.add') }} {{ trans('cruds.job.title_singular') }}">
+                value="{{ trans('global.add') }} {{ trans('cruds.job.fields.task_name_s') }}">
             <!-- <input class="btn btn-success float-right col-md-2" type="submit" value="{{ trans('global.save') }}"> -->
             <a href="{{ route('admin.jobs.show', $job->id) }}">
                 <input class="btn btn-info col-md-2  float-right" type="button"
@@ -345,7 +345,7 @@ $(document).on('change', '#fk_tasktype', function() {
                     '</div>'+
                 '</div>'+
             '</div>';
-            var title = 'Nowe Zlecenie';
+            var title = 'Nowe Zadanie';
             var tabId = 'tab-' + new Date().getTime();
             
             // dodanie zakładki do listy
