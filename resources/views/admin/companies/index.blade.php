@@ -23,12 +23,7 @@
                <th><input id="filtr_ulica" class="form-control" /></th>
                <th><input id="filtr_kod_pocztowy" class="form-control" /></th>
                <th><input id="filtr_nip" class="form-control" /></th>
-               <th><select class="form-control" id="filtr_umowa">
-                        <option> </option>
-                                @foreach($contracts as $key => $contract)
-                                <option value="{{$contract->contract_name}}">{{ $contract->contract_name }} </option>
-                                @endforeach
-                            </select></th>
+               <th><input id="filtr_umowa" class="form-control" /></th>
                <th><input id="filtr_email" class="form-control" /></th>   
                 
            </tr>
@@ -112,6 +107,10 @@
 $(document).ready(function() {
 $('#example').DataTable();
 var table = $('#example').DataTable();
+$('#btnSearch').click(function (){
+        $('#filtr_akronim, #filtr_nazwa, #filtr_ulica, #filtr_umowa, #filtr_kod, #filtr_miasto, #filtr_telefon, #filtr_email, #filtr_kod_pocztowy','filtr_nip').val('');
+        table.columns([1,2,3,4,5,6,7,8]).search('').draw();
+    });
     $('#filtr_akronim').on( 'change', function () {      
     table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
     } );
@@ -122,7 +121,7 @@ var table = $('#example').DataTable();
     table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
     } );
     $('#filtr_umowa').on('change', function () {
-    table.columns($(this).parent().index() + ':visible').search('^' + this.value + '$', true, false).draw();
+        table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
     } );
     $('#filtr_kod').on('change', function () {
     table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
@@ -142,10 +141,6 @@ var table = $('#example').DataTable();
     $('#filtr_nip').on( 'change', function () {
     table.columns( $(this).parent().index()+':visible' ).search( this.value ).draw();
     } );
-    $('#btnSearch').click(function (){
-        table.columns([1,2,3,4,5,6]).search('').draw();
-    });
-
  
 });
 </script>

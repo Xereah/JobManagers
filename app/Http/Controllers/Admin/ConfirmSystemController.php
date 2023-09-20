@@ -374,6 +374,7 @@ class ConfirmSystemController extends Controller
                 'rns' => $request->rns[$key],                              
             ); 
             
+           
              
             if(!empty($description[$key]) && isset($request->start[$key]) && isset($request->end[$key])) { 
             // możliwość aktualizacji
