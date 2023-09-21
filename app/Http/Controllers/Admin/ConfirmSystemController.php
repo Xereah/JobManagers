@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Mail\Message;
 use Illuminate\Queue\SerializesModels;
 use App\Http\Requests\StoreConfirmSystem;
-
+use App\Models\RepEquipmentHistory;
 
 
 class ConfirmSystemController extends Controller
@@ -284,6 +284,7 @@ class ConfirmSystemController extends Controller
         $jobi=$job->order;
         $jobi_loan=$job->fk_company;
         $Notification = Notification::all()->where('order', '==', $jobi);
+        $RepEquipment_history = RepEquipmentHistory::all()->where('fk_company_rent', '==', $jobi_loan);
        
        // $type_task_id=$job->fk_tasktype;        
         $jobs = Job::all()->where('order', '==', $jobi)->wherenotNull('description');
@@ -299,7 +300,7 @@ class ConfirmSystemController extends Controller
         $repEquipment_loan_add=RepEquipment::all()->where('is_loan','!=',1)->where('eq_active','!=',1);
 
         return view('admin.confirmsystem.edit', compact('companies','company_mails','job','TaskType','TypeTask','user_all','jobs','Notification','car','user','repEquipment',
-        'jobs_towary','jobs_sprzetzast','repEquipment_loan','repEquipment_loan_add'));
+        'jobs_towary','jobs_sprzetzast','repEquipment_loan','repEquipment_loan_add','RepEquipment_history'));
     }
 
     /**

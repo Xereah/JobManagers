@@ -49,16 +49,41 @@ nav .navbar-nav li a {
             @endcan
             <!-- Sprzęt zast. -->
             @can('equipment_access')
-            <li class="nav-item">
-                <a href="{{ route("admin.repequipment.index") }}"
-                    class="nav-link {{ request()->is('admin/repequipment') || request()->is('admin/repequipment/*') ? 'active-link' : '' }}">
-                    <i class="fa-fw fas fa-desktop nav-icon">
-
+            <li class="nav-item nav-dropdown">
+                <a class="nav-link  nav-dropdown-toggle" href="#">
+                    <i class="fa-fw fas fa-users nav-icon">
                     </i>
                     Sprzęt zast.
                 </a>
+                <ul class="nav-dropdown-items" style="padding-left: 10%;">
+                    <li class="nav-item">
+                        <a href="{{ route("admin.repequipment.index") }}"
+                            class="nav-link {{ request()->is('admin/repequipment') || request()->is('admin/repequipment/*') ? 'active-link' : '' }}">
+                            <i class="fa-fw fas fa-desktop nav-icon">
+
+                            </i>
+                            Lista
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                    <a href="{{ url('/eq_history') }}"
+                            class="nav-link {{ request()->is('admin/repequipment') || request()->is('admin/repequipment/*') ? 'active-link' : '' }}">
+                            <i class="fa-fw fas fa-desktop nav-icon">
+
+                            </i>
+                           Historia sprzętu
+                        </a>
+                    </li>
+                </ul>
             </li>
             @endcan
+
+
+
+
+
+
             <!-- Zadania -->
             @can('calendar')
             <li class="nav-item nav-dropdown">
@@ -319,20 +344,20 @@ nav .navbar-nav li a {
                     </div>
 
                     <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
-                    <label for="fk_user">Wypożyczył</label>
-                    <?php
+                        <label for="fk_user">Wypożyczył</label>
+                        <?php
                      $loggedInUserId = Auth::user();
                     ?>
-                    <select id="fk_user" name="fk_user" class="form-control ">                     
-                        @foreach($user_all as $users)
-                        <option value="{{ $users->id }}" @if($users ->id == $loggedInUserId-> id)
-                            selected="selected" @endif>{{ $users->name }} {{ $users->surname }}
-                        </option>
-                        @endforeach
-                    </select>
-                </div>
+                        <select id="fk_user" name="fk_user" class="form-control ">
+                            @foreach($user_all as $users)
+                            <option value="{{ $users->id }}" @if($users ->id == $loggedInUserId-> id)
+                                selected="selected" @endif>{{ $users->name }} {{ $users->surname }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                    
+
                     <div class="form-group">
                         <label for="description">{{ trans('cruds.job.fields.description') }}</label>
                         <textarea class="form-control" name="description" id="comments" rows="3" required></textarea>

@@ -29,6 +29,15 @@ class RepEquipmentController extends Controller
         return view('admin.repequipment.index',compact('RepEquipment'));
     }
 
+    public function index_rent()
+    {
+        abort_if(Gate::denies('equipment_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $RepEquipment_history = RepEquipmentHistory::all();
+
+        return view('admin.repequipment.history',compact('RepEquipment_history'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -89,14 +98,26 @@ class RepEquipmentController extends Controller
         abort_if(Gate::denies('equipment_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $company_place=DB::table('kontrahenci')->where('kontrahent_kod', 'KASPERKOMPUTERSPZOO')->pluck('kontrahent_id')->first();
+
         $now = Carbon::now();
         $data =array(
-            'entry_date' => $now,
-            'comments' => '',
+           // 'entry_date' => $now,
+            //'comments' => '',
             'company_place' => $company_place,
             'is_loan' =>0,
+            'eq_active' =>0,
          );
          $created = RepEquipment::where('id',$id)->update($data);
+
+
+         $data2 =array(
+             'return_date' => $now,
+          );
+          $created2 = RepEquipmentHistory::where('equipment_id',$id)->update($data2);
+
+          
+
+
         return back()->with('success', 'Pomyślnie dokonano zwrotu sprzętu na serwis.'); 
     }
 
@@ -106,15 +127,27 @@ class RepEquipmentController extends Controller
         abort_if(Gate::denies('equipment_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $rep_eq_id = $request->fk_rep_eq;
+        $company = $request->fk_company;
 
         $now = Carbon::now();
         $data =array(
-            'entry_date' => $now,
             'comments' => $request->description,
-            'company_place' => $request->fk_company,
+            'company_place' =>$company,
             'is_loan' =>1,
          );
          $created = RepEquipment::where('id',$rep_eq_id)->update($data);
+     
+         $data2 =array(
+            'rental_date' => $now,
+            'description' => $request->description,
+            'fk_company_rent' => $company,
+            'fk_user_rent' => $request->fk_user,
+            'equipment_id' => $rep_eq_id,
+         );
+         
+         $created2 = RepEquipmentHistory::create($data2);
+
+         
         return back()->with('success', 'Pomyślnie wypożyczono sprzęt.'); 
     }
 

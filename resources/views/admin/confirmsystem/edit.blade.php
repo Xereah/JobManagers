@@ -415,62 +415,54 @@
 
 
         <div class="tab-pane fade" id="pills-equipment_loan" role="tabpanel" aria-labelledby="pills-equipment_loan-tab">
-            <table class=" table table-bordered table-hover datatable" id="example">
+        <h2>Historia Sprzętu</h2>
+    <table class=" table table-bordered table-hover datatable" id="example">
                 <thead>
+                
                     <tr>
-
                         <th>
-                            {{ trans('cruds.rep_eq.fields.number') }}
+                            Sprzęt
                         </th>
                         <th>
-                            {{ trans('cruds.rep_eq.fields.category') }}
+                            Firma
                         </th>
                         <th>
-                            {{ trans('cruds.rep_eq.fields.device_name') }}
+                            Osoby wydająca
                         </th>
                         <th>
-                            {{ trans('cruds.rep_eq.fields.entry_date') }}
+                            Data wydania
                         </th>
                         <th>
-                            {{ trans('cruds.rep_eq.fields.comments') }}
+                            Data zwrotu
                         </th>
-                        <!-- <th>
-
-                        </th> -->
+                        <th>
+                           Uwagi
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($repEquipment_loan as $key => $RepEquipments)
+                    @foreach($RepEquipment_history as $key => $RepEquipments)
                     <tr data-entry-id="{{ $RepEquipments->id }}">
+                      
                         <td>
-                            {{$RepEquipments->eq_number}}
+                            {{$RepEquipments->EqCategory->eq_number ?? ''}}
+
                         </td>
                         <td>
-                            {{$RepEquipments->EqCategory->category_name}}
+                            {{$RepEquipments->company->kontrahent_kod ?? ''}}
                         </td>
                         <td>
-                            {{$RepEquipments->eq_name}}
-                        </td>
-
-                        <td>
-                            {{$RepEquipments->entry_date}}
+                            {{$RepEquipments->UserCategory->name ?? ''}}  {{$RepEquipments->UserCategory->surname ?? ''}}
                         </td>
                         <td>
-                            {{$RepEquipments->comments}}
+                            {{$RepEquipments->rental_date ?? ''}}
                         </td>
-                        <!-- <td>
-
-
-                            @can('equipment_edit')
-                            <a class="btn btn-xs col-md-12  btn-success"
-                                href="{{ url('/is_loan', $RepEquipments->id) }}"
-                                onclick="return confirm('{{ trans('global.areYouSure') }}');">
-                                {{ trans('global.return') }}
-                            </a>
-                            @endcan
-
-                        </td> -->
-
+                        <td>
+                            {{$RepEquipments->return_date ?? ''}}
+                        </td>
+                        <td>
+                            {{$RepEquipments->description ?? ''}}
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>

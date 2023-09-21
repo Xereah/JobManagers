@@ -32,6 +32,7 @@ Route::get('/eq_delete/{id}', [App\Http\Controllers\Admin\RepEquipmentController
 Route::get('/job_delete/{id}', [App\Http\Controllers\Admin\JobsController::class, 'destroy'])->name('destroy');
 
 Route::post('/wyp_sprz', [App\Http\Controllers\Admin\RepEquipmentController::class, 'wyp_sprz'])->name('wyp_sprz');
+Route::get('/eq_history', [App\Http\Controllers\Admin\RepEquipmentController::class, 'index_rent'])->name('index_rent');
 
 Route::get('/is_done/{id}', [App\Http\Controllers\Admin\TaskController::class, 'is_done'])->name('is_done');
 

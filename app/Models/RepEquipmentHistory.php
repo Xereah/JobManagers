@@ -12,29 +12,27 @@ class RepEquipmentHistory extends Model
 
     protected $fillable = [
         'equipment_id',
-        'field_name',
-        'old_value',
-        'new_value',
+        'description',
+        'fk_company_rent',
+        'fk_user_rent',
+        'equipment_id',
         'modified_at',
+        'rental_date',
+        'return_date',
     ];
 
     public function company()
     {
-        return $this->belongsTo('App\Models\Company','new_value')->withTrashed();
-    }
-
-    public function companytwo()
-    {
-        return $this->belongsTo('App\Models\Company','old_value')->withTrashed();
+        return $this->belongsTo('App\Models\Company','fk_company_rent')->withTrashed();
     }
 
     public function EqCategory()
     {
-        return $this->belongsTo('App\Models\EquipmentCategory','new_value')->withTrashed();
+        return $this->belongsTo('App\Models\RepEquipment','equipment_id')->withTrashed();
     }
 
-    public function EqCategorytwo()
+    public function UserCategory()
     {
-        return $this->belongsTo('App\Models\EquipmentCategory','old_value')->withTrashed();
+        return $this->belongsTo('App\Models\User','fk_user_rent')->withTrashed();
     }
 }
